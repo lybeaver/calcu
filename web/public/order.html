@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>订单中心</title>
+    <link href="https://cdn.bootcss.com/twitter-bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.bootcss.com/bootstrap-table/1.12.2/bootstrap-table.css" rel="stylesheet">
+    <link href="https://cdn.bootcss.com/bootstrap-table/1.12.2/extensions/reorder-rows/bootstrap-table-reorder-rows.css" rel="stylesheet">
+    <script src="https://cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
+    <script src="https://cdn.bootcss.com/jquery-cookie/1.4.1/jquery.cookie.js"></script>
+    <script src="https://cdn.bootcss.com/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="https://cdn.bootcss.com/bootbox.js/4.4.0/bootbox.js"></script>
+    <script src="https://cdn.bootcss.com/bootstrap-table/1.12.2/bootstrap-table.js"></script>
+    <script src="https://cdn.bootcss.com/bootstrap-table/1.12.2/locale/bootstrap-table-zh-CN.js"></script>
+    <script src="https://cdn.bootcss.com/TableDnD/1.0.3/jquery.tablednd.min.js"></script>
+    <script src="https://cdn.bootcss.com/bootstrap-table/1.12.2/extensions/reorder-rows/bootstrap-table-reorder-rows.js"></script>
+</head>
+<body>
+
+    <input type="hidden" id="userType" value="">
+    <h1 style="text-align: center; margin-top: 50px;">订单一览</h1>
+    <div style="float: right; margin-right: 14%;" id="welcome" class="dropdown">
+        <span class="glyphicon glyphicon-question-sign tooltip-show" data-toggle="tooltip" title="看什么看，有啥问题都给我忍着!"></span>
+        欢迎<a href="#" id="user" class="dropdown-toggle" data-toggle="dropdown"></a>
+        <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+            <li role="presentation">
+                <a role="menuitem" tabindex="-1" href="#" onclick="jump()">个人中心</a>
+            </li>
+            <li role="presentation">
+                <a role="menuitem" tabindex="-1" href="#" >钱包</a>
+            </li>
+            <li role="presentation">
+                <a role="menuitem" tabindex="-1" href="#" onclick="f1()">订单中心  <span class="badge pull-right">0</span></a>
+            </li>
+            <li role="presentation" class="divider"></li>
+            <li role="presentation">
+                <a role="menuitem" tabindex="-1" href="#" onclick="backUp()">注销</a>
+            </li>
+        </ul>
+    </div>
+
+    <div class="col-md-9" style="margin-left: 12.5%;" id="a">
+        待处理订单
+        <button id="allOrders" style="float: right;">全部订单</button>
+        <table  class="table table-condensed" id="table" data-unique-id="orderId"></table>
+    </div>
+
+    <div class="col-md-9" style="margin-left: 12.5%;" id="all">
+        全部订单
+        <button id="deletePart">批量删除</button>
+        <button id="wait" style="float: right;">待处理订单</button>
+        <table  class="table table-condensed" id="tableAll" data-unique-id="orderId"></table>
+    </div>
+
+    <div class="col-md-9" style="margin-left: 12.5%;" id="b">
+        订单详情
+        <button id="goBackWait" style="float: right;">返回上一级</button>
+        <button id="goBackAll" style="float: right;">返回上一级</button>
+        <table  class="table table-condensed" id="detail" data-unique-id="orderItemId"></table>
+    </div>
+
+    <div class="col-md-2" style="margin-left: 45%;">
+        <button class="btn btn-lg btn-success" id="goOn">继续点餐</button>
+    </div>
+
+    <script>
+
+        //鼠标移入疑问按钮事件
+        $('.tooltip-show').mouseover(function(){
+            $('.tooltip-show').tooltip('show');
+        })
+
+        //隐藏所有表格
+        function hideAll(){
+            $('#a').hide();
+            $('#all').hide();
+            $('#b').hide();
+        }
+
+        //浏览器直接加载
+        $(function(){
+
+            //查询用户权限
+            selectUserTypeByUserName();
+
+            //隐藏详情页
+            $('#b').hide();
+            $('#all').hide();
+            $('#goBackWait').hide();
+            $('#goBackAll').hide();
+            $('#deletePart').hide();
+            
+            if ($.cookie('userName') != null && $.cookie('userName') != 'null'){
+                //从cookie中读取用户名
+                $('#user').text($.cookie('userName'));
+    
+                //详情表格初始化
+                $('#detail').bootstrapTable({
+                    height: "300",
+                    striped: true,
+                    toolbar: '#toolbar',
+                    useRowAttrFunc: true,
+                    useCurrentPage: true,
+                    striped: true, // 是否显示行间隔色
+                    pageSize: "10",
+                    pageList: [10, 20, 30],        //可供选择的每页的行数（*）
+                    pagination: true, // 是否分页
+                    paginationLoop: false,             //是否无限循环
+                    columns: [
+                        { field: 'orderItemId', title: 'ID' , visible: false},
+                        { field: 'orderId', title: '订单编号' },
+                        { field: 'foodId', title: '菜品ID', visible: false },
+                        { field: 'foodName', title: '菜名' },
+                        { field: 'foodPrice', title: '单价' },
+                        { field: 'num', title: '数量' },                        
+                        { field: 'price', title: '总价' },
+                        {
+                            field: 'tool',
+                            title: '操作',
+                            //events: detailEvents,
+                            //formatter: detailFormatter
+                        }
+                    ]
+                });
+    
+                //表格初始化
+                $('#table').bootstrapTable({
+                    height: "452",
+                    striped: true,
+                    toolbar: '#toolbar',
+                    useRowAttrFunc: true,
+                    useCurrentPage: true,
+                    striped: true, // 是否显示行间隔色
+                    pageSize: "10",
+                    pageList: [10, 20, 30],        //可供选择的每页的行数（*）
+                    pagination: true, // 是否分页
+                    paginationLoop: false,             //是否无限循环
+                    columns: [
+                        { field: 'orderId', title: '订单编号' },
+                        { field: 'orderUserName', title: '订餐人' },
+                        { field: 'orderPrice', title: '总价' },
+                        { field: 'orderTime', title: '下单时间' },
+                        { field: 'orderType', title: '状态' },
+                        {
+                            field: 'tool',
+                            title: '操作',
+                            events: okEvents,
+                            formatter: okFormatter
+                        }
+                    ],
+                    onClickRow: function(row){
+                        selectorderItems(row.orderId);
+                        $('#goBackWait').show();
+                    }
+                });
+    
+                //全部订单表格初始化
+                $('#tableAll').bootstrapTable({
+                    height: "452",
+                    striped: true,
+                    toolbar: '#toolbar',
+                    useRowAttrFunc: true,
+                    useCurrentPage: true,
+                    striped: true, // 是否显示行间隔色
+                    pageSize: "10",
+                    pageList: [10, 20, 30],        //可供选择的每页的行数（*）
+                    pagination: true, // 是否分页
+                    exportDataType: "selected",
+                    checkbox: true,
+                    sortable: true,                     //是否启用排序
+                    sortOrder: "desc",                   //排序方式
+                    paginationLoop: false,             //是否无限循环
+                    columns: [
+                        { field: 'ID', checkbox: true},
+                        { field: 'orderId', title: '订单编号' },
+                        { field: 'orderUserName', title: '订餐人' },
+                        { field: 'orderPrice', title: '总价' },
+                        { field: 'orderTime', title: '下单时间' },
+                        { field: 'orderType', title: '状态' },
+                        {
+                            field: 'tool',
+                            title: '操作',
+                            events: delEvents,
+                            formatter: delFormatter
+                        }
+                    ],
+                    onClickRow: function(row){
+                        selectorderItems(row.orderId);
+                        $('#goBackAll').show();
+                    }
+                })
+    
+                //订单查询
+                selectOrdersByUserName();
+
+                //查询用户未完成订单数量
+                selectNum();
+            }else{
+                alert('用户你好，请登录!');
+                $(location).prop('href', 'login.html');
+            }
+
+
+        })
+
+        //根据用户名查询用户订单信息(待处理订单)
+        function selectOrdersByUserName(){
+            //如果是管理员则查询所有订单信息
+            if ($('#userType').val() == 0) {
+                $.ajax({
+                    type: 'GET',
+                    url: 'http://localhost:8080/allOrders',
+                    success: function(orders){
+                        $('#table').bootstrapTable('removeAll');
+                        $('#table').bootstrapTable('append', orders);     //将获取的数据添加到表格
+                    },
+                    error: function(e){
+                        alert('系统错误');
+                    }
+                })
+            }else{
+                $.ajax({
+                    type: 'GET',
+                    url: 'http://localhost:8080/selectOrders',
+                    data: {
+                        'userName':$('#user').html()
+                    },
+                    success: function(orders){
+                        $('#table').bootstrapTable('removeAll');
+                        $('#table').bootstrapTable('append', orders);     //将获取的数据添加到表格
+                    },
+                    error: function(e){
+                        alert('系统错误');
+                    }
+                })
+            }
+        }
+
+        //根据用户名查询用户订单信息(全部订单)
+        function selectAllOrdersByUserName(){
+            //如果是管理员则查询所有订单信息
+            if ($('#userType').val() == 0) {
+                $.ajax({
+                    type: 'GET',
+                    url: 'http://localhost:8080/allAllOrders',
+                    success: function(orders){
+                        $('#tableAll').bootstrapTable('removeAll');
+                        $('#tableAll').bootstrapTable('append', orders);     //将获取的数据添加到表格
+                    },
+                    error: function(e){
+                        alert('系统错误');
+                    }
+                })
+            }else{
+                $.ajax({
+                    type: 'GET',
+                    url: 'http://localhost:8080/selectAllOrders',
+                    data: {
+                        'userName':$('#user').html()
+                    },
+                    success: function(orders){
+                        $('#tableAll').bootstrapTable('removeAll');
+                        $('#tableAll').bootstrapTable('append', orders);     //将获取的数据添加到表格
+                    },
+                    error: function(e){
+                        alert('系统错误');
+                    }
+                })
+            }
+        }
+
+        //根据订单编号查询订单详细信息
+        function selectorderItems(orderId){
+            $.ajax({
+                type: 'GET',
+                url: 'http://localhost:8080/selectOrderItems',
+                data: {'orderId':orderId},
+                success: function(items){
+                    $('#detail').bootstrapTable('removeAll');
+                    $('#detail').bootstrapTable('append', items);     //将获取的数据添加到表格
+                    hideAll();
+                    $('#b').show();
+                },
+                error: function(e){
+                    alert('系统错误');
+                }
+            })
+        }
+
+        //查询用户未完成订单数量
+        function selectNum(){
+            $.ajax({
+                type: 'GET',
+                url: 'http://localhost:8080/selectOrderTypeNum',
+                data: {
+                        'userName':$.cookie('userName')
+                },
+                success: function(result){
+                    $('.badge').html(result);
+                },
+                error: function(e){
+                    alert('系统错误');
+                }
+            })
+        }
+
+        //返回上一级按钮
+        $('#goBackWait').click(function(){
+            $('#b').hide();
+            $('#a').show();
+            $('#goBackWait').hide();
+        })
+        $('#goBackAll').click(function(){
+            $('#b').hide();
+            $('#all').show();
+            $('#goBackAll').hide();
+        })
+
+        //向表格添加确认送达按钮
+        function okFormatter(value, row, index){
+            return [
+                '<button type="button" class="btn btn-success btn-xs" id="okay">确认送达</button>'
+            ].join('');
+        }
+
+        //向表格添加删除订单按钮
+        function delFormatter(value, row, index){
+            return [
+                '<button type="button" class="btn btn-danger btn-xs" id="deleteOrder">删除订单</button>'
+            ].join('');
+        }
+
+        //确认送达按钮事件
+        window.okEvents = {
+            'click #okay': function(e, value, row, index){
+                if (confirm("是否确认已送达?")) {
+                    setTimeout(function(){
+                        changeOrderType(row.orderId);
+                        selectOrdersByUserName();
+                    },100);
+                    selectNum();
+                }else{
+                    setTimeout(function(){
+                        hideAll();
+                        $('#a').show();
+                    },100);
+                }
+            }
+        }
+
+        //删除订单按钮事件
+        window.delEvents = {
+            'click #deleteOrder': function(e, value, row, index){
+                if (confirm("确认删除吗?")) {
+                    setTimeout(function(){
+                        deleteOrdersByOrderId(row.orderId);
+                        selectAllOrdersByUserName();
+                        hideAll();
+                        $('#all').show();
+                    },200)
+                } else {
+                    setTimeout(function(){
+                        hideAll();
+                        $('#all').show();
+                    },200)
+                }
+            }
+        }
+
+        //根据订单id删除订单信息
+        function deleteOrdersByOrderId(orderId){
+            $.ajax({
+                type: 'POST',
+                url: 'http://localhost:8080/deleteOrders',
+                data: {
+                    'orderId': orderId
+                },
+                success: function(result){
+                    setTimeout(function(){
+                        if (result > 0) {
+                            alert('订单删除成功')
+                        }
+                        else{
+                            alert('订单删除失败');
+                        }
+                    },100)
+                },
+                error: function(e){
+                    alert('系统错误');
+                }
+            })
+        }
+
+        //根据多条订单id删除订单信息
+        function deleteOrdersArray(ids){
+            $.ajax({
+                type: 'POST',
+                url: 'http://localhost:8080/deleteOrdersArray',
+                data: "ids=" + ids,
+                dataType: "json",
+                success: function(result){
+                    setTimeout(function(){
+                        if (result > 0) {
+                            alert('多条订单删除成功')
+                        }
+                        else{
+                            alert('多条订单删除失败');
+                        }
+                    },100)
+                },
+                error: function(e){
+                    alert('系统错误');
+                }
+            })
+        }
+
+        //修改订单状态为已完成
+        function changeOrderType(orderId){
+            $.ajax({
+                type: 'POST',
+                url: 'http://localhost:8080/changeOrderType',
+                data: {
+                    'orderId': orderId,
+                    'orderType': '已完成'
+                },
+                success: function(result){
+                    hideAll();
+                    $('#a').show();
+                    alert('收货成功');
+                },
+                error: function(e){
+                    alert('系统错误');
+                }
+            })
+        }
+
+        //显示全部订单按钮事件
+        $('#allOrders').click(function(){
+            hideAll()
+            $('#all').show();
+            $('#deletePart').show();
+            selectAllOrdersByUserName();
+        })
+
+        //显示待处理订单按钮事件
+        $('#wait').click(function(){
+            hideAll();
+            $('#a').show();
+            selectOrdersByUserName();
+        })
+
+        //显示用户信息
+        function jump(){
+            window.open("user.html");
+        }
+
+        //批量删除按钮事件
+        $('#deletePart').click(function(){
+            var rows = $("#tableAll").bootstrapTable('getSelections');  // 获得要删除的数据
+            if(rows.length == 0){                                       // rows 主要是为了判断是否选中，下面的else内容才是主要
+                alert("请先选择要删除的记录!");
+                return;
+            }
+            else{
+                if (!confirm("是否确认删除选中的"+rows.length+"条数据?")){
+                    return;
+                }else{
+                    var b = '';
+                    $(rows).each(function() {
+                        if (this.orderType != '已完成') {
+                            b = '未完成';
+                        }
+                    });
+                    if (b == '未完成') {
+                        alert('未完成订单不可以删除!')
+                    }else{
+                        var ids = new Array();          // 声明一个数组
+                        $(rows).each(function() {       // 通过获得别选中的来进行遍历
+                            ids.push(this.orderId);     // cid为获得到的整条数据中的一列
+                        });
+                        deleteOrdersArray(ids);
+                        setTimeout(function(){
+                            selectAllOrdersByUserName();
+                        },100)
+                        hideAll();
+                        $('#all').show();
+                    }
+                }
+            }    
+        })
+
+        //继续点餐按钮事件
+        $('#goOn').click(function(){
+            setTimeout(function(){
+                $(location).prop('href', 'index.html');
+            },100);
+        })
+
+        //查询用户状态
+        function selectUserTypeByUserName(){
+            $.ajax({
+                type: 'GET',
+                url: 'http://localhost:8080/selectUserType',
+                data: {
+                        'userName':$.cookie('userName')
+                },
+                success: function(userType){
+                    $('#userType').val(userType);
+                },
+                error: function(e){
+                    alert('系统错误');
+                }
+            })
+        }
+
+        //
+        function f1(){
+            alert('当前已经是订单中心了!')
+        }
+
+    </script>
+    
+</body>
+</html>
