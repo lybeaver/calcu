@@ -1,10 +1,10 @@
-package com.nextosd.orderingonline.mapper;
+package com.nextosd.restaurant.mapper;
 
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 
-import com.nextosd.orderingonline.beans.Menu;
+import com.nextosd.restaurant.beans.Menu;
 @Mapper
 public interface MenuMapper {
 	

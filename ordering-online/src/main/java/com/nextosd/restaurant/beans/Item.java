@@ -1,4 +1,4 @@
-package com.nextosd.orderingonline.beans;
+package com.nextosd.restaurant.beans;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

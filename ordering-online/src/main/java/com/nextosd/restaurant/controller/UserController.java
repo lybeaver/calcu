@@ -1,4 +1,4 @@
-package com.nextosd.orderingonline.controller;
+package com.nextosd.restaurant.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -7,8 +7,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.nextosd.orderingonline.beans.User;
-import com.nextosd.orderingonline.service.UserService;
+import com.nextosd.restaurant.beans.User;
+import com.nextosd.restaurant.service.UserService;
 
 @RestController
 public class UserController {

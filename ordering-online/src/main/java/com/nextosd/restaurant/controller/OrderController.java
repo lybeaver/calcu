@@ -1,4 +1,4 @@
-package com.nextosd.orderingonline.controller;
+package com.nextosd.restaurant.controller;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,13 +9,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.nextosd.orderingonline.beans.Item;
-import com.nextosd.orderingonline.beans.Menu;
-import com.nextosd.orderingonline.beans.Order;
-import com.nextosd.orderingonline.beans.User;
-import com.nextosd.orderingonline.service.MenuService;
-import com.nextosd.orderingonline.service.OrderService;
-import com.nextosd.orderingonline.service.UserService;
+import com.nextosd.restaurant.beans.Item;
+import com.nextosd.restaurant.beans.Menu;
+import com.nextosd.restaurant.beans.Order;
+import com.nextosd.restaurant.beans.User;
+import com.nextosd.restaurant.service.MenuService;
+import com.nextosd.restaurant.service.OrderService;
+import com.nextosd.restaurant.service.UserService;
 
 @RestController
 public class OrderController {

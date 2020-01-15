@@ -1,10 +1,10 @@
-package com.nextosd.orderingonline.service;
+package com.nextosd.restaurant.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.nextosd.orderingonline.beans.User;
-import com.nextosd.orderingonline.mapper.UserMapper;
+import com.nextosd.restaurant.beans.User;
+import com.nextosd.restaurant.mapper.UserMapper;
 
 @Service
 public class UserService {

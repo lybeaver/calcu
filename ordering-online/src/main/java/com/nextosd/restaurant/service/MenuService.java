@@ -1,12 +1,12 @@
-package com.nextosd.orderingonline.service;
+package com.nextosd.restaurant.service;
 
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.nextosd.orderingonline.beans.Menu;
-import com.nextosd.orderingonline.mapper.MenuMapper;
+import com.nextosd.restaurant.beans.Menu;
+import com.nextosd.restaurant.mapper.MenuMapper;
 
 @Service
 public class MenuService {

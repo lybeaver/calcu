@@ -1,4 +1,4 @@
-package com.nextosd.orderingonline;
+package com.nextosd.restaurant;
 
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
