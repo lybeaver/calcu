@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.nextosd.orderingonline.mapper.UserMapper">
+<mapper namespace="com.nextosd.restaurant.mapper.UserMapper">
 
-	<resultMap type="com.nextosd.orderingonline.beans.User" id="USER">
+	<resultMap type="com.nextosd.restaurant.beans.User" id="USER">
 		<id column="user_id" property="userId"/>
 		<result column="user_name" property="userName"/>
 		<result column="password" property="password"/>
@@ -23,7 +23,7 @@
 			user_name = #{userName}
 	</select>
 	
-	<insert id="insertUser" parameterType="com.nextosd.orderingonline.beans.User">
+	<insert id="insertUser" parameterType="com.nextosd.restaurant.beans.User">
 		insert 
 			into 
 		user(

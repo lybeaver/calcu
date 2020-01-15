@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.nextosd.orderingonline.mapper.MenuMapper">
+<mapper namespace="com.nextosd.restaurant.mapper.MenuMapper">
 
-	<resultMap type="com.nextosd.orderingonline.beans.Menu" id="MENU">
+	<resultMap type="com.nextosd.restaurant.beans.Menu" id="MENU">
 		<id column="food_id" property="foodId"/>
 		<result column="food_name" property="foodName"/>
 		<result column="food_type" property="foodType"/>
@@ -49,7 +49,7 @@
 			food_id = #{foodId}
 	</select>
 	
-	<insert id="insertFood" parameterType="com.nextosd.orderingonline.beans.Menu">
+	<insert id="insertFood" parameterType="com.nextosd.restaurant.beans.Menu">
 		insert 
 			into
 		menu(
@@ -66,7 +66,7 @@
 		)
 	</insert>
 	
-	<update id="updateFood" parameterType="com.nextosd.orderingonline.beans.Menu">
+	<update id="updateFood" parameterType="com.nextosd.restaurant.beans.Menu">
 		update 
 			menu
 		set 
