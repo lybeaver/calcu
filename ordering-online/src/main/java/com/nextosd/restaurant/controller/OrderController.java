@@ -9,10 +9,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.nextosd.restaurant.beans.Item;
+import com.nextosd.restaurant.beans.OrderItem;
 import com.nextosd.restaurant.beans.Menu;
 import com.nextosd.restaurant.beans.Order;
 import com.nextosd.restaurant.beans.User;
+import com.nextosd.restaurant.service.CommMapperService;
 import com.nextosd.restaurant.service.MenuService;
 import com.nextosd.restaurant.service.OrderService;
 import com.nextosd.restaurant.service.UserService;
@@ -28,6 +29,9 @@ public class OrderController {
 	
 	@Autowired
 	private MenuService menuService;
+	
+	@Autowired
+	private CommMapperService<OrderItem> commOrderItemService;
 	
 	/**
 	 * 根据用户编号和订单总价添加订单基本信息
@@ -54,17 +58,17 @@ public class OrderController {
 	}
 	
 	/**
-	 * 添加订单详细信息
-	 * @param items
+	  *  添加订单详细信息
+	 * @param orderItems
 	 * @return
 	 */
 	@PostMapping(value = "/insertItems")
-	public int insertOrderItems(@RequestBody List<Item> items) {
-		for (Item item: items){
-            int result = orderService.insertOrderItem(item);
+	public int insertOrderItems(@RequestBody List<OrderItem> orderItems) {
+		for (OrderItem orderItem: orderItems){
+            int result = orderService.insertOrderItem(orderItem);
             //修改菜品剩余数量
-            int foodId =item.getFoodId();
-            int num = item.getNum();
+            int foodId =orderItem.getFoodId();
+            int num = orderItem.getNum();
             Menu menu = menuService.selectFoodByFoodId(foodId);
             int newFoodNum = menu.getFoodNum()-num;
             int a = menuService.updateFoodNumByFoodId(foodId, newFoodNum);
@@ -135,10 +139,13 @@ public class OrderController {
 	 * @return
 	 */
 	@GetMapping(value = "/selectOrderItems")
-	public List<Item> seleItemsByOrderId(int orderId){
+	public List<OrderItem> seleItemsByOrderId(int orderId){
 		System.out.println("开始查询订单详细信息id:"+orderId);
-		List<Item> items = orderService.selectItemsByOrderId(orderId);
-		return items;
+		//List<OrderItem> orderItems = orderService.selectItemsByOrderId(orderId);
+		OrderItem orderItem = new OrderItem();
+		orderItem.setOrderId(orderId);
+		List<OrderItem> orderItems = commOrderItemService.query(orderItem);
+		return orderItems;
 	}
 	
 	/**
@@ -168,9 +175,9 @@ public class OrderController {
 		int result = orderService.deleteOrdersByOrderId(orderId);
 		if (result > 0) {
 			System.out.println("订单删除成功,开始删除订单详情");
-			List<Item> items = orderService.selectItemsByOrderId(orderId);
-			for (int i = 0; i < items.size(); i++) {
-				int orderItemId = items.get(i).getOrderItemId();
+			List<OrderItem> orderItems = orderService.selectItemsByOrderId(orderId);
+			for (int i = 0; i < orderItems.size(); i++) {
+				int orderItemId = orderItems.get(i).getOrderItemId();
 				orderService.deleteOrderItemsByOrderItemId(orderItemId);
 			}
 			System.out.println("订单详情删除成功");
@@ -191,9 +198,9 @@ public class OrderController {
 			int result = orderService.deleteOrdersByOrderId(orderId);
 			if (result > 0) {
 				//System.out.println("订单删除成功,开始删除订单详情");
-				List<Item> items = orderService.selectItemsByOrderId(orderId);
-				for (int j = 0; j < items.size(); j++) {
-					int orderItemId = items.get(j).getOrderItemId();
+				List<OrderItem> orderItems = orderService.selectItemsByOrderId(orderId);
+				for (int j = 0; j < orderItems.size(); j++) {
+					int orderItemId = orderItems.get(j).getOrderItemId();
 					orderService.deleteOrderItemsByOrderItemId(orderItemId);
 				}
 				//System.out.println("订单详情删除成功");

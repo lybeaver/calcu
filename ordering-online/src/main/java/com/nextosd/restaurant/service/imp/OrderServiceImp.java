@@ -5,7 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.nextosd.restaurant.beans.Item;
+import com.nextosd.restaurant.beans.OrderItem;
 import com.nextosd.restaurant.beans.Order;
 import com.nextosd.restaurant.mapper.OrderMapper;
 import com.nextosd.restaurant.service.OrderService;
@@ -28,11 +28,11 @@ public class OrderServiceImp implements OrderService {
 	
 	/**
 	 * 添加订单详细信息
-	 * @param item
+	 * @param orderItem
 	 * @return
 	 */
-	public int insertOrderItem(Item item) {
-		int result = orderMapper.insertOrderItems(item);
+	public int insertOrderItem(OrderItem orderItem) {
+		int result = orderMapper.insertOrderItems(orderItem);
 		return result;
 	}
 	
@@ -61,9 +61,9 @@ public class OrderServiceImp implements OrderService {
 	 * @param orderId
 	 * @return
 	 */
-	public List<Item> selectItemsByOrderId(int orderId){
-		List<Item> items = orderMapper.selectItemsByOrderId(orderId);
-		return items;
+	public List<OrderItem> selectItemsByOrderId(int orderId){
+		List<OrderItem> orderItems = orderMapper.selectItemsByOrderId(orderId);
+		return orderItems;
 	}
 	
 	/**

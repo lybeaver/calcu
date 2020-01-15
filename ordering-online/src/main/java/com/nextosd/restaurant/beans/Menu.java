@@ -1,5 +1,7 @@
 package com.nextosd.restaurant.beans;
 
+import java.io.Serializable;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -7,8 +9,13 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Menu {
+public class Menu implements Serializable{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	private int foodId;
 	
 	private String foodName;
@@ -19,4 +26,5 @@ public class Menu {
 	
 	private int foodNum;
 
+	public String name = "menu";
 }

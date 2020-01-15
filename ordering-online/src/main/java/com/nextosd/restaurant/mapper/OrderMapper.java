@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 
-import com.nextosd.restaurant.beans.Item;
+import com.nextosd.restaurant.beans.OrderItem;
 import com.nextosd.restaurant.beans.Order;
 @Mapper
 public interface OrderMapper {
@@ -18,10 +18,10 @@ public interface OrderMapper {
 	
 	/**
 	 * 添加订单详细信息
-	 * @param item
+	 * @param orderItem
 	 * @return
 	 */
-	int insertOrderItems(Item item);
+	int insertOrderItems(OrderItem orderItem);
 	
 	/**
 	 * 根据订单id删除订单
@@ -42,7 +42,7 @@ public interface OrderMapper {
 	 * @param orderId
 	 * @return
 	 */
-	List<Item> selectItemsByOrderId(int orderId);
+	List<OrderItem> selectItemsByOrderId(int orderId);
 	
 	/**
 	 * 根据订单id修改订单状态
