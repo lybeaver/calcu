@@ -1,10 +1,10 @@
-package com.nextosd.orderingonline;
+package com.nextosd.restaurant;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class OrderingOnlineApplicationTests {
+class RestaurantApplicationTests {
 
 	@Test
 	void contextLoads() {
