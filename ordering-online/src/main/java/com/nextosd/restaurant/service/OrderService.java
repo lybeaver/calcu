@@ -2,68 +2,45 @@ package com.nextosd.restaurant.service;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import com.nextosd.restaurant.beans.Item;
 import com.nextosd.restaurant.beans.Order;
-import com.nextosd.restaurant.mapper.OrderMapper;
 
-@Service
-public class OrderService {
-	
-	@Autowired
-	private OrderMapper orderMapper;
+public interface OrderService {
 	
 	/**
 	 * 向订单添加基本信息
 	 * @param order
 	 * @return
 	 */
-	public int insertOrder(Order order) {
-		int result = orderMapper.insertOrder(order);
-		return result;
-	}
+	public int insertOrder(Order order);
 	
 	/**
 	 * 添加订单详细信息
 	 * @param item
 	 * @return
 	 */
-	public int insertOrderItem(Item item) {
-		int result = orderMapper.insertOrderItems(item);
-		return result;
-	}
+	public int insertOrderItem(Item item);
 	
 	/**
 	 * 根据订单id删除订单信息
 	 * @param orderId
 	 * @return
 	 */
-	public int deleteOrderByOrderId(int orderId) {
-		int result = orderMapper.deleteOrderByOrderId(orderId);
-		return result;
-	}
+	public int deleteOrderByOrderId(int orderId);
 	
 	/**
 	 * 根据用户id查询订单信息
 	 * @param orderUserId
 	 * @return
 	 */
-	public List<Order> selectOrdersByOrderUserId(int orderUserId){
-		List<Order> orders = orderMapper.selectOrdersByOrderUserId(orderUserId);
-		return orders;
-	}
+	public List<Order> selectOrdersByOrderUserId(int orderUserId);
 	
 	/**
 	 * 根据订单id查询订单详细信息
 	 * @param orderId
 	 * @return
 	 */
-	public List<Item> selectItemsByOrderId(int orderId){
-		List<Item> items = orderMapper.selectItemsByOrderId(orderId);
-		return items;
-	}
+	public List<Item> selectItemsByOrderId(int orderId);
 	
 	/**
 	 * 根据订单id修改订单状态
@@ -71,48 +48,32 @@ public class OrderService {
 	 * @param orderType
 	 * @return
 	 */
-	public int updateOrderByOrderType(int orderId,String orderType){
-		int result = orderMapper.updateOrderByOrderType(orderId, orderType);
-		return result;
-	}
+	public int updateOrderByOrderType(int orderId,String orderType);
 	
 	/**
 	 * 根据订单id删除订单信息
 	 * @param orderId
 	 * @return
 	 */
-	public int deleteOrdersByOrderId(int orderId) {
-		int result = orderMapper.deleteOrdersByOrderId(orderId);
-		return result;
-	}
+	public int deleteOrdersByOrderId(int orderId);
 	
 	/**
 	 * 根据订单id删除订单详细信息
 	 * @param orderId
 	 * @return
 	 */
-	public int deleteOrderItemsByOrderItemId(int orderItemId) {
-		int result = orderMapper.deleteOrderItemsByOrderItemId(orderItemId);
-		return result;
-	}
+	public int deleteOrderItemsByOrderItemId(int orderItemId);
 	
 	/**
 	 * 根据用户id查询订单未完成数量
 	 * @param orderUserId
 	 * @return
 	 */
-	public int selectOrderTypeNumByOrderUserId(int orderUserId) {
-		int result = orderMapper.selectOrderTypeNumByOrderUserId(orderUserId);
-		return result;
-	}
+	public int selectOrderTypeNumByOrderUserId(int orderUserId);
 	
 	/**
 	 * 查询所有订单信息
 	 * @return
 	 */
-	public List<Order> selectAllOrders(){
-		List<Order> orders = orderMapper.selectAllOrders();
-		return orders;
-	}
-
+	public List<Order> selectAllOrders();
 }
