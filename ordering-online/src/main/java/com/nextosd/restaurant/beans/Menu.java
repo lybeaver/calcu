@@ -26,5 +26,4 @@ public class Menu implements Serializable{
 	
 	private int foodNum;
 
-	public String name = "menu";
 }
