@@ -8,11 +8,11 @@ import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @SpringBootApplication
-@MapperScan(value = "com.nextosd.orderingonline.mapper")
-public class OrderingOnlineApplication {
+@MapperScan(value = "com.nextosd.restaurant.mapper")
+public class RestaurantApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(OrderingOnlineApplication.class, args);
+		SpringApplication.run(RestaurantApplication.class, args);
 	}
 	
 	/**
