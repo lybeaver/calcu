@@ -1,7 +1,5 @@
 package com.nextosd.restaurant.mapper;
 
-import java.util.List;
-
 import org.apache.ibatis.annotations.Mapper;
 
 import com.nextosd.restaurant.beans.User;
