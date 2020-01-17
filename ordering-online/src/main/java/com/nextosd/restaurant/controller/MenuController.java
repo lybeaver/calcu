@@ -1,113 +1,118 @@
 package com.nextosd.restaurant.controller;
 
 import java.util.List;
+import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.github.pagehelper.PageInfo;
 import com.nextosd.restaurant.beans.Menu;
 import com.nextosd.restaurant.beans.MenuExample;
+import com.nextosd.restaurant.beans.other.ResultBean;
 import com.nextosd.restaurant.mapper.common.MenuMapper;
 
 @RestController
+@RequestMapping("/menu")
 public class MenuController {
 	
 	@Autowired
 	private MenuMapper menuService;
 	
+	private static final Logger logger = LoggerFactory.getLogger(MenuController.class);
 	/**
-	 * 	菜品信息全查询
+	 * 查询
 	 * @return
 	 */
 	@GetMapping(value = "/selectAll")
-	public List<Menu> selectAllFoods(){
-		System.out.println("菜品信息全查询");
+	public List<Menu> selectAll(){
+		logger.info("查询所有信息");
 		MenuExample example = new MenuExample();
 		List<Menu> foods = menuService.selectByExample(example);
-		System.out.println("查询成功");
+		logger.info("查询成功");
 		return foods;
 	}
 	
-//	/**
-//	 * 	根据菜名查询菜品信息(模糊查)
-//	 * @param foodName
-//	 * @return
-//	 */
-//	@RequestMapping(value = "/menu",method = RequestMethod.GET)
-//	public List<Menu> selectFoodsLikeFoodName(String foodName) {
-//		foodName = "%"+foodName+"%";
-//		Menu menu = new Menu();
-//		menu.setFoodName(foodName);
-//		System.out.println("开始查询"+foodName);
-//		List<Menu> foods = menuService.selectFoodsLikeFoodName(foodName);
-//		System.out.println("查询成功");
-//		return foods;
-//	}	
+	/**
+	 * 单独插入
+	 * @return
+	 */
+	@PostMapping(value = "/form")
+	public ResultBean inserForm(@ModelAttribute Menu params) {
+		return null;
+	}
 	
-//	/**
-//	 * 	根据菜品ID查询菜品信息(用于修改菜品信息前)
-//	 * @param foodId
-//	 * @param model
-//	 * @return
-//	 */
-//	@RequestMapping(value = "/insertFoodFirst",method = RequestMethod.GET)
-//	public Menu selectFoodByFoodId(int foodId) {
-//		Menu food = menuService.selectFoodByFoodId(foodId);
-//		return food;
-//	}
+	/**
+	 * 批量插入
+	 * @return
+	 */
+	@PostMapping(value = "/list")	
+	public ResultBean insertList(@RequestBody List<Menu> params) {
+		return null;
+	}
 	
-//	/**
-//	 * 	添加菜品信息
-//	 * @param menu
-//	 * @param model
-//	 * @return
-//	 */
-//	@RequestMapping(value = "/insertFood",method = RequestMethod.POST)
-//	public int insertFood(Menu menu) {
-//		System.out.println("开始添加");
-//		int result = menuService.insertFood(menu);
-//		System.out.println("添加成功");
-//		return result;
-//	}
+	/**
+	 * 单独更新
+	 * @return
+	 */
+	@PutMapping(value = "/form")
+	public ResultBean updateForm(@ModelAttribute Menu params) {
+		return null;
+	}
 	
-//	/**
-//	 * 	修改菜品信息
-//	 * @param menu
-//	 * @param model
-//	 * @return
-//	 */
-//	@RequestMapping(value = "/updateFood",method = RequestMethod.POST)
-//	public int updateFood(Menu menu) {
-//		int result = menuService.updateFood(menu);
-//		return result;
-//	}
+	/**
+	 * 批量更新
+	 * @return
+	 */
+	@PutMapping(value = "/list")	
+	public ResultBean updateList(@RequestBody List<Menu> params) {
+		return null;
+	}
 	
-//	/**
-//	 * 	删除菜品信息
-//	 * @param foodId
-//	 * @param model
-//	 * @return
-//	 */
-//	@RequestMapping(value = "/deleteFood",method = RequestMethod.POST)
-//	public int deleteFoodByFoodId(int foodId) {
-//		System.out.println("开始删除"+foodId);
-//		int result = menuService.deleteFoodByFoodId(foodId);
-//		System.out.println("删除成功");
-//		return result;
-//	}
+	/**
+	 * 按主键删除一个
+	 * @return
+	 */
+	@DeleteMapping(value = "/id")
+	public ResultBean deleteById(@RequestBody Menu params) {
+		return null;
+	}
 	
-//	/**
-//	 * 	根据菜品类型查询菜品信息
-//	 * @param foodType
-//	 * @return
-//	 */
-//	@GetMapping(value = "/foodType")
-//	public List<Menu> selectFoodsByFoodType(String foodType){
-//		List<Menu> foods = menuService.selectFoodsByFoodType(foodType);
-//		return foods;
-//	}
+	/**
+	 * 按主键删除多个
+	 * @return
+	 */
+	@DeleteMapping(value = "/ids")	
+	public ResultBean deleteByIds(@RequestBody Menu params) {
+		return null;
+	}
 	
+	/**
+	 * 按条件删除
+	 * @return
+	 */
+	@DeleteMapping(value = "/cond")	
+	public ResultBean deleteByCond(@RequestBody Menu params) {
+		return null;
+	}
+	
+	/**
+	 * 分页查询
+	 * @return
+	 */
+	@GetMapping(value = "/page")
+	public PageInfo<Map<String, Object>> selectByPage(@ModelAttribute Menu params){
+		PageInfo page = null;
+		return page;
+	}
 }
+
