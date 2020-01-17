@@ -55,25 +55,25 @@ PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"    "http://
 
 		<!-- maven run as -> maven build ,然后在 goals当中输入 :mybatis-generator:generate -->
 		<!-- 想要逆向生成的表在这里进行配置 -->
-		<table tableName="tbl_user" domainObjectName="User"
+		<table schema="tblUser" tableName="tbl_user" domainObjectName="User"
 			enableCountByExample="true" enableUpdateByExample="true"
 			enableDeleteByExample="true" enableSelectByExample="true"
 			selectByExampleQueryId="true">
 		</table>
 
-		<table tableName="tbl_order_item" domainObjectName="OrderItem"
+		<table schema="tblOrderItem" tableName="tbl_order_item" domainObjectName="OrderItem"
 			enableCountByExample="true" enableUpdateByExample="true"
 			enableDeleteByExample="true" enableSelectByExample="true"
 			selectByExampleQueryId="true">
 		</table>
 
-		<table tableName="tbl_menu" domainObjectName="Menu"
+		<table schema="tblMenu" tableName="tbl_menu" domainObjectName="Menu"
 			enableCountByExample="true" enableUpdateByExample="true"
 			enableDeleteByExample="true" enableSelectByExample="true"
 			selectByExampleQueryId="true">
 		</table>
 
-		<table tableName="tbl_orders" domainObjectName="Orders"
+		<table schema="tblOrders" tableName="tbl_orders" domainObjectName="Orders"
 			enableCountByExample="true" enableUpdateByExample="true"
 			enableDeleteByExample="true" enableSelectByExample="true"
 			selectByExampleQueryId="true">
