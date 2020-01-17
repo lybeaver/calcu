@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.nextosd.restaurant.beans.User;
-import com.nextosd.restaurant.service.CommMapperService;
 import com.nextosd.restaurant.service.UserService;
 
 @RestController
@@ -16,9 +15,6 @@ public class UserController {
 	
 	@Autowired
 	private UserService userService;
-	
-	@Autowired
-	private CommMapperService<User> commUserService;
 	
 	/**
 	 * 	初始化页面

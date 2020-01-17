@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.nextosd.restaurant.beans.Menu;
-import com.nextosd.restaurant.service.CommMapperService;
 import com.nextosd.restaurant.service.MenuService;
 
 @RestController
@@ -17,9 +16,6 @@ public class MenuController {
 	
 	@Autowired
 	private MenuService menuService;
-	
-	@Autowired
-	private CommMapperService<Menu> commMenuService; 
 	
 	/**
 	 * 	菜品信息全查询
@@ -44,8 +40,7 @@ public class MenuController {
 		Menu menu = new Menu();
 		menu.setFoodName(foodName);
 		System.out.println("开始查询"+foodName);
-		//List<Menu> foods = menuService.selectFoodsLikeFoodName(foodName);
-		List<Menu> foods = commMenuService.query(menu);
+		List<Menu> foods = menuService.selectFoodsLikeFoodName(foodName);
 		System.out.println("查询成功");
 		return foods;
 	}	

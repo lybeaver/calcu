@@ -9,11 +9,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.nextosd.restaurant.beans.OrderItem;
 import com.nextosd.restaurant.beans.Menu;
-import com.nextosd.restaurant.beans.Order;
+import com.nextosd.restaurant.beans.OrderItem;
+import com.nextosd.restaurant.beans.Orders;
 import com.nextosd.restaurant.beans.User;
-import com.nextosd.restaurant.service.CommMapperService;
 import com.nextosd.restaurant.service.MenuService;
 import com.nextosd.restaurant.service.OrderService;
 import com.nextosd.restaurant.service.UserService;
@@ -30,9 +29,6 @@ public class OrderController {
 	@Autowired
 	private MenuService menuService;
 	
-	@Autowired
-	private CommMapperService<OrderItem> commOrderItemService;
-	
 	/**
 	 * 根据用户编号和订单总价添加订单基本信息
 	 * @param userName
@@ -44,7 +40,7 @@ public class OrderController {
 		User user = userService.selectUserByUserName(userName);
 		int orderUserId = user.getUserId();
 		System.out.println("开始添加");
-		Order order = new Order();
+		Orders order = new Orders();
 		order.setOrderUserId(orderUserId);
 		order.setOrderPrice(orderPrice);
 		int result = orderService.insertOrder(order);
@@ -97,16 +93,16 @@ public class OrderController {
 	 * @return
 	 */
 	@GetMapping(value = "/selectOrders")
-	public List<Order> selectOrdersByOrderUserId(String userName){
+	public List<Orders> selectOrdersByOrderUserId(String userName){
 		System.out.println("开始查询");
 		User user = userService.selectUserByUserName(userName);
 		int orderUserId = user.getUserId();
 		System.out.println("用户id"+orderUserId);
-		List<Order> orders = orderService.selectOrdersByOrderUserId(orderUserId);
-		for (int i = 0; i < orders.size() ;i++) {
-			orders.get(i).setOrderUserName(user.getUserName());
-		}
-		List<Order> list = new ArrayList<Order>();
+		List<Orders> orders = orderService.selectOrdersByOrderUserId(orderUserId);
+//		for (int i = 0; i < orders.size() ;i++) {
+//			orders.get(i).setOrderUserName(user.getUserName());
+//		}
+		List<Orders> list = new ArrayList<Orders>();
 		for (int i = 0; i < orders.size(); i++) {
 			if (!orders.get(i).getOrderType().equals("已完成")) {
 				list.add(orders.get(i));
@@ -121,15 +117,15 @@ public class OrderController {
 	 * @return
 	 */
 	@GetMapping(value = "/selectAllOrders")
-	public List<Order> selectAllOrdersByOrderUserId(String userName){
+	public List<Orders> selectAllOrdersByOrderUserId(String userName){
 		System.out.println("开始查询");
 		User user = userService.selectUserByUserName(userName);
 		int orderUserId = user.getUserId();
 		System.out.println("用户id"+orderUserId);
-		List<Order> orders = orderService.selectOrdersByOrderUserId(orderUserId);
-		for (int i = 0; i < orders.size() ;i++) {
-			orders.get(i).setOrderUserName(user.getUserName());
-		}
+		List<Orders> orders = orderService.selectOrdersByOrderUserId(orderUserId);
+//		for (int i = 0; i < orders.size() ;i++) {
+//			orders.get(i).setOrderUserName(user.getUserName());
+//		}
 		return orders;
 	}
 	
@@ -141,10 +137,7 @@ public class OrderController {
 	@GetMapping(value = "/selectOrderItems")
 	public List<OrderItem> seleItemsByOrderId(int orderId){
 		System.out.println("开始查询订单详细信息id:"+orderId);
-		//List<OrderItem> orderItems = orderService.selectItemsByOrderId(orderId);
-		OrderItem orderItem = new OrderItem();
-		orderItem.setOrderId(orderId);
-		List<OrderItem> orderItems = commOrderItemService.query(orderItem);
+		List<OrderItem> orderItems = orderService.selectItemsByOrderId(orderId);
 		return orderItems;
 	}
 	
@@ -230,13 +223,13 @@ public class OrderController {
 	 * @return
 	 */
 	@GetMapping(value = "/allOrders")
-	public List<Order> selectAllOrders(){
-		List<Order> orders = orderService.selectAllOrders();
-		for (int i = 0; i < orders.size() ;i++) {
-			User user = userService.selectUserByUserId(orders.get(i).getOrderUserId());
-			orders.get(i).setOrderUserName(user.getUserName());
-		}
-		List<Order> list = new ArrayList<Order>();
+	public List<Orders> selectAllOrders(){
+		List<Orders> orders = orderService.selectAllOrders();
+//		for (int i = 0; i < orders.size() ;i++) {
+//			User user = userService.selectUserByUserId(orders.get(i).getOrderUserId());
+//			orders.get(i).setOrderUserName(user.getUserName());
+//		}
+		List<Orders> list = new ArrayList<Orders>();
 		for (int i = 0; i < orders.size(); i++) {
 			if (!orders.get(i).getOrderType().equals("已完成")) {
 				list.add(orders.get(i));
@@ -250,12 +243,12 @@ public class OrderController {
 	 * @return
 	 */
 	@GetMapping(value = "/allAllOrders")
-	public List<Order> selectAllAllOrders(){
-		List<Order> orders = orderService.selectAllOrders();
-		for (int i = 0; i < orders.size() ;i++) {
-			User user = userService.selectUserByUserId(orders.get(i).getOrderUserId());
-			orders.get(i).setOrderUserName(user.getUserName());
-		}
+	public List<Orders> selectAllAllOrders(){
+		List<Orders> orders = orderService.selectAllOrders();
+//		for (int i = 0; i < orders.size() ;i++) {
+//			User user = userService.selectUserByUserId(orders.get(i).getOrderUserId());
+//			orders.get(i).setOrderUserName(user.getUserName());
+//		}
 		return orders;
 	}
 	

@@ -3,7 +3,7 @@ package com.nextosd.restaurant.service;
 import java.util.List;
 
 import com.nextosd.restaurant.beans.OrderItem;
-import com.nextosd.restaurant.beans.Order;
+import com.nextosd.restaurant.beans.Orders;
 
 public interface OrderService {
 	
@@ -12,7 +12,7 @@ public interface OrderService {
 	 * @param order
 	 * @return
 	 */
-	public int insertOrder(Order order);
+	public int insertOrder(Orders order);
 	
 	/**
 	 * 添加订单详细信息
@@ -33,7 +33,7 @@ public interface OrderService {
 	 * @param orderUserId
 	 * @return
 	 */
-	public List<Order> selectOrdersByOrderUserId(int orderUserId);
+	public List<Orders> selectOrdersByOrderUserId(int orderUserId);
 	
 	/**
 	 * 根据订单id查询订单详细信息
@@ -75,5 +75,5 @@ public interface OrderService {
 	 * 查询所有订单信息
 	 * @return
 	 */
-	public List<Order> selectAllOrders();
+	public List<Orders> selectAllOrders();
 }

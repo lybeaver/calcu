@@ -1,29 +1,65 @@
 package com.nextosd.restaurant.beans;
 
-import java.io.Serializable;
+public class Menu {
+    private Integer foodId;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+    private String foodName;
 
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
-public class Menu implements Serializable{
-	
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
+    private String foodType;
 
-	private int foodId;
-	
-	private String foodName;
-	
-	private String foodType;
-	
-	private int foodPrice;
-	
-	private int foodNum;
+    private Integer foodPrice;
 
+    private Integer foodNum;
+
+    public Menu(Integer foodId, String foodName, String foodType, Integer foodPrice, Integer foodNum) {
+        this.foodId = foodId;
+        this.foodName = foodName;
+        this.foodType = foodType;
+        this.foodPrice = foodPrice;
+        this.foodNum = foodNum;
+    }
+
+    public Menu() {
+        super();
+    }
+
+    public Integer getFoodId() {
+        return foodId;
+    }
+
+    public void setFoodId(Integer foodId) {
+        this.foodId = foodId;
+    }
+
+    public String getFoodName() {
+        return foodName;
+    }
+
+    public void setFoodName(String foodName) {
+        this.foodName = foodName == null ? null : foodName.trim();
+    }
+
+    public String getFoodType() {
+        return foodType;
+    }
+
+    public void setFoodType(String foodType) {
+        this.foodType = foodType == null ? null : foodType.trim();
+    }
+
+    public Integer getFoodPrice() {
+        return foodPrice;
+    }
+
+    public void setFoodPrice(Integer foodPrice) {
+        this.foodPrice = foodPrice;
+    }
+
+    public Integer getFoodNum() {
+        return foodNum;
+    }
+
+    public void setFoodNum(Integer foodNum) {
+        this.foodNum = foodNum;
+    }
 }
