@@ -1,6 +1,8 @@
 package com.nextosd.restaurant.beans;
 
-public class Menu {
+import com.nextosd.restaurant.beans.other.BaseBean;
+
+public class Menu extends BaseBean {
     private Integer foodId;
 
     private String foodName;

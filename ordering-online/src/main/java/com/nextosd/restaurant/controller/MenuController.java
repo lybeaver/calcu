@@ -1,5 +1,6 @@
 package com.nextosd.restaurant.controller;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -11,10 +12,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.nextosd.restaurant.beans.Menu;
 import com.nextosd.restaurant.beans.MenuExample;
@@ -110,9 +113,17 @@ public class MenuController {
 	 * @return
 	 */
 	@GetMapping(value = "/page")
-	public PageInfo<Map<String, Object>> selectByPage(@ModelAttribute Menu params){
-		PageInfo page = null;
-		return page;
+	public Map<String, Object> selectByPage(@ModelAttribute Menu params){
+		PageHelper.startPage(params.getPage(), params.getLimit());
+		MenuExample example = new MenuExample();
+		List<Menu> list = menuService.selectByExample(example);
+		Map<String, Object> map = new HashMap<String, Object>();
+		PageInfo<Menu> pageInfo = new PageInfo<Menu>(list);
+		map.put("data",pageInfo.getList());
+		map.put("count",pageInfo.getTotal());
+		map.put("msg",null);
+		map.put("code",0);
+		return map;
 	}
 }
 
