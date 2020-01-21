@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <link rel="stylesheet" href="../../layuiadmin/layui/css/layui.css" media="all">
+  <link rel="stylesheet" href="../../layuiadmin/style/login.css" media="all">
+</head>
+
+<body>
+  <form class="layui-form" action="" method="post">
+    <div class="container">
+      <button class="close" title="关闭">X</button>
+      <div class="layui-form-mid layui-word-aux">
+        <div id="logoid">用户登录</div>
+        <!-- <img id="logoid" src="06.png" height="35">    				 -->
+      </div>
+      <div class="layui-form-item">
+        <label class="layui-form-label">用户名</label>
+        <div class="layui-input-block">
+          <input type="text" name="title" required lay-verify="required" placeholder="请输入用户名" autocomplete="off"
+            class="layui-input">
+        </div>
+      </div>
+      <div class="layui-form-item">
+        <label class="layui-form-label">密 &nbsp;&nbsp;码</label>
+        <div class="layui-input-inline">
+          <input type="password" name="password" required lay-verify="required" placeholder="请输入密码" autocomplete="off"
+            class="layui-input">
+        </div>
+      </div>
+      <div class="layui-form-item">
+        <label class="layui-form-label">验证码</label>
+        <div class="layui-input-inline">
+          <input type="text" name="title" required lay-verify="required" placeholder="请输入验证码" autocomplete="off"
+            class="layui-input verity">
+        </div>
+      </div>
+      <div class="layui-form-item">
+        <div class="layui-input-block">
+          <button class="layui-btn" lay-submit lay-filter="formDemo">登陆</button>
+        </div>
+      </div>
+      <a href="" class="font-set">忘记密码?</a> <a href="" class="font-set">立即注册</a>
+    </div>
+  </form>
+  <script src="../../layuiadmin/layui/layui.js"></script>
+  <script>
+    layui.use(['form', 'layedit', 'laydate'], function () {
+      var form = layui.form
+        , layer = layui.layer
+        , layedit = layui.layedit
+        , laydate = layui.laydate;
+
+      //监听提交
+      form.on('submit(demo1)', function (data) {
+        layer.alert(JSON.stringify(data.field), {
+          title: '最终的提交信息'
+        })
+        return false;
+      });
+    });
+  </script>
+</body>
+
+</html>
