@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html>
-
 <head>
   <meta charset="utf-8">
   <title>菜品列表</title>
@@ -10,24 +9,35 @@
     content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
   <link rel="stylesheet" href="../../layuiadmin/layui/css/layui.css" media="all">
   <link rel="stylesheet" href="../../layuiadmin/style/admin.css" media="all">
+  <link rel="stylesheet" href="../../layuiadmin/style/foodList.css" media="all">
 </head>
-
 <body>
-
   <div class="layui-fluid">
     <div class="layui-row">
       <div class="layui-col">
         <div class="layui-card">
           <div class="layui-card-header">菜品列表</div>
           <div class="layui-card-body">
-            <table id="foodTable" lay-filter="test"></table>
+            <div class="demoTable">
+              名称：<div class="layui-inline">
+                <input class="layui-input" name="id" id="foodReload" autocomplete="off">
+              </div>
+              价格：<div class="layui-inline">
+                <input class="layui-input" name="id" id="foodReload" autocomplete="off">
+              </div>
+              <button class="layui-btn" data-type="reload">搜索</button>
+            </div>
+            <table id="foodTable" lay-filter="demo"></table>
           </div>
         </div>
       </div>
     </div>
   </div>
-
   <script src="../../layuiadmin/layui/layui.js"></script>
+  <script type="text/html" id="toolBar">
+    <a class="layui-icon" style="font-size: 25px; color: #1AA094;cursor:pointer" lay-event="edit">&#xe642;</a>
+    <a class="layui-icon" style="font-size: 25px; color: #1AA094;cursor:pointer" lay-event="del">&#xe640;</a>
+  </script>
   <script>
     layui.config({
       base: '../../layuiadmin/' //静态资源所在路径
@@ -36,5 +46,4 @@
     }).use(['index', 'foodList']);
   </script>
 </body>
-
 </html>
