@@ -1,6 +1,6 @@
 # calcu
 fresh bird practice
 # 工具
-## springboot
-## mysql5.7
-## layui(前台)
+## 1.springboot(java8)
+## 2.mysql5.7
+## 3.layui(前台)
