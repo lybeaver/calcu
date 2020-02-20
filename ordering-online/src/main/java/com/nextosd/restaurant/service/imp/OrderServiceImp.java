@@ -7,14 +7,14 @@ import org.springframework.stereotype.Service;
 
 import com.nextosd.restaurant.beans.OrderItem;
 import com.nextosd.restaurant.beans.Orders;
-import com.nextosd.restaurant.mapper.OrderMapper;
+import com.nextosd.restaurant.mapper.OrderMapperBack;
 import com.nextosd.restaurant.service.OrderService;
 
 @Service
 public class OrderServiceImp implements OrderService {
 	
 	@Autowired
-	private OrderMapper orderMapper;
+	private OrderMapperBack orderMapper;
 	
 	/**
 	 * 向订单添加基本信息

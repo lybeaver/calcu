@@ -7,7 +7,7 @@ import org.apache.ibatis.annotations.Mapper;
 import com.nextosd.restaurant.beans.OrderItem;
 import com.nextosd.restaurant.beans.Orders;
 @Mapper
-public interface OrderMapper {
+public interface OrderMapperBack {
 	
 	/**
 	 * 添加订单信息

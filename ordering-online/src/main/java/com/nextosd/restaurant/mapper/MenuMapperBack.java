@@ -6,7 +6,7 @@ import org.apache.ibatis.annotations.Mapper;
 
 import com.nextosd.restaurant.beans.Menu;
 @Mapper
-public interface MenuMapper {
+public interface MenuMapperBack {
 	
 	/**
 	 * 	菜品信息全查询

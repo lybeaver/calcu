@@ -6,14 +6,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.nextosd.restaurant.beans.Menu;
-import com.nextosd.restaurant.mapper.MenuMapper;
+import com.nextosd.restaurant.mapper.MenuMapperBack;
 import com.nextosd.restaurant.service.MenuService;
 
 @Service
 public class MenuServiceImp implements MenuService {
 	
 	@Autowired
-	private MenuMapper menuMapper;
+	private MenuMapperBack menuMapper;
 	
 	/**
 	 * 	菜品信息全查询

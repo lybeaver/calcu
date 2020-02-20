@@ -4,14 +4,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.nextosd.restaurant.beans.User;
-import com.nextosd.restaurant.mapper.UserMapper;
+import com.nextosd.restaurant.mapper.UserMapperBack;
 import com.nextosd.restaurant.service.UserService;
 
 @Service
 public class UserServiceImp implements UserService {
 	
 	@Autowired
-	private UserMapper userMapper;
+	private UserMapperBack userMapper;
 	
 	/**
 	 * 	根据用户名查询用户信息是否已存在

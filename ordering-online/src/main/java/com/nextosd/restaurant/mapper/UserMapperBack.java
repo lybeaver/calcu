@@ -4,7 +4,7 @@ import org.apache.ibatis.annotations.Mapper;
 
 import com.nextosd.restaurant.beans.User;
 @Mapper
-public interface UserMapper {
+public interface UserMapperBack {
 	
 	/**
 	 *	按照用户名查询用户信息

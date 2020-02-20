@@ -13,9 +13,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.nextosd.restaurant.annotation.Column;
 import com.nextosd.restaurant.annotation.Table;
-import com.nextosd.restaurant.mapper.CommMapper;
+import com.nextosd.restaurant.mapper.CommMapper1;
 import com.nextosd.restaurant.service.CommMapperService;
-import com.nextosd.restaurant.utils.ToolUtil;
 
 
 @Transactional
@@ -26,7 +25,7 @@ public class CommMapperServiceImp implements CommMapperService {
     private static final String KEYFIELDMAP = "keyFieldMap";
 
     @Autowired
-    private CommMapper baseMysqlCRUDMapper;
+    private CommMapper1 baseMysqlCRUDMapper;
 
     public void save(Object obj){
         boolean isSave = true;

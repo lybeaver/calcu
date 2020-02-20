@@ -6,7 +6,7 @@ import java.util.Map;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 @Mapper
-public interface CommMapper {
+public interface CommMapper1 {
 	/** * 保存 * @param tableMap */
     public void save(@Param("tableMap") Map<Object, Map<Object, Object>> tableMap);
 
