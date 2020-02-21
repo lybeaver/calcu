@@ -15,6 +15,7 @@
   background-color: #fff;
   box-shadow: 0 3px 18px rgba(100, 0, 0, .5);
   font-size: 16px;
+  margin-top: 10%;
 }
 
 .close {
@@ -62,4 +63,12 @@
 
 a:hover {
   text-decoration: underline;
+}
+
+#checkNum {
+  border-radius: 5px;
+  width: 130px;
+  height: 40px;
+  font-size: 15px;
+  margin-left: -30px;
 }
