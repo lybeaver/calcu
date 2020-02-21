@@ -10,6 +10,7 @@ layui.define(function (exports) {
   //……
 
 
+
   //退出
   admin.events.logout = function () {
     //执行退出接口

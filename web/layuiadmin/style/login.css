@@ -1,8 +1,8 @@
 .container {
   width: 420px;
   height: 320px;
-  min-height: 320px;
-  max-height: 320px;
+  min-height: 350px;
+  max-height: 350px;
   position: absolute;
   top: 0;
   left: 0;
@@ -39,7 +39,7 @@
 
 #logoid {
   margin-top: -16px;
-  padding-left: 150px;
+  padding-left: 180px;
   padding-bottom: 15px;
 }
 
@@ -58,7 +58,7 @@
 .font-set {
   font-size: 13px;
   text-decoration: none;
-  margin-left: 120px;
+  margin-left: 100px;
 }
 
 a:hover {
