@@ -18,7 +18,7 @@
       <div class="layui-form-item">
         <label class="layui-form-label">用户名</label>
         <div class="layui-input-block">
-          <input type="text" name="title" id="userName" required lay-verify="required" placeholder="请输入账号或手机号" 
+          <input type="text" name="userName" id="userName" required lay-verify="required" placeholder="请输入账号或手机号" 
           autocomplete="off" class="layui-input" lay-reqtext="请输入用户名" maxlength="11">
         </div>
       </div>
@@ -72,12 +72,10 @@
         })
         $.ajax({
           url:"http://localhost:8080/user/login",       
-          method:'post',        
-          data:data.field, 
-          contentType:"application/json",
-          success:function(data){       
+          type:'post',
+          data:data.field,
+          success:function(data){
             if(data == 1){
-              //$.cookie('userName',userName);
               $(location).prop('href', 'index.html');
             }else{
               alert('登录失败');

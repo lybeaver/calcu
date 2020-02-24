@@ -55,6 +55,7 @@ public class UserController {
 	public int login(User user) throws Exception {
 		int result = 0;
 		logger.info(user.getUserName());
+		logger.info(user.getPassword());
 		User exUser = userMapperBack.selectUserByUserName(user.getUserName());
 		if (exUser == null) {
 			logger.info("用户名不存在");
