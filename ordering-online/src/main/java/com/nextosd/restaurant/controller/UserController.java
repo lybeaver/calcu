@@ -33,17 +33,6 @@ public class UserController {
 	
 	private static final Logger logger = LoggerFactory.getLogger(UserController.class);
 	
-	@PostMapping(value = "/checkUserName")
-	public void checkUserName(String userName) {
-		
-	}
-	
-	@GetMapping(value = "/getCheckNum")
-	public String getCheckNum() {
-		
-		return null;
-	}
-	
 	/**
 	 * 	登录
 	  * @Title: UserController.java  

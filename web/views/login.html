@@ -7,7 +7,7 @@
   <link rel="stylesheet" href="../../layuiadmin/style/login.css" media="all">
 </head>
 
-<body>
+<body onload="getVerify()">
   <form class="layui-form" action="" method="post">
     <div class="container">
       <button class="close" title="关闭">X</button>
@@ -18,8 +18,8 @@
       <div class="layui-form-item">
         <label class="layui-form-label">用户名</label>
         <div class="layui-input-block">
-          <input type="text" name="userName" id="userName" required lay-verify="required" placeholder="请输入账号或手机号" 
-          autocomplete="off" class="layui-input" lay-reqtext="请输入用户名" maxlength="11">
+          <input type="text" name="userName" id="userName" required lay-verify="required" placeholder="请输入账号或手机号"
+            autocomplete="off" class="layui-input" lay-reqtext="请输入用户名" maxlength="11">
         </div>
       </div>
       <!-- 密码 -->
@@ -31,7 +31,7 @@
         </div>
       </div>
       <!-- 验证码 -->
-      <!-- <div class="layui-form-item">
+      <div class="layui-form-item">
         <label class="layui-form-label">验证码</label>
         <div class="layui-input-inline" style="float: left;">
           <input type="text" name="checkNum" required lay-verify="required" placeholder="请输入验证码" autocomplete="off"
@@ -40,7 +40,7 @@
         <div style="float: left;" id="div2">
           <img id="img-verify" src="" alt="更换验证码" height="36" onclick="getVerify()" id="checkImg">
         </div>
-      </div> -->
+      </div>
       <!-- 自动登录 -->
       <div class="layui-form-item">
         <div class="layui-input-block">
@@ -59,7 +59,7 @@
   <script src="../../layuiadmin/layui/layui.js"></script>
   <script src="http://code.jquery.com/jquery-latest.js"></script>
   <script>
-    layui.use(['form', 'layedit', 'laydate'], function () {
+    layui.use(['form', 'layedit', 'laydate', 'setter'], function () {
       var form = layui.form,
         layer = layui.layer,
         layedit = layui.layedit,
@@ -67,33 +67,33 @@
 
       //监听提交
       form.on('submit(formDemo)', function (data) {
-        layer.alert(JSON.stringify(data.field), {
-          title: '最终的提交信息'
-        })
+        // layer.alert(JSON.stringify(data.field), {
+        //   title: '最终的提交信息'
+        // })
         $.ajax({
-          url:"http://localhost:8080/user/login",       
-          type:'post',
-          data:data.field,
-          success:function(data){
-            if(data == 1){
+          url: setter.address + "user/login",
+          type: 'post',
+          data: data.field,
+          success: function (data) {
+            if (data == 1) {
               $(location).prop('href', 'index.html');
-            }else{
+            } else {
               alert('登录失败');
-            }  
-          },         
-          error:function(data) {  
-              alert(data)
-          }            
+            }
+          },
+          error: function (data) {
+            alert(data)
+          }
         });
         return false;
       });
 
     });
+
     //获取验证码
-    // function getVerify(){
-    //   document.getElementById("img-verify").src = "http://localhost:8080/user/verify-code?"+Math.random();
-    // }
-    
+    function getVerify() {
+      document.getElementById("img-verify").src = "http://localhost:8080/user/verify-code?" + Math.random();
+    }
   </script>
 </body>
 

@@ -52,9 +52,10 @@
       <!-- 同意服务条款 -->
       <div class="layui-form-item">
         <div class="layui-input-block">
-          <input type="checkbox" class="layui-input-inline" name="rule" lay-skin="primary" title="我已阅读并同意" 
+          <input type="checkbox" class="layui-input-inline" name="rule" lay-skin="primary" title="我已阅读并同意"
             style="float: left;">
-          <a href="#" style="color: cornflowerblue; margin-left: 0px; float: left; margin-left: 130px; margin-top: -18px;" 
+          <a href="#"
+            style="color: cornflowerblue; margin-left: 0px; float: left; margin-left: 130px; margin-top: -18px;"
             class="font-set">XXX服务条款</a>
         </div>
       </div>
@@ -70,10 +71,10 @@
   <script src="../../layuiadmin/layui/layui.js"></script>
   <script>
     layui.use(['form', 'layedit', 'laydate'], function () {
-      var form = layui.form
-        , layer = layui.layer
-        , layedit = layui.layedit
-        , laydate = layui.laydate;
+      var form = layui.form,
+        layer = layui.layer,
+        layedit = layui.layedit,
+        laydate = layui.laydate;
 
       //监听提交
       form.on('submit(demo1)', function (data) {

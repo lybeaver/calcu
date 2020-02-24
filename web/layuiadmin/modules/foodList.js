@@ -9,6 +9,8 @@ layui.define(function (exports) {
             , height: 500
             , url: setter.address + 'menu/page' //数据接口
             , page: true //开启分页
+            , limit: 10
+            , limits: [10,20,30]
             , cols: [[ //表头
                 { field: 'foodName', title: '名称', width: 200, sort: true }
                 , { field: 'foodType', title: '类型', width: 150, sort: true }
