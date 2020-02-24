@@ -23,16 +23,43 @@ public class UserController {
 	@Autowired
 	private UserMapper userMapper;
 	
+	private static final Logger logger = LoggerFactory.getLogger(UserController.class);
+	
 	@PostMapping(value = "/checkUserName")
 	public void checkUserName(String userName) {
 		
 	}
 	
-	
 	@GetMapping(value = "/getCheckNum")
 	public String getCheckNum() {
 		
 		return null;
+	}
+	
+	/**
+	 * 	登录
+	  * @Title: UserController.java  
+	  * @param 
+	  * @return  
+	  * @date 2020年2月24日
+	 */
+	@PostMapping(value = "/login")
+	public int login(User user) throws Exception {
+		int result = 0;
+		logger.info(user.getUserName());
+		User exUser = userMapper.selectByName(user.getUserName());
+		String md5EmcodeString = Md5Util.md5Encode(user.getPassword());
+		if (exUser == null) {
+			logger.info("用户名不存在");
+			return result;
+		}
+		if (exUser.getPassword().equals(md5EmcodeString)) {
+			logger.info("登录成功");
+			result = 1;
+			return result;
+		}
+		System.out.println("密码错误");
+		return result;
 	}
 	
 	//获取验证码
