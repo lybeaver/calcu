@@ -73,6 +73,23 @@
         layer.alert(JSON.stringify(data.field), {
           title: '最终的提交信息'
         })
+        $.ajax({
+          url:'http://localhost:8080/user/login',       
+          method:'post',        
+          data:data.field,        
+          dataType:'JSON',         
+          success:function(data){       
+            if(data == 1){
+                          //$.cookie('userName',userName);
+                          $(location).prop('href', 'index.html');
+                        }else{
+                          alert('登录失败');
+                        }  
+                      },         
+            error:function(data) {  
+                alert(data)
+          }            
+        });
         return false;
       });
 
