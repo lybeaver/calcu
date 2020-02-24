@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.nextosd.restaurant.beans.User;
+import com.nextosd.restaurant.mapper.UserMapperBack;
 import com.nextosd.restaurant.mapper.common.UserMapper;
 import com.nextosd.restaurant.utils.Md5Util;
 import com.nextosd.restaurant.utils.VerifyUtil;
@@ -25,6 +27,9 @@ public class UserController {
 	
 	@Autowired
 	private UserMapper userMapper;
+	
+	@Autowired
+	private UserMapperBack userMapperBack;
 	
 	private static final Logger logger = LoggerFactory.getLogger(UserController.class);
 	
@@ -50,12 +55,12 @@ public class UserController {
 	public int login(User user) throws Exception {
 		int result = 0;
 		logger.info(user.getUserName());
-		User exUser = userMapper.selectByName(user.getUserName());
-		String md5EmcodeString = Md5Util.md5Encode(user.getPassword());
+		User exUser = userMapperBack.selectUserByUserName(user.getUserName());
 		if (exUser == null) {
 			logger.info("用户名不存在");
 			return result;
 		}
+		String md5EmcodeString = Md5Util.md5Encode(user.getPassword());
 		if (exUser.getPassword().equals(md5EmcodeString)) {
 			logger.info("登录成功");
 			result = 1;

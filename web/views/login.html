@@ -18,8 +18,8 @@
       <div class="layui-form-item">
         <label class="layui-form-label">用户名</label>
         <div class="layui-input-block">
-          <input type="text" name="title" id="userName" required lay-verify="required" placeholder="请输入账号或手机号" autocomplete="off"
-            class="layui-input" lay-reqtext="请输入用户名" maxlength="11">
+          <input type="text" name="title" id="userName" required lay-verify="required" placeholder="请输入账号或手机号" 
+          autocomplete="off" class="layui-input" lay-reqtext="请输入用户名" maxlength="11">
         </div>
       </div>
       <!-- 密码 -->
@@ -31,19 +31,16 @@
         </div>
       </div>
       <!-- 验证码 -->
-      <div class="layui-form-item">
+      <!-- <div class="layui-form-item">
         <label class="layui-form-label">验证码</label>
         <div class="layui-input-inline" style="float: left;">
-          <input type="text" name="title" required lay-verify="required" placeholder="请输入验证码" autocomplete="off"
+          <input type="text" name="checkNum" required lay-verify="required" placeholder="请输入验证码" autocomplete="off"
             class="layui-input verity" lay-reqtext="请输入验证码" maxlength="6">
-        </div>
-        <div style="float: left;" id="div1">
-          <input type="button" name="checkNum" id="checkNum" value="验证码" onclick="getVerify()">
         </div>
         <div style="float: left;" id="div2">
           <img id="img-verify" src="" alt="更换验证码" height="36" onclick="getVerify()" id="checkImg">
         </div>
-      </div>
+      </div> -->
       <!-- 自动登录 -->
       <div class="layui-form-item">
         <div class="layui-input-block">
@@ -69,39 +66,35 @@
         laydate = layui.laydate;
 
       //监听提交
-      form.on('submit(demo1)', function (data) {
+      form.on('submit(formDemo)', function (data) {
         layer.alert(JSON.stringify(data.field), {
           title: '最终的提交信息'
         })
         $.ajax({
-          url:'http://localhost:8080/user/login',       
+          url:"http://localhost:8080/user/login",       
           method:'post',        
-          data:data.field,        
-          dataType:'JSON',         
+          data:data.field, 
+          contentType:"application/json",
           success:function(data){       
             if(data == 1){
-                          //$.cookie('userName',userName);
-                          $(location).prop('href', 'index.html');
-                        }else{
-                          alert('登录失败');
-                        }  
-                      },         
-            error:function(data) {  
-                alert(data)
+              //$.cookie('userName',userName);
+              $(location).prop('href', 'index.html');
+            }else{
+              alert('登录失败');
+            }  
+          },         
+          error:function(data) {  
+              alert(data)
           }            
         });
         return false;
       });
 
-      $('#div2').hide();
-
     });
     //获取验证码
-    function getVerify(){
-      $('#div1').hide();
-      $('#div2').show();
-      document.getElementById("img-verify").src = "http://localhost:8080/user/verify-code?"+Math.random();
-    }
+    // function getVerify(){
+    //   document.getElementById("img-verify").src = "http://localhost:8080/user/verify-code?"+Math.random();
+    // }
     
   </script>
 </body>

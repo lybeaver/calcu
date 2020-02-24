@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.nextosd.restaurant.mapper.UserMapper">
+<mapper namespace="com.nextosd.restaurant.mapper.UserMapperBack">
 
 	<resultMap type="com.nextosd.restaurant.beans.User" id="USER">
 		<id column="user_id" property="userId"/>
@@ -18,7 +18,7 @@
 			user_type,
 			log_time
 		from 
-			user 
+			tbl_user 
 		where 
 			user_name = #{userName}
 	</select>
@@ -26,7 +26,7 @@
 	<insert id="insertUser" parameterType="com.nextosd.restaurant.beans.User">
 		insert 
 			into 
-		user(
+		tbl_user(
 			user_name,
 			password,
 			user_type,
@@ -42,7 +42,7 @@
 	
 	<update id="updatePassword">
 		update 
-			user 
+			tbl_user 
 		set 
 			password = #{password} 
 		where 
@@ -57,7 +57,7 @@
 			user_type,
 			log_time
 		from 
-			user 
+			tbl_user 
 		where 
 			user_id = #{userId}
 	</select>

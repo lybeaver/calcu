@@ -11,7 +11,7 @@ public class Md5Util {
      * MD5加密 生成32位md5码
      * @param 待加密字符串
      * @return 返回32位md5码
-	  * @date 2020年1月20日
+	 * @date 2020年1月20日
 	 */
 	public static String md5Encode(String inStr) throws Exception {
         MessageDigest md5 = null;

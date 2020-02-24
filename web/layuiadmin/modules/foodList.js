@@ -10,11 +10,12 @@ layui.define(function (exports) {
             , url: setter.address + 'menu/page' //数据接口
             , page: true //开启分页
             , cols: [[ //表头
-                { field: 'foodName', title: '名称', width: 230, sort: true }
-                , { field: 'foodType', title: '类型', width: 230, sort: true }
+                { field: 'foodName', title: '名称', width: 200, sort: true }
+                , { field: 'foodType', title: '类型', width: 150, sort: true }
                 , { field: 'foodPrice', title: '价格', width: 150, sort: true }
-                , { field: 'foodNum', title: '剩余数量', width: 120, sort: true }
-                , { fixed: 'right', title: '操作', width: 180, align: 'center', toolbar: '#toolBar' }
+                , { field: 'foodNum', title: '剩余数量', width: 150, sort: true }
+                , { fixed: 'right', title: '操作', width: 150, align: 'center', toolbar: '#toolBar' }
+                , { field: 'addShopping', title: '加入购物车', width: 150, align: 'center', toolbar: '#addTool' }
                 , { field: 'foodId', title: 'ID', hide: true }
             ]], done: function (res, curr, count) {
                 console.log(res);

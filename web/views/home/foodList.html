@@ -26,6 +26,7 @@
                 <input class="layui-input" name="id" id="foodReload" autocomplete="off">
               </div>
               <button class="layui-btn" data-type="reload">搜索</button>
+              <button type="button" class="layui-btn" style="margin-left: 15%;"><i class="layui-icon">&#xe657;</i>购物车</button>
             </div>
             <table id="foodTable" lay-filter="demo"></table>
           </div>
@@ -36,7 +37,10 @@
   <script src="../../layuiadmin/layui/layui.js"></script>
   <script type="text/html" id="toolBar">
     <a class="layui-icon" style="font-size: 25px; color: #1AA094;cursor:pointer" lay-event="edit">&#xe642;</a>
-    <a class="layui-icon" style="font-size: 25px; color: #1AA094;cursor:pointer" lay-event="del">&#xe640;</a>
+    <a class="layui-icon" style="font-size: 25px; color: #1AA094;cursor:pointer; margin-left: 10px" lay-event="del">&#xe640;</a>
+  </script>
+  <script type="text/html" id="addTool">
+    <a class="layui-icon" style="font-size: 25px; color: #1AA094;cursor:pointer" lay-event="add">&#xe654;</a>
   </script>
   <script>
     layui.config({
