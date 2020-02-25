@@ -59,7 +59,7 @@
   <script src="../../layuiadmin/layui/layui.js"></script>
   <script src="http://code.jquery.com/jquery-latest.js"></script>
   <script>
-    layui.use(['form', 'layedit', 'laydate', 'setter'], function () {
+    layui.use(['form', 'layedit', 'laydate'], function () {
       var form = layui.form,
         layer = layui.layer,
         layedit = layui.layedit,
@@ -71,7 +71,7 @@
         //   title: '最终的提交信息'
         // })
         $.ajax({
-          url: setter.address + "user/login",
+          url: "http://localhost:8080/user/login",
           type: 'post',
           data: data.field,
           success: function (data) {

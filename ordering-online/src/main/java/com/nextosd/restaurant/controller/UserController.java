@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.nextosd.restaurant.beans.User;
 import com.nextosd.restaurant.mapper.UserMapperBack;
-import com.nextosd.restaurant.mapper.common.UserMapper;
 import com.nextosd.restaurant.utils.Md5Util;
 import com.nextosd.restaurant.utils.VerifyUtil;
 
@@ -25,8 +24,8 @@ import com.nextosd.restaurant.utils.VerifyUtil;
 @RequestMapping("/user")
 public class UserController {
 	
-	@Autowired
-	private UserMapper userMapper;
+	//@Autowired
+	//private UserMapper userMapper;
 	
 	@Autowired
 	private UserMapperBack userMapperBack;
@@ -43,8 +42,8 @@ public class UserController {
 	@PostMapping(value = "/login")
 	public int login(User user) throws Exception {
 		int result = 0;
-		logger.info(user.getUserName());
-		logger.info(user.getPassword());
+		logger.info("用户名:"+user.getUserName());
+		logger.info("密码:"+user.getPassword());
 		User exUser = userMapperBack.selectUserByUserName(user.getUserName());
 		if (exUser == null) {
 			logger.info("用户名不存在");
