@@ -21,15 +21,20 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.nextosd.restaurant.beans.Menu;
 import com.nextosd.restaurant.beans.MenuExample;
+import com.nextosd.restaurant.beans.other.BaseBean;
 import com.nextosd.restaurant.beans.other.ResultBean;
 import com.nextosd.restaurant.mapper.common.MenuMapper;
+import com.nextosd.restaurant.service.MenuService;
 
 @RestController
 @RequestMapping("/menu")
 public class MenuController {
 	
 	@Autowired
-	private MenuMapper menuService;
+	private MenuMapper menuMapper;
+	
+	@Autowired
+	private MenuService menuService;
 	
 	private static final Logger logger = LoggerFactory.getLogger(MenuController.class);
 	/**
@@ -40,7 +45,7 @@ public class MenuController {
 	public List<Menu> selectAll(){
 		logger.info("查询所有信息");
 		MenuExample example = new MenuExample();
-		List<Menu> foods = menuService.selectByExample(example);
+		List<Menu> foods = menuMapper.selectByExample(example);
 		logger.info("查询成功");
 		return foods;
 	}
@@ -113,12 +118,18 @@ public class MenuController {
 	 * @return
 	 */
 	@GetMapping(value = "/page")
-	public Map<String, Object> selectByPage(@ModelAttribute Menu params){
+	public Map<String, Object> selectByPage(@ModelAttribute BaseBean params){
 		PageHelper.startPage(params.getPage(), params.getLimit());
-		MenuExample example = new MenuExample();
-		List<Menu> list = menuService.selectByExample(example);
+		
+//		PageBean pageBean = new PageBean();
+//		pageBean.setCurrentPage(params.getPage());
+//		pageBean.setPageSize(params.getLimit());
+		int pageCount = (params.getPage()-1)*params.getLimit();
+		params.setPage(pageCount);
+		List<Menu> foods = menuService.selectLimitFoods(params);
+		//装箱发货
 		Map<String, Object> map = new HashMap<String, Object>();
-		PageInfo<Menu> pageInfo = new PageInfo<Menu>(list);
+		PageInfo<Menu> pageInfo = new PageInfo<Menu>(foods);
 		map.put("data",pageInfo.getList());
 		map.put("count",pageInfo.getTotal());
 		map.put("msg",null);

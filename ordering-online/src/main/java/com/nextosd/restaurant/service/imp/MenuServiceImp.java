@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.nextosd.restaurant.beans.Menu;
+import com.nextosd.restaurant.beans.other.BaseBean;
 import com.nextosd.restaurant.mapper.MenuMapperBack;
 import com.nextosd.restaurant.service.MenuService;
 
@@ -21,6 +22,14 @@ public class MenuServiceImp implements MenuService {
 	 */
 	public List<Menu> selectAllFoods(){
 		List<Menu> foods = menuMapper.selectAllFoods();
+		return foods;
+	}
+	
+	/**
+	 * 菜品信息限制查询
+	 */
+	public List<Menu> selectLimitFoods(BaseBean baseBean){
+		List<Menu> foods = menuMapper.selectLimitFoods(baseBean);
 		return foods;
 	}
 	

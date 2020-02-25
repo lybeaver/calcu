@@ -3,6 +3,7 @@ package com.nextosd.restaurant.service;
 import java.util.List;
 
 import com.nextosd.restaurant.beans.Menu;
+import com.nextosd.restaurant.beans.other.BaseBean;
 
 public interface MenuService {
 	
@@ -11,6 +12,13 @@ public interface MenuService {
 	 * @return
 	 */
 	public List<Menu> selectAllFoods();
+	
+	/**
+	 * 菜品信息限制查询
+	 * @param baseBean
+	 * @return
+	 */
+	public List<Menu> selectLimitFoods(BaseBean baseBean);
 	
 	
 	/**

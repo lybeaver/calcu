@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 
 import com.nextosd.restaurant.beans.Menu;
+import com.nextosd.restaurant.beans.other.BaseBean;
 @Mapper
 public interface MenuMapperBack {
 	
@@ -13,6 +14,13 @@ public interface MenuMapperBack {
 	 * @return
 	 */
 	List<Menu> selectAllFoods();
+	
+	/**
+	 * 菜品信息限制查询
+	 * @param baseBean
+	 * @return
+	 */
+	List<Menu> selectLimitFoods(BaseBean baseBean);
 	
 	/**
 	 * 	菜品信息全查询(模糊查)
