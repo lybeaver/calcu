@@ -68,7 +68,7 @@ public class UserController {
 		return result;
 	}
 	
-	//获取验证码s
+	//获取验证码
 	@GetMapping("/verify-code")
 	public void getCode(HttpServletResponse response,HttpSession session) throws Exception{
 	    Map<String, Object> map = VerifyUtil.createImage();
