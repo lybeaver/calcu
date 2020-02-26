@@ -18,7 +18,7 @@
       <div class="layui-form-item">
         <label class="layui-form-label">用户名</label>
         <div class="layui-input-block">
-          <input type="text" name="title" required lay-verify="required" placeholder="请输入用户名" autocomplete="off"
+          <input type="text" id="userName" name="userName" required lay-verify="required" placeholder="请输入用户名" autocomplete="off"
             class="layui-input" lay-reqtext="请输入用户名" maxlength="8">
         </div>
       </div>
@@ -26,7 +26,7 @@
       <div class="layui-form-item">
         <label class="layui-form-label">密 &nbsp;&nbsp; 码</label>
         <div class="layui-input-inline">
-          <input type="password" name="password" required lay-verify="required" placeholder="请输入密码" autocomplete="off"
+          <input type="password" id="password" name="password" required lay-verify="required" placeholder="请输入密码" autocomplete="off"
             class="layui-input" lay-reqtext="请输入密码" maxlength="15">
         </div>
       </div>
@@ -34,12 +34,12 @@
       <div class="layui-form-item">
         <label class="layui-form-label">确认密码</label>
         <div class="layui-input-inline">
-          <input type="password" name="password" required lay-verify="required" placeholder="请输入密码" autocomplete="off"
+          <input type="password" id="confirmPassword" name="password" required lay-verify="required" placeholder="请输入密码" autocomplete="off"
             class="layui-input" lay-reqtext="请输入密码" maxlength="15">
         </div>
       </div>
       <!-- 验证码 -->
-      <div class="layui-form-item">
+      <!-- <div class="layui-form-item">
         <label class="layui-form-label">验证码</label>
         <div class="layui-input-inline" style="float: left;">
           <input type="text" name="title" required lay-verify="required" placeholder="请输入验证码" autocomplete="off"
@@ -48,7 +48,7 @@
         <div style="float: left;">
           <input type="button" name="checkNum" id="checkNum" value="验证码">
         </div>
-      </div>
+      </div> -->
       <!-- 同意服务条款 -->
       <div class="layui-form-item">
         <div class="layui-input-block">
@@ -62,28 +62,98 @@
       <!-- 提交 -->
       <div class="layui-form-item">
         <div class="layui-input-block">
-          <button class="layui-btn" lay-submit lay-filter="formDemo">登陆</button>
+          <button class="layui-btn" lay-submit lay-filter="formDemo">注册</button>
         </div>
       </div>
-      <a href="#" class="font-set">忘记密码?</a> <a href="#" class="font-set">立即注册</a>
+      <a href="#" class="font-set">忘记密码?</a>
     </div>
   </form>
   <script src="../../layuiadmin/layui/layui.js"></script>
   <script>
-    layui.use(['form', 'layedit', 'laydate'], function () {
+    layui.use(['form', 'layedit', 'laydate','jquery'], function () {
       var form = layui.form,
         layer = layui.layer,
         layedit = layui.layedit,
-        laydate = layui.laydate;
+        laydate = layui.laydate,
+        $ =layui.jquery;
 
       //监听提交
-      form.on('submit(demo1)', function (data) {
+      form.on('submit(formDemo)', function (data) {
         layer.alert(JSON.stringify(data.field), {
           title: '最终的提交信息'
         })
+        $.ajax({
+          // xhrFields: {
+          //         withCredentials: true,
+          // },
+          url: "http://localhost:8080/user/insertUser",
+          type: 'post',
+          data: data.field,
+          success: function (data) {
+            if (data == 1) {
+              alert('注册成功！')
+              $(location).prop('href', 'login.html');
+            }else {
+              alert('未知错误');
+            }  
+          }, 
+          error:function(data) {  
+              alert(data)
+          }            
+        });
         return false;
       });
-    });
+
+      //校验用户格式
+    $('#userName').blur(function(){
+      var Namecode = /^[\u4e00-\u9fa5]{2,6}$/;//不能匹配中文
+      var Nmaecode2 = /^[A-Za-z]{4,10}$/;
+      if(Namecode.test($('#userName').val())||Nmaecode2.test($('#userName').val())){
+        if($('#userName').val() != ''){
+          selectUserByUserName();
+        }else{
+          alert('不可以为空');
+        }
+          
+        }
+    })
+    
+      //校验用户密码格式
+    $('#password').blur(function(){
+      var passwordSize = /^[A-Za-z0-9]{6,13}$/;
+      if (!passwordSize.test($('#password').val())&&$('#password').val()!='') {
+          alert('密码必须为6-13位!')
+      }
+  })
+
+      //校验密码与确认密码是否一致
+    $('#confirmPassword').blur(function(){
+          var password = $('#password').val();
+          var confirmPassword = $('#confirmPassword').val();
+          if (confirmPassword == '' || password != confirmPassword) {
+              alert('密码与确认密码不一致，请重新输入')
+          }
+      })
+
+    //根据用户名查询用户信息是否存在
+    function selectUserByUserName(){
+    $.ajax({
+        type: 'GET',
+        url: 'http://localhost:8080/user/checkUser',
+        data: {'userName':$('#userName').val()},
+        success: function(result){
+            if (result == 0) {
+                alert('用户名已存在!');
+            }
+        },
+        error: function(e){
+            alert('系统错误');
+        }
+      })
+    }
+  });
+
+
   </script>
 </body>
 
