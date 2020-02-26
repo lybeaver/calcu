@@ -79,9 +79,9 @@
       <div class="layui-side layui-side-menu">
         <div class="layui-side-scroll">
           <div class="layui-logo" lay-href="home/console.html">
-            <span>layuiAdmin</span>
+            <span>餐饮管理系统</span>
           </div>
-
+          <!-- 主页 -->
           <ul class="layui-nav layui-nav-tree" lay-shrink="all" id="LAY-system-side-menu"
             lay-filter="layadmin-system-side-menu">
             <li data-name="home" class="layui-nav-item layui-nav-itemed">
@@ -90,15 +90,61 @@
                 <cite>主页</cite>
               </a>
               <dl class="layui-nav-child">
-                <dd data-name="users" class="layui-this">
-                  <a lay-href="home/users.html">用户管理</a>
+                <dd data-name="officeWeb">
+                  <a lay-href="https://www.baidu.com">官方网站</a>
                 </dd>
+                <dd data-name="productStatement">
+                  <a lay-href="https://www.runoob.com">产品声明</a>
+                </dd>
+              </dl>
+            </li>
+            <!-- 菜品 -->
+            <li data-name="home" class="layui-nav-item">
+              <a href="javascript:;" lay-tips="主页" lay-direction="2">
+                <i class="layui-icon layui-icon-app"></i>
+                <cite>菜品</cite>
+              </a>
+              <dl class="layui-nav-child">
                 <dd data-name="foodList">
-                  <a lay-href="home/foodList.html">菜品列表</a>
+                  <a lay-href="home/foodList.html">菜品一览</a>
+                </dd>
+                <dd data-name="addFoods">
+                  <a lay-href="https://www.csdn.net">新品添加</a>
+                </dd>
+              </dl>
+            </li>
+            <!-- 用户 -->
+            <li data-name="home" class="layui-nav-item">
+              <a href="javascript:;" lay-tips="主页" lay-direction="2">
+                <i class="layui-icon layui-icon-user"></i>
+                <cite>用户</cite>
+              </a>
+              <dl class="layui-nav-child">
+                <dd data-name="users">
+                  <a lay-href="home/users.html">用户列表</a>
+                </dd>
+                <dd data-name="#">
+                  <a lay-href="https://www.sogou.com">功能2</a>
+                </dd>
+              </dl>
+            </li>
+            <!-- 设置 -->
+            <li data-name="home" class="layui-nav-item">
+              <a href="javascript:;" lay-tips="主页" lay-direction="2">
+                <i class="layui-icon layui-icon-set"></i>
+                <cite>设置</cite>
+              </a>
+              <dl class="layui-nav-child">
+                <dd data-name="#">
+                  <a lay-href="https://mail.qq.com">功能1</a>
+                </dd>
+                <dd data-name="#">
+                  <a lay-href="https://exmail.qq.com">功能2</a>
                 </dd>
               </dl>
             </li>
           </ul>
+          
         </div>
       </div>
 
@@ -125,7 +171,6 @@
           </ul>
         </div>
       </div>
-
 
       <!-- 主体内容 -->
       <div class="layui-body" id="LAY_app_body">
