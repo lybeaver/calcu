@@ -36,40 +36,6 @@ public class UserController {
 	
 	private static final Logger logger = LoggerFactory.getLogger(UserController.class);
 	
-	/**
-	  * 登录
-	  * @Title: UserController.java  
-	  * @param 
-	  * @return  
-	  * @date 2020年2月24日
-	 */
-	@PostMapping(value = "/login")
-	public int login(LoginBean lgBean,HttpSession session) throws Exception {
-		int result = 0;
-		String check = (String) session.getAttribute("checkCode");
-		logger.info("session:"+check);
-		logger.info("用户名:"+lgBean.getUserName());
-		logger.info("验证码:"+lgBean.getCheckNum());
-		if (!lgBean.getCheckNum().equals(check)) {
-			logger.info("验证码错误");
-			result = 2 ;
-			return result;
-		}
-		User exUser = userMapperBack.selectUserByUserName(lgBean.getUserName());
-		if (exUser == null) {
-			logger.info("用户名不存在");
-			return result;
-		}
-		String md5EmcodeString = Md5Util.md5Encode(lgBean.getPassword());
-		if (exUser.getPassword().equals(md5EmcodeString)) {
-			logger.info("登录成功");
-			result = 1;
-			return result;
-		}
-		logger.info("密码错误");
-		return result;
-	}
-	
 	//获取验证码
 	@GetMapping("/verify-code")
 	public void getCode(HttpServletResponse response,HttpSession session) throws Exception{
