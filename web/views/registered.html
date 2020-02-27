@@ -38,17 +38,17 @@
             class="layui-input" lay-reqtext="请输入密码" maxlength="15">
         </div>
       </div>
-      <!-- 验证码 -->
-      <!-- <div class="layui-form-item">
-        <label class="layui-form-label">验证码</label>
-        <div class="layui-input-inline" style="float: left;">
-          <input type="text" name="title" required lay-verify="required" placeholder="请输入验证码" autocomplete="off"
-            class="layui-input verity" lay-reqtext="请输入验证码" maxlength="6">
+      <!-- 用户类型 -->
+      <div class="layui-form-item">
+        <label class="layui-form-label">    </label>
+        <div class="layui-input-inline">
+          <select name="userType" lay-verify="" lay-filter="test" id="select">
+            <option value="">请选择用户类型</option>
+            <option value="1">商家</option>
+            <option value="2">用户</option>
+        </select>
         </div>
-        <div style="float: left;">
-          <input type="button" name="checkNum" id="checkNum" value="验证码">
-        </div>
-      </div> -->
+      </div>
       <!-- 同意服务条款 -->
       <div class="layui-form-item">
         <div class="layui-input-block">
@@ -65,7 +65,6 @@
           <button class="layui-btn" lay-submit lay-filter="formDemo">注册</button>
         </div>
       </div>
-      <a href="#" class="font-set">忘记密码?</a>
     </div>
   </form>
   <script src="../../layuiadmin/layui/layui.js"></script>

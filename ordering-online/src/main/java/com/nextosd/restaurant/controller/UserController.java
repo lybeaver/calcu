@@ -94,7 +94,7 @@ public class UserController {
 		user.setPassword(md5EncodeString);
 		Date now = new Date();
 		user.setLogTime(now);
-		user.setUserType(2);//2的等级为用户，0为管理者，1为商家
+		user.setUserType(user.getUserType());//2的等级为用户，0为管理者，1为商家
 		int result = userMapper.insertSelective(user);
 		return result;
 	}
