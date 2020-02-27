@@ -37,18 +37,6 @@ public class MenuController {
 	private MenuService menuService;
 	
 	private static final Logger logger = LoggerFactory.getLogger(MenuController.class);
-	/**
-	 * 查询
-	 * @return
-	 */
-	@GetMapping(value = "/selectAll")
-	public List<Menu> selectAll(){
-		logger.info("查询所有信息");
-		MenuExample example = new MenuExample();
-		List<Menu> foods = menuMapper.selectByExample(example);
-		logger.info("查询成功");
-		return foods;
-	}
 	
 	/**
 	 * 单独插入
@@ -120,6 +108,7 @@ public class MenuController {
 	@GetMapping(value = "/page")
 	public Map<String, Object> selectByPage(@ModelAttribute BaseBean params){
 		PageHelper.startPage(params.getPage(), params.getLimit());
+		logger.info("当前是第"+params.getPage()+"页,每页显示"+params.getLimit()+"条。");
 		//计算每页的起始记录条数
 		int pageCount = (params.getPage()-1)*params.getLimit();
 		params.setPage(pageCount);
@@ -130,7 +119,7 @@ public class MenuController {
 		MenuExample example = new MenuExample();
 		//计算总记录数
 		long count = menuMapper.countByExample(example);
-		logger.info("所有记录总数:"+count);
+		logger.info("总记录数:"+count);
 		map.put("data",pageInfo.getList());
 		map.put("count",count);
 		map.put("msg",null);

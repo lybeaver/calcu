@@ -16,17 +16,49 @@
     <div class="layui-row">
       <div class="layui-col">
         <div class="layui-card">
-          <div class="layui-card-header">菜品列表</div>
+          <div class="layui-card-header">
+            <strong>菜品列表</strong>
+          </div>
           <div class="layui-card-body">
             <div class="demoTable">
-              名称：<div class="layui-inline">
-                <input class="layui-input" name="id" id="foodReload" autocomplete="off">
-              </div>
-              价格：<div class="layui-inline">
+              名称：
+              <div class="layui-inline">
                 <input class="layui-input" name="id" id="foodReload" autocomplete="off">
               </div>
               <button class="layui-btn" data-type="reload">搜索</button>
-              <button type="button" class="layui-btn" style="margin-left: 15%;"><i class="layui-icon">&#xe657;</i>购物车</button>
+              <button type="button" class="layui-btn" style="margin-left: 30%;">
+                <i class="layui-icon">&#xe657;</i>    购物车
+                <span class="layui-badge layui-bg-gray">0</span>
+              </button>
+            </div>
+            <div class="demoTable">
+              <div class="layui-collapse" lay-filter="test">
+                <div class="layui-colla-item">
+                  <h2 class="layui-colla-title">按类型查找</h2>
+                  <div class="layui-colla-content">
+                    <div class="layui-input-inline">
+                      <select name="quiz1" class="select">
+                        <option value="">类型</option>
+                        <option value="荤菜">荤菜</option>
+                        <option value="素菜">素菜</option>
+                        <option value="饮品">饮品</option>
+                      </select>
+                    </div>
+                    <div class="layui-input-inline">
+                      <select name="quiz2" class="select">
+                        <option value="">价格</option>
+                        <option value="1">0-10</option>
+                        <option value="2">10-20</option>
+                        <option value="3">20-30</option>
+                        <option value="4">30-40</option>
+                        <option value="4">40-50</option>
+                        <option value="4">50+</option>
+                      </select>
+                    </div>
+                    <button class="layui-btn" data-type="reload" style="margin-left: 5px;">搜索</button>
+                  </div>
+                </div>
+              </div>
             </div>
             <table id="foodTable" class="layui-table" lay-filter="demo"></table>
           </div>
@@ -36,11 +68,11 @@
   </div>
   <script src="../../layuiadmin/layui/layui.js"></script>
   <script type="text/html" id="toolBar">
-    <a class="layui-icon" style="font-size: 25px; color: #1AA094;cursor:pointer" lay-event="edit">&#xe642;</a>
-    <a class="layui-icon" style="font-size: 25px; color: #1AA094;cursor:pointer; margin-left: 10px" lay-event="del">&#xe640;</a>
+    <a class="layui-icon tools" lay-event="edit">&#xe642;</a>
+    <a class="layui-icon tools" lay-event="del">&#xe640;</a>
   </script>
   <script type="text/html" id="addTool">
-    <a class="layui-icon" style="font-size: 25px; color: #1AA094;cursor:pointer" lay-event="add">&#xe654;</a>
+    <a class="layui-icon tools" lay-event="add">&#xe654;</a>
   </script>
   <script>
     layui.config({
