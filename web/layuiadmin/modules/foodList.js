@@ -23,18 +23,14 @@ layui.define(function (exports) {
                 //console.log(res);
             }
         });
-        //执行一个laypage实例
-        laypage.render({
-            elem: 'foodTable' //注意，这里的 test1 是 ID，不用加 # 号
-            ,count: 50 //数据总数，从服务端得到
-        })
         //监听工具条
         table.on('tool(demo)', function (obj) {
             var data = obj.data;
+            
             if (obj.event === 'del') {
                 layer.confirm('真的删除行么', function (index) {
                     var json = eval('(' + JSON.stringify(data) + ')');//String转json
-                    log(json['storeId'])
+                    console.log(json['storeId']);
                     $.post("路径", { "参数": null }, function (msg) {
                         if (msg.code == 0) {
                             obj.del();
@@ -43,13 +39,73 @@ layui.define(function (exports) {
                             layer.msg('删除失败！');
                         }
                     })
+                    
                 });
                 //编辑
-            } else if (obj.event === 'edit') {
-                var json = eval('(' + JSON.stringify(data) + ')');//String转json
-                layerOpen('路径' + '参数', '编辑店铺信息', '670px;', '530px;');
             }
+            if (obj.event === 'edit') {
+                var json = eval('(' + JSON.stringify(data) + ')');//String转json
+                console.log(data);
+                $('#foodId').attr("value", data.foodId);
+                $('#foodName').attr("value", data.foodName);
+                $('#foodType').attr("value", data.foodType);
+                $('#foodPrice').attr("value", data.foodPrice);
+                $("#foodNum").attr("value", data.foodNum);
+                layer.open({
+                    title: '修改信息'
+                    ,content: $('#aa')
+                    ,type: 1
+                    ,btn: ['提交', '取消']
+                    ,yes: function(index, layero){
+                        //按钮【按钮一】的回调
+                        updMenuMsg();
+                    }
+                    ,btn2: function(index, layero){
+                        //按钮【按钮二】的回调
+                        return true;
+                        //return false //开启该代码可禁止点击该按钮关闭
+                    }
+                    ,shade: [0.3, '#000']
+                    ,shadeClose: true
+                    ,resize: false
+                    ,area: ['400px', '342px']
+                })
+            }
+            
         });
     });
     exports('foodList', {})
 });
+
+function updMenuMsg(){
+    var foodId = $('#foodId').val();
+    var foodName = $('#foodName').val();
+    var foodType = $('#foodType').val();
+    var foodPrice = $('#foodPrice').val();
+    var foodNum = $("#foodNum").val();
+    console.log(foodPrice);
+    $.ajax({
+        type: "POST",
+        url: "http://localhost:8080/menu/updMenuMsg",
+        data: {
+            'foodId': foodId,
+            'foodName': foodName,
+            'foodType': foodType,
+            'foodPrice': foodPrice,
+            'foodNum': foodNum
+        },
+        dataType: "text",	/*后端返回的数据格式*/
+        success: function(data){
+            if(data == 1){
+                layer.closeAll('page');//关闭所有页面层
+                /* 触发弹层 */
+                layer.msg('修改成功!');
+                
+            }
+        },
+        error: function (e) {
+            alert('失败'+e.readyState);
+        }
+    })
+}
+

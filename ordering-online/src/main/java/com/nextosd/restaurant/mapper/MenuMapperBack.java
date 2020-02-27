@@ -71,5 +71,11 @@ public interface MenuMapperBack {
 	 * @return
 	 */
 	int updateFoodNumByFoodId(int foodId,int foodNum);
+	
+	/**
+	 * 查询所有菜品类型
+	 * @return
+	 */
+	List<String> selectAllFoodTypes();
 
 }

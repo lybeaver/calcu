@@ -70,5 +70,11 @@ public interface MenuService {
 	 * @return
 	 */
 	public int updateFoodNumByFoodId(int foodId,int foodNum);
+	
+	/**
+	 * 查询所有菜品类型
+	 * @return
+	 */
+	public List<String> selectAllFoodTypes();
 
 }

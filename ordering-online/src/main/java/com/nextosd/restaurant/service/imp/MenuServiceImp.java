@@ -103,5 +103,13 @@ public class MenuServiceImp implements MenuService {
 		int result = menuMapper.updateFoodNumByFoodId(foodId, foodNum);
 		return result;
 	}
+	
+	/**
+	 * 查询所有菜品类型
+	 */
+	public List<String> selectAllFoodTypes(){
+		List<String> types = menuMapper.selectAllFoodTypes();
+		return types;
+	}
 
 }

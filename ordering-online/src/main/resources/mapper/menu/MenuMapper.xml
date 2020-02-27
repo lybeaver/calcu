@@ -42,7 +42,7 @@
 			food_price,
 			food_num
 		from 
-			menu 
+			tbl_menu 
 		where 
 			food_name 
 		like 
@@ -57,7 +57,7 @@
 			food_price,
 			food_num
 		from 
-			menu 
+			tbl_menu 
 		where 
 			food_id = #{foodId}
 	</select>
@@ -81,7 +81,7 @@
 	
 	<update id="updateFood" parameterType="com.nextosd.restaurant.beans.Menu">
 		update 
-			menu
+			tbl_menu
 		set 
 			food_name = #{foodName},
 			food_type = #{foodType},
@@ -114,12 +114,19 @@
 	
 	<update id="updateFoodNumByFoodId">
 		update 
-			menu 
+			tbl_menu 
 		set 
 			food_num = #{foodNum} 
 		where 
 			food_id = #{foodId}
 	</update>
+	
+	<select id="selectAllFoodTypes" resultType="java.lang.String">
+		SELECT DISTINCT
+			food_type
+		FROM
+			tbl_menu;
+	</select>
 
 	
 </mapper>
