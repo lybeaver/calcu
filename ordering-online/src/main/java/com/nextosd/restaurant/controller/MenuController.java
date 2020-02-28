@@ -90,9 +90,11 @@ public class MenuController {
 	 * 按主键删除一个
 	 * @return
 	 */
-	@DeleteMapping(value = "/id")
-	public ResultBean deleteById(@RequestBody Menu params) {
-		return null;
+	@PostMapping(value = "/delFoodById")
+	public int deleteById(@RequestBody Menu params) {
+		logger.info("删除主键:"+params.getFoodId());
+		int result = menuMapper.deleteByPrimaryKey(params.getFoodId());
+		return result;
 	}
 	
 	/**
