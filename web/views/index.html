@@ -56,11 +56,11 @@
           </li>
           <li class="layui-nav-item" lay-unselect>
             <a href="javascript:;">
-              <cite>砂糖</cite>
+              <cite id="userName">admin</cite>
             </a>
             <dl class="layui-nav-child">
-              <dd><a lay-href="set/user/info.html">基本资料</a></dd>
-              <dd><a lay-href="set/user/password.html">修改密码</a></dd>
+              <dd><a lay-href="user/info.html">基本资料</a></dd>
+              <dd><a lay-href="user/password.html">修改密码</a></dd>
               <hr>
               <dd layadmin-event="logout" style="text-align: center;"><a>退出</a></dd>
             </dl>
@@ -191,6 +191,22 @@
     }).extend({
       index: 'lib/index' //主入口模块
     }).use('index');
+    layui.use(['form', 'layedit', 'laydate','jquery','jquery.cookie'], function () {
+      var form = layui.form,
+        layer = layui.layer,
+        layedit = layui.layedit,
+        laydate = layui.laydate,
+        $ =layui.jquery,
+        cookie = layui.jquery.cookie;
+
+      $(function(){
+        if ($.cookie('userName') != null && $.cookie('userName') != 'null') {
+                //从cookie中读取用户名
+                $('#userName').text($.cookie('userName'));
+        }
+        alert($.cookie('userName'))
+      })
+    });
   </script>
 </body>
 

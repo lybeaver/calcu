@@ -1,6 +1,10 @@
 package com.nextosd.restaurant.service;
 
+import java.util.List;
+
+import com.nextosd.restaurant.beans.Menu;
 import com.nextosd.restaurant.beans.User;
+import com.nextosd.restaurant.beans.other.BaseBean;
 
 public interface UserService {
 	
@@ -32,5 +36,12 @@ public interface UserService {
 	 * @return
 	 */
 	public User selectUserByUserId(int userId);
-
+	
+	
+	/**
+	 *	用户信息限制查询
+	 * @param baseBean
+	 * @return
+	 */
+	public List<User> selectLimitUsers(BaseBean baseBean);
 }

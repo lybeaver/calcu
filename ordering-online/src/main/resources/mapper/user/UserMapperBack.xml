@@ -23,6 +23,19 @@
 			user_name = #{userName}
 	</select>
 	
+		<select id="selectLimitUsers" parameterType="com.nextosd.restaurant.beans.other.BaseBean" resultMap="USER">
+		select 
+			user_id,
+			user_name,
+			password,
+			user_type,
+			log_time
+		from 
+			tbl_user
+		limit 
+			#{page},#{limit}
+	</select>
+	
 	<insert id="insertUser" parameterType="com.nextosd.restaurant.beans.User">
 		insert 
 			into 

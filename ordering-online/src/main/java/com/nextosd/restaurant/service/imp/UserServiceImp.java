@@ -1,9 +1,12 @@
 package com.nextosd.restaurant.service.imp;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.nextosd.restaurant.beans.User;
+import com.nextosd.restaurant.beans.other.BaseBean;
 import com.nextosd.restaurant.mapper.UserMapperBack;
 import com.nextosd.restaurant.service.UserService;
 
@@ -52,6 +55,12 @@ public class UserServiceImp implements UserService {
 	public User selectUserByUserId(int userId) {
 		User user = userMapper.selectUserByUserId(userId);
 		return user;
+	}
+
+	@Override
+	public List<User> selectLimitUsers(BaseBean baseBean) {
+		List<User> users=userMapper.selectLimitUsers(baseBean);
+		return users;
 	}
 
 }

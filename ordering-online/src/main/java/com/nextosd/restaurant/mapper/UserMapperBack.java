@@ -1,8 +1,12 @@
 package com.nextosd.restaurant.mapper;
 
+import java.util.List;
+
 import org.apache.ibatis.annotations.Mapper;
 
+import com.nextosd.restaurant.beans.Menu;
 import com.nextosd.restaurant.beans.User;
+import com.nextosd.restaurant.beans.other.BaseBean;
 @Mapper
 public interface UserMapperBack {
 	
@@ -33,5 +37,12 @@ public interface UserMapperBack {
 	 * @return
 	 */
 	User selectUserByUserId(int userId);
+	
+	/**
+	 * 	用户信息限制查询
+	 * @param baseBean
+	 * @return
+	 */
+	List<User> selectLimitUsers(BaseBean baseBean);
 
 }

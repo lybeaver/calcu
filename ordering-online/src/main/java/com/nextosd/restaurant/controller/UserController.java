@@ -3,6 +3,8 @@ package com.nextosd.restaurant.controller;
 import java.awt.image.BufferedImage;
 import java.io.OutputStream;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.imageio.ImageIO;
@@ -13,14 +15,22 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
+import com.nextosd.restaurant.beans.Menu;
+import com.nextosd.restaurant.beans.MenuExample;
 import com.nextosd.restaurant.beans.User;
+import com.nextosd.restaurant.beans.UserExample;
+import com.nextosd.restaurant.beans.other.BaseBean;
 import com.nextosd.restaurant.beans.other.LoginBean;
 import com.nextosd.restaurant.mapper.UserMapperBack;
 import com.nextosd.restaurant.mapper.common.UserMapper;
+import com.nextosd.restaurant.service.UserService;
 import com.nextosd.restaurant.utils.Md5Util;
 import com.nextosd.restaurant.utils.VerifyUtil;
 
@@ -33,6 +43,9 @@ public class UserController {
 	
 	@Autowired
 	private UserMapperBack userMapperBack;
+	
+	@Autowired
+	private UserService userService;
 	
 	private static final Logger logger = LoggerFactory.getLogger(UserController.class);
 	
@@ -64,11 +77,11 @@ public class UserController {
 		String check = (String)session.getAttribute("checkCode");
 		logger.info("session:"+check);
 		logger.info("用户名:"+lgBean.getUserName());
-		if (!lgBean.equals(check)) {
-			logger.info("验证码错误");
-			result = 2 ;
-			return result;
-		}
+//		if (!lgBean.equals(check)) {
+//			logger.info("验证码错误");
+//			result = 2 ;
+//			return result;
+//		}
 		User exUser = userMapperBack.selectUserByUserName(lgBean.getUserName());
 		if (exUser == null) {
 			logger.info("用户名不存在");
@@ -83,7 +96,13 @@ public class UserController {
 		logger.info("密码错误");
 		return result;
 	}
-	
+	/**
+	  *	注册用户
+	  * @Title: UserController.java  
+	  * @param 
+	  * @return  
+	  * @date 2020年3月2日
+	 */
 	@PostMapping(value = "/insertUser")
 	public int insertUser(User user) throws Exception {
 		System.out.println("开始注册");
@@ -98,7 +117,13 @@ public class UserController {
 		int result = userMapper.insertSelective(user);
 		return result;
 	}
-	
+	/**
+	  *	校验用户是否存不存在
+	  * @Title: UserController.java  
+	  * @param 
+	  * @return  
+	  * @date 2020年3月2日
+	 */
 	@GetMapping(value = "/checkUser")
 	public int checkMessage(String userName) {
 		User user = userMapperBack.selectUserByUserName(userName);
@@ -109,5 +134,45 @@ public class UserController {
 		}
 		//如果用户存在，返回0
 		return result;
+	}
+	/**
+	  *	个人资料
+	  * @Title: UserController.java  
+	  * @param 
+	  * @return  
+	  * @date 2020年3月2日
+	 */
+	@GetMapping(value = "/personalData")
+	public User personalData(String userName) {
+		logger.info("个人资料跳转.........");
+		User user = userMapperBack.selectUserByUserName(userName);
+		System.out.println(user.getLogTime());
+		return user;
+	}
+	
+	/**
+	 * 分页查询
+	 * @return
+	 */
+	@GetMapping(value = "/page")
+	public Map<String, Object> selectByPage(@ModelAttribute BaseBean params){
+		PageHelper.startPage(params.getPage(), params.getLimit());
+		logger.info("当前是第"+params.getPage()+"页,每页显示"+params.getLimit()+"条。");
+		//计算每页的起始记录条数
+		int pageCount = (params.getPage()-1)*params.getLimit();
+		params.setPage(pageCount);
+		List<User> users = userService.selectLimitUsers(params);
+		//装箱发货
+		Map<String, Object> map = new HashMap<String, Object>();
+		PageInfo<User> pageInfo = new PageInfo<User>(users);
+		UserExample example = new UserExample();
+		//计算总记录数
+		long count = userMapper.countByExample(example);
+		logger.info("总记录数:"+count);
+		map.put("data",pageInfo.getList());
+		map.put("count",count);
+		map.put("msg",null);
+		map.put("code",0);
+		return map;
 	}
 }
