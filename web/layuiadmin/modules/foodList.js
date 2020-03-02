@@ -1,4 +1,5 @@
 layui.define(function (exports) {
+    var num = 0;
     layui.use(['setter', 'table','laypage'], function () {
         var setter = layui.setter,
             laypage = layui.page,
@@ -11,8 +12,11 @@ layui.define(function (exports) {
             , url: setter.address + 'menu/page' //数据接口
             , page: true //开启分页
             , limits: [10,20,50]
+            , even: true
+            , skin: 'row'
             , cols: [[ //表头
-                { field: 'foodName', title: '名称', width: 200, sort: true }
+                {type:'checkbox'}
+                , { field: 'foodName', title: '名称', width: 200, sort: true }
                 , { field: 'foodType', title: '类型', width: 150, sort: true }
                 , { field: 'foodPrice', title: '价格', width: 150, sort: true }
                 , { field: 'foodNum', title: '剩余数量', width: 150, sort: true }
@@ -26,7 +30,7 @@ layui.define(function (exports) {
         //监听工具条
         table.on('tool(demo)', function (obj) {
             var data = obj.data;
-            
+            //删除按钮操作
             if (obj.event === 'del') {
                 layer.confirm('真的要删除这道菜么?', function (index) {
                     $.ajax({
@@ -52,13 +56,22 @@ layui.define(function (exports) {
                 //编辑
             }
             if (obj.event === 'edit') {
-                var json = eval('(' + JSON.stringify(data) + ')');//String转json
-                console.log(data);
-                $('#foodId').attr("value", data.foodId);
-                $('#foodName').attr("value", data.foodName);
-                $('#foodType').attr("value", data.foodType);
-                $('#foodPrice').attr("value", data.foodPrice);
-                $("#foodNum").attr("value", data.foodNum);
+                //var json = eval('(' + JSON.stringify(data) + ')');//String转json
+                //console.log(data);
+                num = num+1;
+                if(num == 1){
+                    $('#foodId').attr("value", data.foodId);
+                    $('#foodName').attr("value", data.foodName);
+                    $('#foodType').attr("value", data.foodType);
+                    $('#foodPrice').attr("value", data.foodPrice);
+                    $("#foodNum").attr("value", data.foodNum);
+                }else{
+                    $('#foodId').val(data.foodId);
+                    $('#foodName').val(data.foodName);
+                    $('#foodType').val(data.foodType);
+                    $('#foodPrice').val(data.foodPrice);
+                    $("#foodNum").val(data.foodNum);
+                }
                 layer.open({
                     title: '修改信息'
                     ,content: $('#aa')
@@ -82,17 +95,19 @@ layui.define(function (exports) {
                                 'foodPrice': foodPrice,
                                 'foodNum': foodNum
                             },
-                            dataType: "text",	/*后端返回的数据格式*/
+                            //dataType: "text",	/*后端返回的数据格式*/
                             success: function(data){
                                 if(data == 1){
                                     layer.closeAll('page');//关闭所有页面层
-                                    var oldData = table.cache["foodTable"];
-                                    oldData.splice(obj.tr.data('index'),1);
                                     /* 触发弹层并刷新 */
                                     layer.msg('修改成功!', {icon:1,time:500},function(){
-                                        setTimeout(function(){
-                                            table.reload('foodTable',{data: oldData});
-                                        },200);
+                                        obj.update({
+                                            foodId: foodId,
+                                            foodName: foodName,
+                                            foodType: foodType,
+                                            foodPrice: foodPrice,
+                                            foodNum: foodNum
+                                        });
                                     });
                                 }
                             },
