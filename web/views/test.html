@@ -1,0 +1,67 @@
+<!-- 测试页面，不必理会! -->
+<!-- 测试页面，不必理会! -->
+<!-- 测试页面，不必理会! -->
+
+
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>layer 组件风格定制</title>
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+  <link rel="stylesheet" href="../../../layuiadmin/layui/css/layui.css" media="all">
+  <link rel="stylesheet" href="../../../layuiadmin/style/admin.css" media="all">
+</head>
+<body>
+  <!-- <div class="layui-fluid" id="LAY-component-layer-theme">
+    <div class="layui-card-header">风格定制</div>
+    <div class="layui-btn-container layadmin-layer-demo">
+      <button data-type="test2" class="layui-btn layui-btn-primary">右侧呼出</button>
+    </div>
+  </div> -->
+
+  <div class="layui-fluid" id="LAY-component-layer-theme" style="float: right; margin-right: 50%; margin-top: 100px;">
+    <div class="layui-btn-container layadmin-layer-demo">
+      <button data-type="buy" class="layui-btn">
+        <i class="layui-icon">&#xe657;</i>    购物车
+        <span class="layui-badge layui-bg-gray">0</span>
+      </button>
+    </div>
+  </div>
+
+  <script src="../../../layuiadmin/layui/layui.js"></script>  
+  <script>
+    layui.config({
+      base: '../../../layuiadmin/' //静态资源所在路径
+    }).extend({
+      index: 'lib/index' //主入口模块
+    }).use(['index'], function(){
+      var $ = layui.$
+      ,admin = layui.admin
+      ,element = layui.element
+      ,router = layui.router();
+
+      element.render();
+      
+      var active = {
+        buy: function(){
+          top.layui.admin.popupRight({
+            id: 'LAY_adminPopupLayerTest'
+            ,success: function(){
+              $('#'+ this.id).html('<div style="padding: 20px;">放入内容</div>');
+            }
+          });
+        }
+      };
+      
+      $('#LAY-component-layer-theme .layadmin-layer-demo .layui-btn').on('click', function(){
+        var type = $(this).data('type');
+        active[type] && active[type].call(this);
+      });
+    });
+  </script>
+</body>
+</html>

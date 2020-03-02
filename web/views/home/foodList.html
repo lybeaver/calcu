@@ -26,12 +26,16 @@
                 <input class="layui-input" name="id" id="foodReload" autocomplete="off">
               </div>
               <button class="layui-btn" data-type="reload">搜索</button>
-              <button type="button" class="layui-btn" style="margin-left: 30%;">
-                <i class="layui-icon">&#xe657;</i>    购物车
-                <span class="layui-badge layui-bg-gray">0</span>
-              </button>
+              <div class="layui-fluid" id="LAY-component-layer-theme" style="float: right; margin-right: 38%; margin-top: -15px;">
+                <div class="layui-btn-container layadmin-layer-demo">
+                  <button data-type="buy" class="layui-btn">
+                    <i class="layui-icon">&#xe657;</i>    购物车
+                    <span class="layui-badge layui-bg-gray">0</span>
+                  </button>
+                </div>
+              </div>
             </div>
-            <div class="demoTable">
+            <div class="demoTable" style="margin-top: 24px;">
               <div class="layui-collapse" lay-filter="test">
                 <div class="layui-colla-item">
                   <h2 class="layui-colla-title">按条件查找</h2>
@@ -45,7 +49,7 @@
                       <div class="layui-card">
                         <div class="layui-card-header">请选择价格区间:</div>
                         <div class="layui-card-body">
-                          <div id="test-slider-dome17" class="test-slider-demo" style="width: 300px; margin-top: -10px;"></div>
+                          <div id="test-slider-dome17" class="test-slider-demo"></div>
                         </div>
                       </div>
                     </div>
@@ -99,6 +103,21 @@
     </div>
   </div>
 
+  <div id="aaa" style="display: none;">
+    账号:<input type="text" /><br />
+    密码:<input type="text" /><br />
+    <button>提交</button>
+  </div>
+
+  <!-- <div class="layui-fluid" id="LAY-component-layer-theme" style="float: right; margin-right: 38%; margin-top: -15px;">
+    <div class="layui-btn-container layadmin-layer-demo">
+      <button data-type="buy" class="layui-btn">
+        <i class="layui-icon">&#xe657;</i>    购物车
+        <span class="layui-badge layui-bg-gray">0</span>
+      </button>
+    </div>
+  </div> -->
+
   <script src="../../layuiadmin/layui/layui.js"></script>
   <script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script>
   <script type="text/html" id="toolBar">
@@ -122,9 +141,9 @@
                 var server = document.getElementById("selectType"); //server为select定义的id
                 for(var p in list){
                     var option = document.createElement("option");  // 创建添加option属性
-                    option.setAttribute("value",p); // 给option的value添加值
-                    option.innerText=list[p];     // 打印option对应的纯文本 
-                    server.appendChild(option);           //给select添加option子标签
+                    option.setAttribute("value",p);   // 给option的value添加值
+                    option.innerText=list[p];         // 打印option对应的纯文本 
+                    server.appendChild(option);       //给select添加option子标签
                     form.render("select");            // 刷性select，显示出数据
                 }
             }
@@ -137,7 +156,10 @@
       index: 'lib/index' //主入口模块
     }).use(['index', 'foodList', 'slider'], function(){
       var $ = layui.$
-      ,slider = layui.slider;
+        ,slider = layui.slider
+        ,admin = layui.admin
+        ,element = layui.element
+        ,router = layui.router();
       //自定义颜色
       slider.render({
         elem: '#test-slider-dome17'
@@ -145,6 +167,26 @@
         ,range: true
         ,theme: '#5FB878' //主题色
       });
+
+      element.render();
+
+      var active = {
+        buy: function(){
+          top.layui.admin.popupRight({
+            id: 'LAY_adminPopupLayerTest'
+            ,success: function(){
+              $('#'+ this.id).html('<div style="padding: 20px;">放入内容</div>');
+              //为什么不显示?
+            }
+          });
+        }
+      };
+
+      $('#LAY-component-layer-theme .layadmin-layer-demo .layui-btn').on('click', function(){
+        var type = $(this).data('type');
+        active[type] && active[type].call(this);
+      });
+
     });
   </script>
 </body>
