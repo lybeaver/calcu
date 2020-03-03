@@ -146,9 +146,18 @@ public class UserController {
 	public User personalData(String userName) {
 		logger.info("个人资料跳转.........");
 		User user = userMapperBack.selectUserByUserName(userName);
-		System.out.println(user.getLogTime());
 		return user;
 	}
+	
+	@PostMapping(value = "/updateUser")
+	public int updateUser(User user) {
+		logger.info("修改密码跳转.......");
+		User ouser = userMapperBack.selectUserByUserName(user.getUserName());
+		int result = userMapper.updateByPrimaryKeySelective(user);
+		
+		return 0;
+	}
+	
 	
 	/**
 	 * 分页查询

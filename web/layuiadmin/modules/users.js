@@ -1,9 +1,10 @@
 layui.define(function (exports) {
-    layui.use(['setter', 'table','laypage'], function () {
+    layui.use(['setter', 'table','laypage','laytpl'], function () {
         var setter = layui.setter,
             laypage = layui.page,
             table = layui.table;
         //第一个实例
+        //第二种 不用url
         table.render({
             id: 'userReload'
             , elem: '#userTable'
@@ -14,22 +15,20 @@ layui.define(function (exports) {
             , cols: [[ //表头
                 { field: 'userName', title: '名称', width: 200, sort: true }
                 , { field: 'userType', title: '类型', width: 260, sort: true,
-                    formatter:function(value,row,index){
-                    if(value == 0){
-                        return ['管理员']
-                        }else if(value == 1 ){
-                        return ['商家']
-                        }else if(value == 2 ){
-                        return ['用户']
-                        }
-                    } }
-                , { field: 'logTime', title: '注册/修改时间', width: 320, sort: false,}
+                templet:function(d){
+                if(d.userType=='0') return '管理员'; 
+                else if(d.userType=='1') return '商家'; 
+                else if(d.userType=='2') return '用户';}
+                }
+                , { field: 'logTime', title: '注册/修改时间', width: 320,type:'date',templet:"<div>{{layui.util.toDateString(d.logTime, 'yyyy-MM-dd HH:mm:ss')}}</div> "}
                 , { fixed: 'right', title: '操作', width: 310, align: 'center', toolbar: '#toolBar' }
                 , { field: 'userId', title: 'ID', hide: true }
             ]], done: function (res, curr, count) {
                 //console.log(res);
             }
         });
+        
+
         //执行一个laypage实例
         // laypage.render({
         //     elem: 'userTable' //注意，这里的 test1 是 ID，不用加 # 号

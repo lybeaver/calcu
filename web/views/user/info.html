@@ -40,7 +40,7 @@ content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale
             <div class="demoTable">
             用户注册/修改时间：
             <div class="layui-inline">
-            <input class="layui-input" name="time" id="logTime" autocomplete="off" readonly='readonly'>
+            <input class="layui-input"   name="time" id="logTime" autocomplete="off" readonly='readonly'>
             </div>
             </div>
             </button>
@@ -60,11 +60,12 @@ content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale
 <script src="../../layuiadmin/layui/layui.js"></script>
 <script src="http://code.jquery.com/jquery-latest.js"></script>
 <script>
-    layui.use([ 'layedit', 'laydate','jquery'], function () {
+    layui.use([ 'layedit', 'laydate','jquery','util'], function () {
     var layer = layui.layer,
     layedit = layui.layedit,
     laydate = layui.laydate,
-    $ = layui.jquery;
+    $ = layui.jquery,
+    util = layui.util;
     
     //直接加载
     $(function(){
@@ -73,10 +74,12 @@ content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale
         //         $('#userName').text($.cookie('userName'));
         //}
         selectByName();
+        
     })
 
     function selectByName(){
         var userName = 'admin';
+        var datetime;
             $.ajax({
             // xhrFields: {
             //         withCredentials: true,
@@ -94,7 +97,8 @@ content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale
                 }else{
                     $('#userType').val('用户');
                 }
-                $('#logTime').val(data.logTime);
+                datetime = util.toDateString(data.logTime);
+                $('#logTime').attr('value',datetime);
             }, 
             error:function(data) {  
                 alert(data)

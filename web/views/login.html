@@ -59,15 +59,20 @@
   </form>
   <script src="../../layuiadmin/layui/layui.js"></script>
   <script src="http://code.jquery.com/jquery-latest.js"></script>
-  <script src="../../layuiadmin/layui/cookie.js"></script>
   <script>
-    layui.use(['form', 'layedit', 'laydate','jquery','jquery.cookie'], function () {
+    layui.config({
+      base: '../layuiadmin/' //静态资源所在路径
+    }).extend({
+      cookie:'lib/cookie' //cookie 模块
+    }).use('cookie');
+
+    layui.use(['form', 'layedit', 'laydate','jquery','cookie'], function () {
       var form = layui.form,
         layer = layui.layer,
         layedit = layui.layedit,
         laydate = layui.laydate,
         $ = layui.jquery,
-        cookie =layui.jquery.cookie;
+        cookie =layui.cookie;
         
 
       //监听提交
@@ -75,6 +80,7 @@
         // layer.alert(JSON.stringify(data.field), {
         //   title: '最终的提交信息'
         // })
+        var userName = $("#userName").val();
         $.ajax({
           // xhrFields: {
           //         withCredentials: true,
@@ -84,7 +90,7 @@
           data: data.field,
           success: function (data) {
             if (data == 1) {
-              $.cookie('userName',$('#userName').val());
+              $.cookie('userName',userName);
               $(location).prop('href', 'index.html');
             }else if (data == 2 ){
               alert('验证码错误');

@@ -201,15 +201,17 @@
     layui.config({
       base: '../layuiadmin/' //静态资源所在路径
     }).extend({
-      index: 'lib/index' //主入口模块
+      index: 'lib/index' ,//主入口模块
+      cookie:'lib/cookie' //cookie 模块
     }).use('index');
-    layui.use(['form', 'layedit', 'laydate','jquery','jquery.cookie'], function () {
+
+    layui.use(['form', 'layedit', 'laydate','jquery','cookie'], function () {
       var form = layui.form,
         layer = layui.layer,
         layedit = layui.layedit,
         laydate = layui.laydate,
         $ =layui.jquery,
-        cookie = layui.jquery.cookie;
+        cookie = layui.cookie;
 
       $(function(){
         if ($.cookie('userName') != null && $.cookie('userName') != 'null') {
