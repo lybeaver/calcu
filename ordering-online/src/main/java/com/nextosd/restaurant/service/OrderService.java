@@ -2,6 +2,7 @@ package com.nextosd.restaurant.service;
 
 import java.util.List;
 
+import com.nextosd.restaurant.beans.Order;
 import com.nextosd.restaurant.beans.OrderItem;
 import com.nextosd.restaurant.beans.Orders;
 
@@ -76,4 +77,10 @@ public interface OrderService {
 	 * @return
 	 */
 	public List<Orders> selectAllOrders();
+	
+	/**
+	 * 查询未完成订单
+	 * @return
+	 */
+	public Order selectUndoneOrder();
 }

@@ -1,5 +1,5 @@
 layui.define(function (exports) {
-    var num = 0;
+    var num = 0;    //修改操作的次数
     layui.use(['setter', 'table','laypage'], function () {
         var setter = layui.setter,
             table = layui.table;
@@ -24,6 +24,7 @@ layui.define(function (exports) {
                 , { field: 'foodId', title: 'ID', hide: true }
             ]], done: function (res, curr, count) {
                 //console.log(res);
+
             }
         });
         //监听工具条
@@ -70,6 +71,31 @@ layui.define(function (exports) {
                     $("#foodNum").val(data.foodNum);
                 }
                 updMenuMsg(obj, setter);
+            }
+
+            if (obj.event === 'add') {
+
+                $.ajax({
+                    type: "GET",
+                    url: setter.address + "shoppingCar/insertShoppingCar",
+                    data: {
+                        'userId': 1,
+                        'foodId': data.foodId,
+                        'foodName': data.foodName,
+                        'foodPrice': data.foodPrice
+                    },
+                    success: function(data){
+                        if(data == 1){
+                            layer.msg('已加入购物车', {icon:1,time:500});
+                            
+                        }else{
+                            layui.alert('加入购物车错误!');
+                        }
+                    },
+                    error: function (e) {
+                        alert('失败'+e.readyState);
+                    }
+                })
             }
             
         });

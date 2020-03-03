@@ -56,7 +56,7 @@
           </li>
           <li class="layui-nav-item" lay-unselect>
             <a href="javascript:;">
-              <cite id="userName">admin</cite>
+              <cite id="userName">小明</cite>
             </a>
             <dl class="layui-nav-child">
               <dd><a lay-href="user/info.html">基本资料</a></dd>
@@ -76,7 +76,7 @@
       </div>
 
       <!-- 侧边菜单 -->
-      <div class="layui-side layui-side-menu">
+      <div class="layui-side layui-side-menu" id="nav">
         <div class="layui-side-scroll">
           <div class="layui-logo" lay-href="home/console.html">
             <span>餐饮管理系统</span>
@@ -91,7 +91,7 @@
               </a>
               <dl class="layui-nav-child">
                 <dd data-name="officeWeb">
-                  <a lay-href="https://www.baidu.com">官方网站</a>
+                  <a lay-href="home/console.html">首页</a>
                 </dd>
                 <dd data-name="productStatement">
                   <a lay-href="https://www.runoob.com">产品声明</a>
@@ -99,8 +99,8 @@
               </dl>
             </li>
             <!-- 菜品 -->
-            <li data-name="home" class="layui-nav-item">
-              <a href="javascript:;" lay-tips="主页" lay-direction="2">
+            <li data-name="menu" class="layui-nav-item">
+              <a href="javascript:;" lay-tips="菜品" lay-direction="2">
                 <i class="layui-icon layui-icon-app"></i>
                 <cite>菜品</cite>
               </a>
@@ -111,23 +111,26 @@
                 <dd data-name="addFoods">
                   <a lay-href="https://www.csdn.net">新品添加</a>
                 </dd>
+                <dd data-name="shoppingCar" id="gouwuche">
+                  <a lay-href="home/shoppingCar.html">购物车</a>
+                </dd>
               </dl>
             </li>
             <!-- 订单 -->
-            <li data-name="home" class="layui-nav-item">
-              <a href="javascript:;" lay-tips="主页" lay-direction="2">
+            <li data-name="orders" class="layui-nav-item">
+              <a href="javascript:;" lay-tips="订单" lay-direction="2">
                 <i class="layui-icon layui-icon-template"></i>
                 <cite>订单</cite>
               </a>
               <dl class="layui-nav-child">
-                <dd data-name="foodList">
+                <dd data-name="orderList">
                   <a lay-href="https://www.sogou.com">订单中心</a>
                 </dd>
               </dl>
             </li>
             <!-- 用户 -->
-            <li data-name="home" class="layui-nav-item">
-              <a href="javascript:;" lay-tips="主页" lay-direction="2">
+            <li data-name="users" class="layui-nav-item">
+              <a href="javascript:;" lay-tips="用户" lay-direction="2">
                 <i class="layui-icon layui-icon-user"></i>
                 <cite>用户</cite>
               </a>
@@ -141,8 +144,8 @@
               </dl>
             </li>
             <!-- 设置 -->
-            <li data-name="home" class="layui-nav-item">
-              <a href="javascript:;" lay-tips="主页" lay-direction="2">
+            <li data-name="set" class="layui-nav-item">
+              <a href="javascript:;" lay-tips="设置" lay-direction="2">
                 <i class="layui-icon layui-icon-set"></i>
                 <cite>设置</cite>
               </a>
@@ -156,7 +159,6 @@
               </dl>
             </li>
           </ul>
-          
         </div>
       </div>
 
@@ -199,26 +201,38 @@
   <script src="../layuiadmin/layui/layui.js"></script>
   <script>
     layui.config({
-      base: '../layuiadmin/' //静态资源所在路径
-    }).extend({
-      index: 'lib/index' //主入口模块
-    }).use('index');
-    layui.use(['form', 'layedit', 'laydate','jquery','jquery.cookie'], function () {
-      var form = layui.form,
-        layer = layui.layer,
-        layedit = layui.layedit,
-        laydate = layui.laydate,
-        $ =layui.jquery,
-        cookie = layui.jquery.cookie;
+        base: '../layuiadmin/' //静态资源所在路径
+      }).extend({
+        index: 'lib/index' //主入口模块
+      }).use('index'),
+      function () {
+        //监听tab选项卡切换
+        element.on('tab(tab-switch)', function (data) {
+          if (data.elem.context.attributes != undefined) {
+            var id = data.elem.context.attributes[0].nodeValue;
+            layui.each($(".layui-nav-child"), function () {
+              $(this).find("dd").removeClass("layui-this");
+            });
+            $("#" + id).attr("class", "layui-this");
+          }
+        });
+      };
+    // layui.use(['form', 'layedit', 'laydate','jquery','jquery.cookie'], function () {
+    //   var form = layui.form,
+    //     layer = layui.layer,
+    //     layedit = layui.layedit,
+    //     laydate = layui.laydate,
+    //     $ =layui.jquery,
+    //     cookie = layui.jquery.cookie;
 
-      $(function(){
-        if ($.cookie('userName') != null && $.cookie('userName') != 'null') {
-                //从cookie中读取用户名
-                $('#userName').text($.cookie('userName'));
-        }
-        alert($.cookie('userName'))
-      })
-    });
+    //   $(function(){
+    //     if ($.cookie('userName') != null && $.cookie('userName') != 'null') {
+    //             //从cookie中读取用户名
+    //             $('#userName').text($.cookie('userName'));
+    //     }
+    //     alert($.cookie('userName'))
+    //   })
+    // });
   </script>
 </body>
 

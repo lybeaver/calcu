@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.nextosd.restaurant.beans.Order;
 import com.nextosd.restaurant.beans.OrderItem;
 import com.nextosd.restaurant.beans.Orders;
 import com.nextosd.restaurant.mapper.OrderMapperBack;
@@ -114,6 +115,14 @@ public class OrderServiceImp implements OrderService {
 	public List<Orders> selectAllOrders(){
 		List<Orders> orders = orderMapper.selectAllOrders();
 		return orders;
+	}
+	
+	/**
+	 * 查询未完成订单
+	 */
+	public Order selectUndoneOrder() {
+		Order order = orderMapper.selectUndoneOrder();
+		return order;
 	}
 
 }

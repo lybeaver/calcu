@@ -26,14 +26,10 @@
                 <input class="layui-input" name="id" id="foodReload" autocomplete="off">
               </div>
               <button class="layui-btn" data-type="reload">搜索</button>
-              <div class="layui-fluid" id="LAY-component-layer-theme" style="float: right; margin-right: 38%; margin-top: -15px;">
-                <div class="layui-btn-container layadmin-layer-demo">
-                  <button data-type="buy" class="layui-btn">
-                    <i class="layui-icon">&#xe657;</i>    购物车
-                    <span class="layui-badge layui-bg-gray">0</span>
-                  </button>
-                </div>
-              </div>
+              <a type="button" data-type="buy" class="layui-btn" style="margin-left: 30%;" href="shoppingCar.html">
+                <i class="layui-icon">&#xe657;</i>    购物车
+                <span class="layui-badge layui-bg-gray">0</span>
+              </a>
             </div>
             <div class="demoTable" style="margin-top: 24px;">
               <div class="layui-collapse" lay-filter="test">
@@ -103,21 +99,6 @@
     </div>
   </div>
 
-  <div id="aaa" style="display: none;">
-    账号:<input type="text" /><br />
-    密码:<input type="text" /><br />
-    <button>提交</button>
-  </div>
-
-  <!-- <div class="layui-fluid" id="LAY-component-layer-theme" style="float: right; margin-right: 38%; margin-top: -15px;">
-    <div class="layui-btn-container layadmin-layer-demo">
-      <button data-type="buy" class="layui-btn">
-        <i class="layui-icon">&#xe657;</i>    购物车
-        <span class="layui-badge layui-bg-gray">0</span>
-      </button>
-    </div>
-  </div> -->
-
   <script src="../../layuiadmin/layui/layui.js"></script>
   <script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script>
   <script type="text/html" id="toolBar">
@@ -133,20 +114,20 @@
         form.render();
 
         $.ajax({
-            url:'http://localhost:8080/menu/getTypes',
-            dataType:'json',
-            type:'get',
-            success:function(data){
-                var list = data;    //返回的数据
-                var server = document.getElementById("selectType"); //server为select定义的id
-                for(var p in list){
-                    var option = document.createElement("option");  // 创建添加option属性
-                    option.setAttribute("value",p);   // 给option的value添加值
-                    option.innerText=list[p];         // 打印option对应的纯文本 
-                    server.appendChild(option);       //给select添加option子标签
-                    form.render("select");            // 刷性select，显示出数据
-                }
-            }
+          url:'http://localhost:8080/menu/getTypes',
+          dataType:'json',
+          type:'get',
+          success:function(data){
+              var list = data;    //返回的数据
+              var server = document.getElementById("selectType"); //server为select定义的id
+              for(var p in list){
+                  var option = document.createElement("option");  // 创建添加option属性
+                  option.setAttribute("value",p);   // 给option的value添加值
+                  option.innerText=list[p];         // 打印option对应的纯文本
+                  server.appendChild(option);       // 给select添加option子标签
+                  form.render("select");            // 刷新select，显示出数据
+              }
+          }
         })
     });
 
@@ -166,25 +147,6 @@
         ,value: [0, 100]
         ,range: true
         ,theme: '#5FB878' //主题色
-      });
-
-      element.render();
-
-      var active = {
-        buy: function(){
-          top.layui.admin.popupRight({
-            id: 'LAY_adminPopupLayerTest'
-            ,success: function(){
-              $('#'+ this.id).html('<div style="padding: 20px;">放入内容</div>');
-              //为什么不显示?
-            }
-          });
-        }
-      };
-
-      $('#LAY-component-layer-theme .layadmin-layer-demo .layui-btn').on('click', function(){
-        var type = $(this).data('type');
-        active[type] && active[type].call(this);
       });
 
     });

@@ -22,8 +22,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.nextosd.restaurant.beans.Menu;
-import com.nextosd.restaurant.beans.MenuExample;
 import com.nextosd.restaurant.beans.User;
 import com.nextosd.restaurant.beans.UserExample;
 import com.nextosd.restaurant.beans.other.BaseBean;
@@ -144,7 +142,7 @@ public class UserController {
 	 */
 	@GetMapping(value = "/personalData")
 	public User personalData(String userName) {
-		logger.info("个人资料跳转.........");
+		logger.info("个人资料跳转中.........");
 		User user = userMapperBack.selectUserByUserName(userName);
 		System.out.println(user.getLogTime());
 		return user;
