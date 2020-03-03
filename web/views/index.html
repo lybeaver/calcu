@@ -201,29 +201,19 @@
   <script src="../layuiadmin/layui/layui.js"></script>
   <script>
     layui.config({
-        base: '../layuiadmin/' //静态资源所在路径
-      }).extend({
-        index: 'lib/index' //主入口模块
-      }).use('index'),
-      function () {
-        //监听tab选项卡切换
-        element.on('tab(tab-switch)', function (data) {
-          if (data.elem.context.attributes != undefined) {
-            var id = data.elem.context.attributes[0].nodeValue;
-            layui.each($(".layui-nav-child"), function () {
-              $(this).find("dd").removeClass("layui-this");
-            });
-            $("#" + id).attr("class", "layui-this");
-          }
-        });
-      };
-    // layui.use(['form', 'layedit', 'laydate','jquery','jquery.cookie'], function () {
-    //   var form = layui.form,
-    //     layer = layui.layer,
-    //     layedit = layui.layedit,
-    //     laydate = layui.laydate,
-    //     $ =layui.jquery,
-    //     cookie = layui.jquery.cookie;
+      base: '../layuiadmin/' //静态资源所在路径
+    }).extend({
+      index: 'lib/index' ,//主入口模块
+      cookie:'lib/cookie' //cookie 模块
+    }).use('index');
+
+    layui.use(['form', 'layedit', 'laydate','jquery','cookie'], function () {
+      var form = layui.form,
+        layer = layui.layer,
+        layedit = layui.layedit,
+        laydate = layui.laydate,
+        $ =layui.jquery,
+        cookie = layui.cookie;
 
     //   $(function(){
     //     if ($.cookie('userName') != null && $.cookie('userName') != 'null') {
