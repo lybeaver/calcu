@@ -11,8 +11,6 @@ import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -26,7 +24,6 @@ import com.nextosd.restaurant.beans.User;
 import com.nextosd.restaurant.beans.UserExample;
 import com.nextosd.restaurant.beans.other.BaseBean;
 import com.nextosd.restaurant.beans.other.LoginBean;
-import com.nextosd.restaurant.mapper.UserMapperBack;
 import com.nextosd.restaurant.mapper.common.UserMapper;
 import com.nextosd.restaurant.service.UserService;
 import com.nextosd.restaurant.utils.Md5Util;
@@ -70,13 +67,13 @@ public class UserController {
 	public int login(LoginBean lgBean,HttpSession session) throws Exception {
 		int result = 0;
 		String check = (String)session.getAttribute("checkCode");
-		logger.info("用户名:"+lgBean.getUserName());
+		log.info("用户名:"+lgBean.getUserName());
 		if (!lgBean.getCheckNum().equalsIgnoreCase(check)) {
-			logger.info("验证码错误");
+			log.info("验证码错误");
 			result = 2 ;
 			return result;
 		}
-		User exUser = userMapperBack.selectUserByUserName(lgBean.getUserName());
+		User exUser = userService.selectUserByUserName(lgBean.getUserName());
 		if (exUser == null) {
 			log.info("用户名不存在");
 			return result;
@@ -99,7 +96,7 @@ public class UserController {
 	 */
 	@PostMapping(value = "/insertUser")
 	public int insertUser(User user) throws Exception {
-		logger.info("开始注册");
+		log.info("开始注册");
 		String pd = user.getPassword();
 		log.info(user.getUserName());
 		String md5EncodeString = Md5Util.md5Encode(pd);
@@ -152,7 +149,7 @@ public class UserController {
 	@PostMapping("/switch")
 	public String switchPassword(String password) throws Exception {
 		String md5EncodeString = Md5Util.md5Encode(password);
-		logger.info(".....密码转换:"+md5EncodeString);
+		log.info(".....密码转换:"+md5EncodeString);
 		return md5EncodeString;
 	}
 	
@@ -165,7 +162,7 @@ public class UserController {
 	 */
 	@PostMapping(value = "/updateUser")
 	public int updateUser(User user) {
-		logger.info("修改密码跳转.......");
+		log.info("修改密码跳转.......");
 		user.setLogTime(new Date());
 		int result = userMapper.updateByPrimaryKeySelective(user);
 		System.out.println(".............."+result);
