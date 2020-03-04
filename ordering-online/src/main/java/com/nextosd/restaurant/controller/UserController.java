@@ -56,7 +56,6 @@ public class UserController {
 	    String sb = (String) map.get("code");
 	    logger.info("获取验证码："+sb);
 	    session.setAttribute("checkCode", sb);
-	    logger.info("session放入验证码"+(String)session.getAttribute("checkCode"));
 	    //将图片输出给浏览器
 	    BufferedImage image = (BufferedImage) map.get("image");
 	    response.setContentType("image/png");
@@ -75,13 +74,12 @@ public class UserController {
 	public int login(LoginBean lgBean,HttpSession session) throws Exception {
 		int result = 0;
 		String check = (String)session.getAttribute("checkCode");
-		logger.info("session:"+check);
 		logger.info("用户名:"+lgBean.getUserName());
-//		if (!lgBean.equals(check)) {
-//			logger.info("验证码错误");
-//			result = 2 ;
-//			return result;
-//		}
+		if (!lgBean.getCheckNum().equalsIgnoreCase(check)) {
+			logger.info("验证码错误");
+			result = 2 ;
+			return result;
+		}
 		User exUser = userMapperBack.selectUserByUserName(lgBean.getUserName());
 		if (exUser == null) {
 			logger.info("用户名不存在");
@@ -105,7 +103,7 @@ public class UserController {
 	 */
 	@PostMapping(value = "/insertUser")
 	public int insertUser(User user) throws Exception {
-		System.out.println("开始注册");
+		logger.info("开始注册");
 		String pd = user.getPassword();
 		logger.info(user.getUserName());
 		String md5EncodeString = Md5Util.md5Encode(pd);
@@ -148,14 +146,34 @@ public class UserController {
 		User user = userMapperBack.selectUserByUserName(userName);
 		return user;
 	}
+	/**
+	  *  密码转换
+	  * @Title: UserController.java  
+	  * @param 
+	  * @return  
+	  * @date 2020年3月4日
+	 */
+	@PostMapping("/switch")
+	public String switchPassword(String password) throws Exception {
+		String md5EncodeString = Md5Util.md5Encode(password);
+		logger.info(".....密码转换:"+md5EncodeString);
+		return md5EncodeString;
+	}
 	
+	/**
+	  *	修改密码
+	  * @Title: UserController.java  
+	  * @param 
+	  * @return  
+	  * @date 2020年3月4日
+	 */
 	@PostMapping(value = "/updateUser")
 	public int updateUser(User user) {
 		logger.info("修改密码跳转.......");
-		User ouser = userMapperBack.selectUserByUserName(user.getUserName());
+		user.setLogTime(new Date());
 		int result = userMapper.updateByPrimaryKeySelective(user);
-		
-		return 0;
+		System.out.println(".............."+result);
+		return result;
 	}
 	
 	

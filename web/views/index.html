@@ -56,7 +56,7 @@
           </li>
           <li class="layui-nav-item" lay-unselect>
             <a href="javascript:;">
-              <cite id="userName">admin</cite>
+              <cite id="userName"></cite>
             </a>
             <dl class="layui-nav-child">
               <dd><a lay-href="user/info.html">基本资料</a></dd>
@@ -218,7 +218,6 @@
                 //从cookie中读取用户名
                 $('#userName').text($.cookie('userName'));
         }
-        alert($.cookie('userName'))
       })
     });
   </script>

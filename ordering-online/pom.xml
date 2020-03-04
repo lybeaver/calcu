@@ -18,7 +18,17 @@
 	<properties>
 		<java.version>1.8</java.version>
 	</properties>
-
+	
+	
+<filter>
+		<filter-name>AuthorityInterceptor</filter-name>
+		<filter-class>XX.filter.AuthorityInterceptor</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>AuthorityInterceptor</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	
 	<dependencies>
 		<dependency>
             <groupId>org.springframework.boot</groupId>
