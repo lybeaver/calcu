@@ -1,5 +1,9 @@
 package com.nextosd.restaurant.controller;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -11,8 +15,11 @@ import com.nextosd.restaurant.beans.User;
 import com.nextosd.restaurant.mapper.common.UserMapper;
 import com.nextosd.restaurant.service.ShoppingCarService;
 
+import lombok.extern.slf4j.Slf4j;
+
 @RestController
 @RequestMapping("/shoppingCar")
+@Slf4j
 public class ShoppingCarController {
 	
 	@Autowired
@@ -28,13 +35,29 @@ public class ShoppingCarController {
 	 */
 	@PostMapping(value = "/insertShoppingCar")
 	public int insertCarMsg(ShoppingCar shoppingCar) {
+		int result = 0;
 		int userId = shoppingCar.getCarUserId();
 		//根据用户id获取用户名
 		User user = userMapper.selectByPrimaryKey(userId);
 		String carUserName = user.getUserName();
 		shoppingCar.setCarUserName(carUserName);
-		//执行加入购物车操作
-		int result = shoppingCarService.insertCarMsg(shoppingCar);
+		//根据foodId和userId判断购物车内是否存在重复记录
+		ShoppingCar car = shoppingCarService.selectMsgByFoodId(shoppingCar.getCarFoodId(),userId);
+		if (car == null) {
+			log.info("不存在重复记录，执行添加。");
+			//执行加入购物车操作
+			result = shoppingCarService.insertCarMsg(shoppingCar);
+		}else {
+			log.info("存在重复记录，执行修改数量操作。");
+			//执行修改现有记录操作
+			int carId = car.getCarId();
+			int carFoodNum = car.getCarFoodNum() + 1;
+			int carAllPrice = car.getCarOnePrice() * carFoodNum;
+			shoppingCar.setCarId(carId);
+			shoppingCar.setCarFoodNum(carFoodNum);
+			shoppingCar.setCarAllPrice(carAllPrice);
+			result = shoppingCarService.updShoppingCarMsg(shoppingCar);
+		}
 		return result;
 	}
 	
@@ -46,6 +69,20 @@ public class ShoppingCarController {
 	public int getShoppingCarCount() {
 		int count = shoppingCarService.getShoppingCarCount();
 		return count;
+	}
+	
+	/**
+	 * 查询购物车所有记录
+	 * @return
+	 */
+	@GetMapping(value = "/getCarMsg")
+	public Map<String, Object> getShoppingCarMsg() {
+		List<ShoppingCar> list = shoppingCarService.getShoppingCarMsg();
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("data", list);
+		map.put("msg", null);
+		map.put("code", 0);
+		return map;
 	}
 
 }

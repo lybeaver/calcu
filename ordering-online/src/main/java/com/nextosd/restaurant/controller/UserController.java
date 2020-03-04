@@ -32,29 +32,27 @@ import com.nextosd.restaurant.service.UserService;
 import com.nextosd.restaurant.utils.Md5Util;
 import com.nextosd.restaurant.utils.VerifyUtil;
 
+import lombok.extern.slf4j.Slf4j;
+
 @RestController
 @RequestMapping("/user")
+@Slf4j
 public class UserController {
 	
 	@Autowired
 	private UserMapper userMapper;
 	
 	@Autowired
-	private UserMapperBack userMapperBack;
-	
-	@Autowired
 	private UserService userService;
-	
-	private static final Logger logger = LoggerFactory.getLogger(UserController.class);
 	
 	//获取验证码
 	@GetMapping("/verify-code")
 	public void getCode(HttpServletResponse response,HttpSession session) throws Exception{
 	    Map<String, Object> map = VerifyUtil.createImage();
 	    String sb = (String) map.get("code");
-	    logger.info("获取验证码："+sb);
+	    log.info("获取验证码："+sb);
 	    session.setAttribute("checkCode", sb);
-	    logger.info("session放入验证码"+(String)session.getAttribute("checkCode"));
+	    log.info("session放入验证码"+(String)session.getAttribute("checkCode"));
 	    //将图片输出给浏览器
 	    BufferedImage image = (BufferedImage) map.get("image");
 	    response.setContentType("image/png");
@@ -73,25 +71,25 @@ public class UserController {
 	public int login(LoginBean lgBean,HttpSession session) throws Exception {
 		int result = 0;
 		String check = (String)session.getAttribute("checkCode");
-		logger.info("session:"+check);
-		logger.info("用户名:"+lgBean.getUserName());
+		log.info("session:"+check);
+		log.info("用户名:"+lgBean.getUserName());
 //		if (!lgBean.equals(check)) {
 //			logger.info("验证码错误");
 //			result = 2 ;
 //			return result;
 //		}
-		User exUser = userMapperBack.selectUserByUserName(lgBean.getUserName());
+		User exUser = userService.selectUserByUserName(lgBean.getUserName());
 		if (exUser == null) {
-			logger.info("用户名不存在");
+			log.info("用户名不存在");
 			return result;
 		}
 		String md5EmcodeString = Md5Util.md5Encode(lgBean.getPassword());
 		if (exUser.getPassword().equals(md5EmcodeString)) {
-			logger.info("登录成功");
+			log.info("登录成功");
 			result = 1;
 			return result;
 		}
-		logger.info("密码错误");
+		log.info("密码错误");
 		return result;
 	}
 	/**
@@ -105,9 +103,9 @@ public class UserController {
 	public int insertUser(User user) throws Exception {
 		System.out.println("开始注册");
 		String pd = user.getPassword();
-		logger.info(user.getUserName());
+		log.info(user.getUserName());
 		String md5EncodeString = Md5Util.md5Encode(pd);
-		logger.info("md5加密后"+md5EncodeString);
+		log.info("md5加密后"+md5EncodeString);
 		user.setPassword(md5EncodeString);
 		Date now = new Date();
 		user.setLogTime(now);
@@ -124,7 +122,7 @@ public class UserController {
 	 */
 	@GetMapping(value = "/checkUser")
 	public int checkMessage(String userName) {
-		User user = userMapperBack.selectUserByUserName(userName);
+		User user = userService.selectUserByUserName(userName);
 		int result = 0;
 		if (user == null) {
 			//如果用户可用，返回1
@@ -142,15 +140,15 @@ public class UserController {
 	 */
 	@GetMapping(value = "/personalData")
 	public User personalData(String userName) {
-		logger.info("个人资料跳转中.........");
-		User user = userMapperBack.selectUserByUserName(userName);
+		log.info("个人资料跳转中.........");
+		User user = userService.selectUserByUserName(userName);
 		return user;
 	}
 	
 	@PostMapping(value = "/updateUser")
 	public int updateUser(User user) {
-		logger.info("修改密码跳转.......");
-		User ouser = userMapperBack.selectUserByUserName(user.getUserName());
+		log.info("修改密码跳转.......");
+		User ouser = userService.selectUserByUserName(user.getUserName());
 		int result = userMapper.updateByPrimaryKeySelective(user);
 		
 		return 0;
@@ -164,7 +162,7 @@ public class UserController {
 	@GetMapping(value = "/page")
 	public Map<String, Object> selectByPage(@ModelAttribute BaseBean params){
 		PageHelper.startPage(params.getPage(), params.getLimit());
-		logger.info("当前是第"+params.getPage()+"页,每页显示"+params.getLimit()+"条。");
+		log.info("当前是第"+params.getPage()+"页,每页显示"+params.getLimit()+"条。");
 		//计算每页的起始记录条数
 		int pageCount = (params.getPage()-1)*params.getLimit();
 		params.setPage(pageCount);
@@ -175,11 +173,35 @@ public class UserController {
 		UserExample example = new UserExample();
 		//计算总记录数
 		long count = userMapper.countByExample(example);
-		logger.info("总记录数:"+count);
+		log.info("总记录数:"+count);
 		map.put("data",pageInfo.getList());
 		map.put("count",count);
 		map.put("msg",null);
 		map.put("code",0);
 		return map;
 	}
+	
+	/**
+	 * 根据用户名查询用户id
+	 * @param userName
+	 * @return 
+	 */
+	@GetMapping(value = "/getUserId")
+	public int getUserId(String userName) {
+		User user = userService.selectUserByUserName(userName);
+		int userId = user.getUserId();
+		return userId;
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 }

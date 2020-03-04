@@ -1,5 +1,7 @@
 package com.nextosd.restaurant.service;
 
+import java.util.List;
+
 import com.nextosd.restaurant.beans.ShoppingCar;
 
 public interface ShoppingCarService {
@@ -16,5 +18,22 @@ public interface ShoppingCarService {
 	 * @return
 	 */
 	int getShoppingCarCount();
+	
+	/**
+	 * 查询购物车所有记录
+	 * @return
+	 */
+	List<ShoppingCar> getShoppingCarMsg();
+	
+	/**
+	 * 根据foodId查询是否存在重复记录
+	 * @return
+	 */
+	ShoppingCar selectMsgByFoodId(int carFoodId, int carUserId);
+	
+	/**
+	 * 根据foodId和userId修改信息
+	 */
+	int updShoppingCarMsg(ShoppingCar shoppingCar);
 
 }

@@ -1,5 +1,7 @@
 package com.nextosd.restaurant.service.imp;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -30,6 +32,32 @@ public class ShoppingCarServiceImp implements ShoppingCarService{
 	public int getShoppingCarCount() {
 		int count = shoppingCarMapperBack.getShoppingCarCount();
 		return count;
+	}
+
+	/**
+	 * 查询购物车所有记录
+	 * @return
+	 */
+	public List<ShoppingCar> getShoppingCarMsg() {
+		List<ShoppingCar> list = shoppingCarMapperBack.getShoppingCarMsg();
+		return list;
+	}
+
+	/**
+	 * 根据foodId查询是否存在重复记录
+	 * @return
+	 */
+	public ShoppingCar selectMsgByFoodId(int carFoodId, int carUserId) {
+		ShoppingCar shoppingCar = shoppingCarMapperBack.selectMsgByFoodId(carFoodId,carUserId);
+		return shoppingCar;
+	}
+
+	/**
+	 * 根据foodId和userId修改信息
+	 */
+	public int updShoppingCarMsg(ShoppingCar shoppingCar) {
+		int result = shoppingCarMapperBack.updShoppingCarMsg(shoppingCar);
+		return result;
 	}
 	
 	
