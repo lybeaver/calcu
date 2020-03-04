@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.nextosd.restaurant.mapper.OrderMapper">
+<mapper namespace="com.nextosd.restaurant.mapper.OrderMapperBack">
 
 	<resultMap type="com.nextosd.restaurant.beans.Order" id="ORDER">
 		<id column="order_id" property="orderId"/>
@@ -24,7 +24,7 @@
 		useGeneratedKeys="true" keyProperty="orderId">
 		insert 
 			into 
-		orders(
+		tbl_orders(
 			order_user_id,
 			order_price,
 			order_time,
@@ -140,6 +140,15 @@
 			order_type
 		from 
 			orders
+	</select>
+	
+	<select id="selectUndoneOrder" resultType="ORDER">
+		SELECT
+			order_id
+		FROM
+			tbl_orders
+		WHERE
+			order_type = '未完成'
 	</select>
 	
 	

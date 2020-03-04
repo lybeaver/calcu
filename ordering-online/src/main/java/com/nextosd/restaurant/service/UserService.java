@@ -2,7 +2,6 @@ package com.nextosd.restaurant.service;
 
 import java.util.List;
 
-import com.nextosd.restaurant.beans.Menu;
 import com.nextosd.restaurant.beans.User;
 import com.nextosd.restaurant.beans.other.BaseBean;
 

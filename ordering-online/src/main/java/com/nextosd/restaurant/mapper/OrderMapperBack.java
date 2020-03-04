@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import com.nextosd.restaurant.beans.Order;
 import com.nextosd.restaurant.beans.OrderItem;
 import com.nextosd.restaurant.beans.Orders;
 @Mapper
@@ -78,5 +79,11 @@ public interface OrderMapperBack {
 	 * @return
 	 */
 	List<Orders> selectAllOrders();
+	
+	/**
+	 * 查询未完成订单的订单id
+	 * @return
+	 */
+	Order selectUndoneOrder();
 
 }
