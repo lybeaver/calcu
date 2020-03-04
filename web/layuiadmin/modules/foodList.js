@@ -1,60 +1,28 @@
 layui.define(function (exports) {
     var num = 0;    //修改操作的次数
-    layui.use(['setter', 'table','laypage'], function () {
+    layui.use(['setter', 'table', 'form'], function () {
         var setter = layui.setter,
-            table = layui.table;
-        //第一个实例
-        table.render({
-            id: 'foodReload'
-            , elem: '#foodTable'
-            , height: 472
-            , url: setter.address + 'menu/page' //数据接口
-            , page: true //开启分页
-            , limits: [10,20,50]
-            , even: true
-            , skin: 'row'
-            , cols: [[ //表头
-                {type:'checkbox'}
-                , { field: 'foodName', title: '名称', width: 200, sort: true }
-                , { field: 'foodType', title: '类型', width: 150, sort: true }
-                , { field: 'foodPrice', title: '价格', width: 150, sort: true }
-                , { field: 'foodNum', title: '剩余数量', width: 150, sort: true }
-                , { fixed: 'right', title: '操作', width: 150, align: 'center', toolbar: '#toolBar' }
-                , { field: 'addShopping', title: '加入购物车', width: 150, align: 'center', toolbar: '#addTool' }
-                , { field: 'foodId', title: 'ID', hide: true }
-            ]], done: function (res, curr, count) {
-                //console.log(res);
+            table = layui.table,
+            form = layui.form;
+        form.render();
 
-            }
-        });
+        //初始化并读取表格信息
+        initTable(table, setter);
+
+        //获取后台所有的菜品类型
+        getAllFoodTypes(setter, form);
+
+        //获取后台购物车记录数量
+        getShoppingCarCount(setter);
+
         //监听工具条
         table.on('tool(demo)', function (obj) {
             var data = obj.data;
             //删除按钮操作
             if (obj.event === 'del') {
-                layer.confirm('真的要删除这道菜么?', function (index) {
-                    $.ajax({
-                        type: "POST",
-                        url: setter.address + "menu/delFoodById",
-                        data: JSON.stringify(data),
-                        contentType: "application/json; charset=utf-8",
-                        success: function(data){
-                            if(data == 1){
-                                layer.closeAll('page');//关闭所有页面层
-                                /* 触发弹层并刷新 */
-                                layer.msg('删除成功!', {icon:1,time:500},function(){
-                                    obj.del();
-                                    layer.close(index);
-                                });
-                            }
-                        },
-                        error: function (e) {
-                            alert('失败'+e.readyState);
-                        }
-                    })
-                });
-                //编辑
+                delMenuMsg(setter, data, obj);
             }
+            //修改按钮操作
             if (obj.event === 'edit') {
                 num = num+1;
                 if(num == 1){
@@ -72,30 +40,9 @@ layui.define(function (exports) {
                 }
                 updMenuMsg(obj, setter);
             }
-
+            //加入购物车按钮操作
             if (obj.event === 'add') {
-
-                $.ajax({
-                    type: "GET",
-                    url: setter.address + "shoppingCar/insertShoppingCar",
-                    data: {
-                        'userId': 1,
-                        'foodId': data.foodId,
-                        'foodName': data.foodName,
-                        'foodPrice': data.foodPrice
-                    },
-                    success: function(data){
-                        if(data == 1){
-                            layer.msg('已加入购物车', {icon:1,time:500});
-                            
-                        }else{
-                            layui.alert('加入购物车错误!');
-                        }
-                    },
-                    error: function (e) {
-                        alert('失败'+e.readyState);
-                    }
-                })
+                addShoppingCar(setter, data);
             }
             
         });
@@ -103,6 +50,69 @@ layui.define(function (exports) {
     exports('foodList', {})
 });
 
+//初始化并读取表格信息
+function initTable(table, setter){
+    table.render({
+        id: 'foodReload'
+        , elem: '#foodTable'
+        , height: 472
+        , url: setter.address + 'menu/page' //数据接口
+        , page: true //开启分页
+        , limits: [10,20,50]
+        , even: true
+        , skin: 'row'
+        , cols: [[ //表头
+            {type:'checkbox'}
+            , { field: 'foodName', title: '名称', width: 200, sort: true }
+            , { field: 'foodType', title: '类型', width: 150, sort: true }
+            , { field: 'foodPrice', title: '价格', width: 150, sort: true }
+            , { field: 'foodNum', title: '剩余数量', width: 150, sort: true }
+            , { fixed: 'right', title: '操作', width: 150, align: 'center', toolbar: '#toolBar' }
+            , { field: 'addShopping', title: '加入购物车', width: 150, align: 'center', toolbar: '#addTool' }
+            , { field: 'foodId', title: 'ID', hide: true }
+        ]], done: function (res, curr, count) {
+            console.log('表格信息查询成功!');
+        }
+    })
+}
+
+//获取后台所有的菜品类型
+function getAllFoodTypes(setter, form){
+    $.ajax({
+        url: setter.address + 'menu/getTypes',
+        dataType: 'json',
+        type: 'get',
+        success: function (data) {
+        var list = data; //返回的数据
+        var server = document.getElementById("selectType"); //server为select定义的id
+        for (var p in list) {
+            var option = document.createElement("option"); // 创建添加option属性
+            option.setAttribute("value", p); // 给option的value添加值
+            option.innerText = list[p]; // 打印option对应的纯文本
+            server.appendChild(option); // 给select添加option子标签
+            form.render("select"); // 刷新select，显示出数据
+        }
+        }
+    })
+}
+
+//获取后台购物车记录数量
+function getShoppingCarCount(setter){
+    $.ajax({
+        type: "GET",
+        url: setter.address + "shoppingCar/getShoppingCarCount",
+        success: function (data) {
+        console.log("数据库购物车记录条数:" + data);
+        if (data > 99) {
+            $('#carNum').text("99+");
+        } else {
+            $('#carNum').text(data);
+        }
+        }
+    })
+}
+
+//更新按钮弹窗功能
 function updMenuMsg(obj, setter){
     layer.open({
         title: '修改信息'
@@ -131,7 +141,7 @@ function updMenuMsg(obj, setter){
                     if(data == 1){
                         layer.closeAll('page');//关闭所有页面层
                         /* 触发弹层并刷新 */
-                        layer.msg('修改成功!', {icon:1,time:500},function(){
+                        layer.msg('修改成功!', {icon:1,time:1000},function(){
                             obj.update({
                                 foodId: foodId,
                                 foodName: foodName,
@@ -157,5 +167,70 @@ function updMenuMsg(obj, setter){
         ,resize: false
         ,area: ['400px', '342px']
     })
+}
+
+//加入购物车功能
+function addShoppingCar(setter, data){
+    $.ajax({
+        type: "POST",
+        url: setter.address + "shoppingCar/insertShoppingCar",
+        data: {
+            'carUserId': 1,
+            'carFoodId': data.foodId,
+            'carFoodName': data.foodName,
+            'carOnePrice': data.foodPrice
+        },
+        success: function(data){
+            if(data == 1){
+                layer.msg('已加入购物车', {icon:1,time:1000});
+                //服务端获取购物车数据条数
+                $.ajax({
+                    type: "GET",
+                    url: setter.address + "shoppingCar/getShoppingCarCount",
+                    success: function(data){
+                        console.log("数据库购物车记录条数:"+data);
+                        if(data > 99){
+                            $('#carNum').text("99+");
+                        }else{
+                            $('#carNum').text(data);
+                        }
+                    },
+                    error: function (e) {
+                        alert('失败'+e.readyState);
+                    }
+                })
+            }else{
+                layer.msg('加入购物车错误!', {icon:2,time:1000});
+            }
+        },
+        error: function (e) {
+            alert('失败'+e.readyState);
+        }
+    })
+}
+
+//删除单条记录按钮操作
+function delMenuMsg(setter, data, obj){
+    layer.confirm('真的要删除这道菜么?', function (index) {
+        $.ajax({
+            type: "POST",
+            url: setter.address + "menu/delFoodById",
+            data: JSON.stringify(data),
+            contentType: "application/json; charset=utf-8",
+            success: function(data){
+                if(data == 1){
+                    layer.closeAll('page');//关闭所有页面层
+                    /* 触发弹层并刷新 */
+                    layer.msg('删除成功!', {icon:1,time:1000},function(){
+                        obj.del();
+                        layer.close(index);
+                    });
+                }
+            },
+            error: function (e) {
+                alert('失败'+e.readyState);
+            }
+        })
+    });
 }
 

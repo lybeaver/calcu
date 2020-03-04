@@ -5,6 +5,7 @@
 	<resultMap type="com.nextosd.restaurant.beans.ShoppingCar" id="ShoppingCar">
 		<id column="car_id" property="carId"/>
 		<result column="car_user_id" property="carUserId"/>
+		<result column="car_user_name" property="carUserName"/>
 		<result column="car_food_id" property="carFoodId"/>
 		<result column="car_food_name" property="carFoodName"/>
 		<result column="car_food_num" property="carFoodNum"/>
@@ -15,6 +16,7 @@
 	<insert id="insertCarMsg" parameterType="com.nextosd.restaurant.beans.ShoppingCar">
 		INSERT INTO tbl_shopping_car (
 			car_user_id,
+			car_user_name,
 			car_food_id,
 			car_food_name,
 			car_food_num,
@@ -23,6 +25,7 @@
 		)
 		VALUES(
 			#{carUserId},
+			#{carUserName},
 			#{carFoodId},
 			#{carFoodName},
 			1,
@@ -30,6 +33,13 @@
 			#{carOnePrice}
 		)
 	</insert>
+	
+	<select id="getShoppingCarCount" resultType="Integer">
+		SELECT
+			count(car_id)
+		FROM
+			tbl_shopping_car
+	</select>
 
 
 

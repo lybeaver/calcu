@@ -10,5 +10,11 @@ public interface ShoppingCarService {
 	 * @return
 	 */
 	int insertCarMsg(ShoppingCar shoppingCar);
+	
+	/**
+	 * 获取购物车数据条数
+	 * @return
+	 */
+	int getShoppingCarCount();
 
 }

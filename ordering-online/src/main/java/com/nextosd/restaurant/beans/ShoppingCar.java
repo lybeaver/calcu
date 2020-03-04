@@ -13,6 +13,8 @@ public class ShoppingCar {
 	
 	private int carUserId;
 	
+	private String CarUserName;
+	
 	private int CarFoodId;
 	
 	private String CarFoodName;

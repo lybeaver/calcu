@@ -5,9 +5,10 @@ import org.springframework.stereotype.Service;
 
 import com.nextosd.restaurant.beans.ShoppingCar;
 import com.nextosd.restaurant.mapper.ShoppingCarMapperBack;
+import com.nextosd.restaurant.service.ShoppingCarService;
 
 @Service
-public class ShoppingCarServiceImp {
+public class ShoppingCarServiceImp implements ShoppingCarService{
 	
 	@Autowired
 	private ShoppingCarMapperBack shoppingCarMapperBack;
@@ -21,5 +22,17 @@ public class ShoppingCarServiceImp {
 		int result = shoppingCarMapperBack.insertCarMsg(shoppingCar);
 		return result;
 	}
+
+	/**
+	 * 获取购物车数据条数
+	 * @return
+	 */
+	public int getShoppingCarCount() {
+		int count = shoppingCarMapperBack.getShoppingCarCount();
+		return count;
+	}
+	
+	
+	
 
 }

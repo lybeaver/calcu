@@ -14,6 +14,12 @@ public interface ShoppingCarMapperBack {
 	 */
 	int insertCarMsg(ShoppingCar shoppingCar);
 	
+	/**
+	 * 获取购物车数据条数
+	 * @return
+	 */
+	Integer getShoppingCarCount();
+	
 	
 	
 
