@@ -23,7 +23,11 @@ public class RestaurantApplication {
     public WebMvcConfigurer corsConfigurer() {
         return new WebMvcConfigurer() {
             public void addCorsMappings(CorsRegistry registry) {
-                registry.addMapping("/**");
+                registry.addMapping("/**")
+		                .allowedOrigins("*")
+		                .allowCredentials(true)
+		                .allowedMethods("GET", "HEAD", "POST", "PUT", "DELETE","OPTIONS")
+		                .maxAge(3600);
             }
         };
     }
