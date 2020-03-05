@@ -28,7 +28,7 @@
                 <input class="layui-input" name="id" id="foodReload" autocomplete="off">
               </div>
               <button class="layui-btn" data-type="reload">搜索</button>
-              <a type="button" data-type="buy" class="layui-btn" style="margin-left: 30%;" href="#" id="shoppingBtn">
+              <a type="button" data-type="buy" class="layui-btn" style="margin-left: 30%;" lay-href="home/shoppingCar.html">
                 <i class="layui-icon">&#xe657;</i> 购物车
                 <span class="layui-badge layui-bg-gray" id="carNum">0</span>
               </a>
@@ -129,27 +129,6 @@
         range: true,
         theme: '#5FB878' //主题色
       });
-
-      //娱乐功能,请勿模仿,过一会就删
-      var i = 0;
-      $('#shoppingBtn').on('click', function () {
-        i++;
-        if(i == 1){
-          layer.msg('别点啦', {anim: 6})
-        }
-        if(i == 2){
-          layer.msg('再点就哭给你看', {anim: 6})
-        }
-        if(i == 3){
-          layer.msg('你还点你还点!', {anim: 6})
-        }
-        if(i == 4){
-          layer.msg('嘤嘤嘤~', {anim: 6});
-          i = 0;
-        }
-      })
-
-
     });
   </script>
 </body>

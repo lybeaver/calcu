@@ -54,6 +54,7 @@ public class ShoppingCarServiceImp implements ShoppingCarService{
 
 	/**
 	 * 根据foodId和userId修改信息
+	 * @return
 	 */
 	public int updShoppingCarMsg(ShoppingCar shoppingCar) {
 		int result = shoppingCarMapperBack.updShoppingCarMsg(shoppingCar);

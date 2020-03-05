@@ -17,7 +17,7 @@ public class MenuServiceImp implements MenuService {
 	private MenuMapperBack menuMapper;
 	
 	/**
-	 * 	菜品信息全查询
+	 * 菜品信息全查询
 	 * @return
 	 */
 	public List<Menu> selectAllFoods(){
@@ -27,6 +27,7 @@ public class MenuServiceImp implements MenuService {
 	
 	/**
 	 * 菜品信息限制查询
+	 * @return
 	 */
 	public List<Menu> selectLimitFoods(BaseBean baseBean){
 		List<Menu> foods = menuMapper.selectLimitFoods(baseBean);
@@ -34,7 +35,7 @@ public class MenuServiceImp implements MenuService {
 	}
 	
 	/**
-	 * 	查询菜品信息(模糊查)
+	 * 查询菜品信息(模糊查)
 	 * @param foodName  菜名
 	 * @return 	Menu	菜品信息
 	 */
@@ -44,7 +45,7 @@ public class MenuServiceImp implements MenuService {
 	}
 	
 	/**
-	 * 	根据菜品ID查询菜品信息
+	 * 根据菜品ID查询菜品信息
 	 * @param foodId
 	 * @return
 	 */
@@ -54,7 +55,7 @@ public class MenuServiceImp implements MenuService {
 	}
 	
 	/**
-	 * 	添加菜品
+	 * 添加菜品
 	 * @param menu
 	 * @return
 	 */
@@ -64,7 +65,7 @@ public class MenuServiceImp implements MenuService {
 	}
 	
 	/**
-	 * 	修改菜品信息
+	 * 修改菜品信息
 	 * @param menu
 	 * @return
 	 */
@@ -74,7 +75,7 @@ public class MenuServiceImp implements MenuService {
 	}
 	
 	/**
-	 * 	删除菜品信息
+	 * 删除菜品信息
 	 * @param foodId
 	 * @return
 	 */
@@ -84,7 +85,7 @@ public class MenuServiceImp implements MenuService {
 	}
 	
 	/**
-	 * 	根据菜品类型查询菜品信息
+	 * 根据菜品类型查询菜品信息
 	 * @param foodType
 	 * @return
 	 */
@@ -94,7 +95,7 @@ public class MenuServiceImp implements MenuService {
 	}
 	
 	/**
-	 * 	根据订单id修改剩余数量
+	 * 根据订单id修改剩余数量
 	 * @param foodId
 	 * @param foodNum
 	 * @return
@@ -106,6 +107,7 @@ public class MenuServiceImp implements MenuService {
 	
 	/**
 	 * 查询所有菜品类型
+	 * @return
 	 */
 	public List<String> selectAllFoodTypes(){
 		List<String> types = menuMapper.selectAllFoodTypes();

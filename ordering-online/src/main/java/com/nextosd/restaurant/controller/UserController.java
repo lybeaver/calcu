@@ -31,9 +31,9 @@ import com.nextosd.restaurant.utils.VerifyUtil;
 
 import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @RestController
 @RequestMapping("/user")
-@Slf4j
 public class UserController {
 	
 	@Autowired
@@ -42,7 +42,12 @@ public class UserController {
 	@Autowired
 	private UserService userService;
 	
-	//获取验证码
+	/**
+	 * 获取验证码
+	 * @param response
+	 * @param session
+	 * @throws Exception
+	 */
 	@GetMapping("/verify-code")
 	public void getCode(HttpServletResponse response,HttpSession session) throws Exception{
 	    Map<String, Object> map = VerifyUtil.createImage();
@@ -57,36 +62,35 @@ public class UserController {
 	}
 
 	/**
-	  * 	登录
-	  * @Title: UserController.java  
+	  * 登录
+	  * @Title UserController.java  
 	  * @param 
 	  * @return  
-	  * @date 2020年2月24日
+	  * @date 2020/2/24
 	 */
 	@PostMapping(value = "/login")
 	public int login(LoginBean lgBean,HttpSession session) throws Exception {
-		int result = 0;
+		int result = 1;
 		String check = (String)session.getAttribute("checkCode");
-		log.info("用户名:"+lgBean.getUserName());
+		log.info("用户:"+lgBean.getUserName()+"登陆中....");
 		if (!lgBean.getCheckNum().equalsIgnoreCase(check)) {
 			log.info("验证码错误");
-			result = 2 ;
-			return result;
+			result = 2;
 		}
 		User exUser = userService.selectUserByUserName(lgBean.getUserName());
 		if (exUser == null) {
 			log.info("用户名不存在");
-			return result;
+			result = 0;
 		}
 		String md5EmcodeString = Md5Util.md5Encode(lgBean.getPassword());
-		if (exUser.getPassword().equals(md5EmcodeString)) {
-			log.info("登录成功");
-			result = 1;
-			return result;
+		if (!exUser.getPassword().equals(md5EmcodeString)) {
+			log.info("密码错误");
+			result = 0;
 		}
-		log.info("密码错误");
+		log.info("登录成功");
 		return result;
 	}
+	
 	/**
 	  *	注册用户
 	  * @Title: UserController.java  
@@ -96,11 +100,11 @@ public class UserController {
 	 */
 	@PostMapping(value = "/insertUser")
 	public int insertUser(User user) throws Exception {
-		log.info("开始注册");
+		log.info("开始注册....");
 		String pd = user.getPassword();
 		log.info(user.getUserName());
 		String md5EncodeString = Md5Util.md5Encode(pd);
-		log.info("md5加密后"+md5EncodeString);
+		log.info("md5加密后密码:"+md5EncodeString);
 		user.setPassword(md5EncodeString);
 		Date now = new Date();
 		user.setLogTime(now);
@@ -108,6 +112,7 @@ public class UserController {
 		int result = userMapper.insertSelective(user);
 		return result;
 	}
+	
 	/**
 	  *	校验用户是否存不存在
 	  * @Title: UserController.java  
@@ -117,8 +122,8 @@ public class UserController {
 	 */
 	@GetMapping(value = "/checkUser")
 	public int checkMessage(String userName) {
-		User user = userService.selectUserByUserName(userName);
 		int result = 0;
+		User user = userService.selectUserByUserName(userName);
 		if (user == null) {
 			//如果用户可用，返回1
 			result = 1;
@@ -126,6 +131,7 @@ public class UserController {
 		//如果用户存在，返回0
 		return result;
 	}
+	
 	/**
 	  *	个人资料
 	  * @Title: UserController.java  
@@ -139,6 +145,7 @@ public class UserController {
 		User user = userService.selectUserByUserName(userName);
 		return user;
 	}
+	
 	/**
 	  *  密码转换
 	  * @Title: UserController.java  

@@ -7,6 +7,5 @@ public class BaseBean {
 	private Integer page;
 	
 	private Integer limit;
-
 	
 }

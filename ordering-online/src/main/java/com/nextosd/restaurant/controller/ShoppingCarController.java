@@ -17,9 +17,9 @@ import com.nextosd.restaurant.service.ShoppingCarService;
 
 import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @RestController
 @RequestMapping("/shoppingCar")
-@Slf4j
 public class ShoppingCarController {
 	
 	@Autowired
@@ -44,11 +44,11 @@ public class ShoppingCarController {
 		//根据foodId和userId判断购物车内是否存在重复记录
 		ShoppingCar car = shoppingCarService.selectMsgByFoodId(shoppingCar.getCarFoodId(),userId);
 		if (car == null) {
-			log.info("不存在重复记录，执行添加。");
+			log.info("加入购物车中....不存在重复记录，直接执行添加。");
 			//执行加入购物车操作
 			result = shoppingCarService.insertCarMsg(shoppingCar);
 		}else {
-			log.info("存在重复记录，执行修改数量操作。");
+			log.info("加入购物车中....存在重复记录，执行修改已存在数据的数量操作。");
 			//执行修改现有记录操作
 			int carId = car.getCarId();
 			int carFoodNum = car.getCarFoodNum() + 1;
@@ -68,6 +68,7 @@ public class ShoppingCarController {
 	@GetMapping(value = "/getShoppingCarCount")
 	public int getShoppingCarCount() {
 		int count = shoppingCarService.getShoppingCarCount();
+		log.info("已获得购物车记录条数:" + count);
 		return count;
 	}
 	
@@ -78,6 +79,7 @@ public class ShoppingCarController {
 	@GetMapping(value = "/getCarMsg")
 	public Map<String, Object> getShoppingCarMsg() {
 		List<ShoppingCar> list = shoppingCarService.getShoppingCarMsg();
+		log.info("查询购物车所有记录中....");
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("data", list);
 		map.put("msg", null);

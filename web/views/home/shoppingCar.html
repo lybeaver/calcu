@@ -9,92 +9,54 @@
     <meta name="viewport"
         content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
     <link rel="stylesheet" href="../../layuiadmin/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="../../layuiadmin/style/shoppingCar.css" media="all">
 </head>
 
 <body class="layui-layout-body">
     <div class="layui-layout layui-layout-admin">
-        <div class="layui-card" style="margin-top: 15px; height: 1000px">
+        <div class="layui-card" style="margin: 15px; height: 1000px">
             <div class="layui-card-header">
-                <strong>这里是购物车</strong>
+                <strong>购物车</strong>
             </div>
             <div class="layui-card-body">
                 <table id="shoppingTable" class="layui-table" lay-filter="car"></table>
             </div>
         </div>
-        <div class="layui-footer" style="margin-bottom: 20px;">
+        <div class="layui-footer layui-form" style="margin-right: 200px; margin-bottom: 10px; margin-left: -170px;">
             <!-- 底部固定区域 -->
-            <div class="btn" style="float: right; height: 43px; width: 30px; background-color: burlywood;">
-                提交
+            <div style="float: left;">
+                <input type="checkbox" name="" title="全选" lay-skin="primary">
             </div>
+            <div style="float: left; margin-left: 50%;">
+                <span>共</span>
+                <span>0</span>
+                <span>件商品</span>
+            </div>
+            <div style="float: left; margin-left: 5%;">
+                <span>合计:</span>
+                <span>0</span>
+                <span>元</span>
+            </div>
+            <button class="button" id="addShopping">
+                提 &nbsp; 交
+            </button>
         </div>
     </div>
 
     <script src="../../layuiadmin/layui/layui.js"></script>
+    <script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script>
     <script type="text/html" id="toolBar">
         <a class="layui-icon tools" lay-event="del">&#xe640;</a>
     </script>
 
     <script>
-        layui.use(['table', 'form'], function () {
-            var table = layui.table,
-                form = layui.form;
-            form.render();
-
-            table.render({
-                id: 'carId',
-                elem: '#shoppingTable',
-                url: 'http://localhost:8080/shoppingCar/getCarMsg' //数据接口
-                    ,
-                even: true,
-                skin: 'row',
-                cols: [
-                    [ //表头
-                        {
-                            type: 'checkbox'
-                        }, {
-                            field: 'carFoodName',
-                            title: '名称',
-                            width: 200,
-                            sort: true
-                        }, {
-                            field: 'carUserId',
-                            title: '用户id',
-                            hide: true
-                        }, {
-                            field: 'carOnePrice',
-                            title: '单价',
-                            width: 150,
-                            sort: true
-                        }, {
-                            field: 'carFoodNum',
-                            title: '数量',
-                            width: 150,
-                            sort: true,
-                            edit: 'text'
-                        }, {
-                            field: 'carAllPrice',
-                            title: '金额',
-                            width: 150,
-                            sort: true
-                        }, {
-                            fixed: 'right',
-                            title: '操作',
-                            width: 150,
-                            align: 'center',
-                            toolbar: '#toolBar'
-                        }, {
-                            field: 'carId',
-                            title: 'ID',
-                            hide: true
-                        }
-                    ]
-                ],
-                done: function (res, curr, count) {
-                    console.log('购物车信息查询成功!');
-                }
-            })
-        })
+        layui.config({
+            base: '../../layuiadmin/' //静态资源所在路径
+        }).extend({
+            index: 'lib/index', //主入口模块
+        }).use(['index', 'shoppingCar', 'form']);
     </script>
+
 </body>
 
 </html>

@@ -18,35 +18,35 @@
       <div class="layui-form-item">
         <label class="layui-form-label">用户名</label>
         <div class="layui-input-block">
-          <input type="text" id="userName" name="userName" required lay-verify="required" placeholder="请输入用户名" autocomplete="off"
-            class="layui-input" lay-reqtext="请输入用户名" maxlength="8">
+          <input type="text" id="userName" name="userName" required lay-verify="required" placeholder="请输入用户名"
+            autocomplete="off" class="layui-input" lay-reqtext="请输入用户名" maxlength="8">
         </div>
       </div>
       <!-- 密码 -->
       <div class="layui-form-item">
         <label class="layui-form-label">密 &nbsp;&nbsp; 码</label>
         <div class="layui-input-inline">
-          <input type="password" id="password" name="password" required lay-verify="required" placeholder="请输入密码" autocomplete="off"
-            class="layui-input" lay-reqtext="请输入密码" maxlength="15">
+          <input type="password" id="password" name="password" required lay-verify="required" placeholder="请输入密码"
+            autocomplete="off" class="layui-input" lay-reqtext="请输入密码" maxlength="15">
         </div>
       </div>
       <!-- 确认密码 -->
       <div class="layui-form-item">
         <label class="layui-form-label">确认密码</label>
         <div class="layui-input-inline">
-          <input type="password" id="confirmPassword" name="password" required lay-verify="required" placeholder="请输入密码" autocomplete="off"
-            class="layui-input" lay-reqtext="请输入密码" maxlength="15">
+          <input type="password" id="confirmPassword" name="password" required lay-verify="required" placeholder="请输入密码"
+            autocomplete="off" class="layui-input" lay-reqtext="请输入密码" maxlength="15">
         </div>
       </div>
       <!-- 用户类型 -->
       <div class="layui-form-item">
-        <label class="layui-form-label">    </label>
+        <label class="layui-form-label"> </label>
         <div class="layui-input-inline">
           <select name="userType" lay-verify="" lay-filter="test" id="select">
             <option value="">请选择用户类型</option>
             <option value="1">商家</option>
             <option value="2">用户</option>
-        </select>
+          </select>
         </div>
       </div>
       <!-- 同意服务条款 -->
@@ -69,12 +69,12 @@
   </form>
   <script src="../../layuiadmin/layui/layui.js"></script>
   <script>
-    layui.use(['form', 'layedit', 'laydate','jquery'], function () {
+    layui.use(['form', 'layedit', 'laydate', 'jquery'], function () {
       var form = layui.form,
         layer = layui.layer,
         layedit = layui.layedit,
         laydate = layui.laydate,
-        $ =layui.jquery;
+        $ = layui.jquery;
 
       //监听提交
       form.on('submit(formDemo)', function (data) {
@@ -92,67 +92,67 @@
             if (data == 1) {
               alert('注册成功！')
               $(location).prop('href', 'login.html');
-            }else {
+            } else {
               alert('未知错误');
-            }  
-          }, 
-          error:function(data) {  
-              alert(data)
-          }            
+            }
+          },
+          error: function (data) {
+            alert(data)
+          }
         });
         return false;
       });
 
       //校验用户格式
-    $('#userName').blur(function(){
-      var Namecode = /^[\u4e00-\u9fa5]{2,6}$/;//不能匹配中文
-      var Nmaecode2 = /^[A-Za-z]{4,10}$/;
-      if(Namecode.test($('#userName').val())||Nmaecode2.test($('#userName').val())){
-        if($('#userName').val() != ''){
-          selectUserByUserName();
-        }else{
-          alert('不可以为空');
+      $('#userName').blur(function () {
+        var Namecode = /^[\u4e00-\u9fa5]{2,6}$/; //不能匹配中文
+        var Nmaecode2 = /^[A-Za-z]{4,10}$/;
+        if (Namecode.test($('#userName').val()) || Nmaecode2.test($('#userName').val())) {
+          if ($('#userName').val() != '') {
+            selectUserByUserName();
+          } else {
+            alert('不可以为空');
+          }
+
         }
-          
-        }
-    })
-    
+      })
+
       //校验用户密码格式
-    $('#password').blur(function(){
-      var passwordSize = /^[A-Za-z0-9]{6,13}$/;
-      if (!passwordSize.test($('#password').val())&&$('#password').val()!='') {
+      $('#password').blur(function () {
+        var passwordSize = /^[A-Za-z0-9]{6,13}$/;
+        if (!passwordSize.test($('#password').val()) && $('#password').val() != '') {
           alert('密码必须为6-13位!')
-      }
-  })
+        }
+      })
 
       //校验密码与确认密码是否一致
-    $('#confirmPassword').blur(function(){
-          var password = $('#password').val();
-          var confirmPassword = $('#confirmPassword').val();
-          if (confirmPassword == '' || password != confirmPassword) {
-              alert('密码与确认密码不一致，请重新输入')
-          }
-      })
-
-    //根据用户名查询用户信息是否存在
-    function selectUserByUserName(){
-    $.ajax({
-        type: 'GET',
-        url: 'http://localhost:8080/user/checkUser',
-        data: {'userName':$('#userName').val()},
-        success: function(result){
-            if (result == 0) {
-                alert('用户名已存在!');
-            }
-        },
-        error: function(e){
-            alert('系统错误');
+      $('#confirmPassword').blur(function () {
+        var password = $('#password').val();
+        var confirmPassword = $('#confirmPassword').val();
+        if (confirmPassword == '' || password != confirmPassword) {
+          alert('密码与确认密码不一致，请重新输入')
         }
       })
-    }
-  });
 
-
+      //根据用户名查询用户信息是否存在
+      function selectUserByUserName() {
+        $.ajax({
+          type: 'GET',
+          url: 'http://localhost:8080/user/checkUser',
+          data: {
+            'userName': $('#userName').val()
+          },
+          success: function (result) {
+            if (result == 0) {
+              alert('用户名已存在!');
+            }
+          },
+          error: function (e) {
+            alert('系统错误');
+          }
+        })
+      }
+    });
   </script>
 </body>
 

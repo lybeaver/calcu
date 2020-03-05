@@ -33,19 +33,19 @@
       layui.config({
         base: '../../layuiadmin/' //静态资源所在路径
       }).extend({
-        index: 'lib/index' ,//主入口模块
+        index: 'lib/index', //主入口模块
         cookie: 'lib/cookie'
-      }).use(['index', 'users','jquery','cookie'],function(){
-        var $ =layui.jquery,
-        cookie = layui.cookie;
-      
-        $(function(){
-        if ($.cookie('userName') != null && $.cookie('userName') != 'null') {
-                //从cookie中读取用户名
-                $('#userName').text($.cookie('userName'));
-        }
-        alert($.cookie('userName'))
-      })
+      }).use(['index', 'users', 'jquery', 'cookie'], function () {
+        var $ = layui.jquery,
+          cookie = layui.cookie;
+
+        $(function () {
+          if ($.cookie('userName') != null && $.cookie('userName') != 'null') {
+            //从cookie中读取用户名
+            $('#userName').text($.cookie('userName'));
+          }
+          alert($.cookie('userName'))
+        })
       });
     </script>
 </body>

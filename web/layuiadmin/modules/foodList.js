@@ -87,7 +87,7 @@ function initTable(table, setter){
             , { field: 'addShopping', title: '加入购物车', width: 150, align: 'center', toolbar: '#addTool' }
             , { field: 'foodId', title: 'ID', hide: true }
         ]], done: function (res, curr, count) {
-            console.log('表格信息查询成功!');
+            console.log('菜单信息查询成功!');
         }
     })
 }

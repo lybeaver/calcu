@@ -40,6 +40,7 @@ public class MenuController {
 	 */
 	@GetMapping(value = "/getTypes")
 	public List<String> getAllFoodTypes() {
+		log.getClass();
 		List<String> types = menuService.selectAllFoodTypes();
 		return types;
 	}
@@ -58,10 +59,9 @@ public class MenuController {
 	 * @return
 	 */
 	@PostMapping(value = "/updMenuMsg")
-	public int updateForm(@ModelAttribute Menu params) {
-		System.out.println(params);
+	public int updateMenuMsg(@ModelAttribute Menu params) {
+		log.info("修改菜品信息中....");
 		int result = menuService.updateFood(params);
-		System.out.println(result);
 		return result;
 	}
 	
@@ -71,7 +71,7 @@ public class MenuController {
 	 */
 	@PostMapping(value = "/delFoodById")
 	public int deleteById(@RequestBody Menu params) {
-		log.info("删除主键:"+params.getFoodId());
+		log.info("删除菜品，主键为:"+params.getFoodId());
 		int result = menuMapper.deleteByPrimaryKey(params.getFoodId());
 		return result;
 	}
@@ -83,7 +83,6 @@ public class MenuController {
 	@GetMapping(value = "/page")
 	public Map<String, Object> selectByPage(@ModelAttribute BaseBean params){
 		PageHelper.startPage(params.getPage(), params.getLimit());
-		log.info("当前是第"+params.getPage()+"页,每页显示"+params.getLimit()+"条。");
 		//计算每页的起始记录条数
 		int pageCount = (params.getPage()-1)*params.getLimit();
 		params.setPage(pageCount);
@@ -92,7 +91,7 @@ public class MenuController {
 		//计算总记录数
 		MenuExample example = new MenuExample();
 		long count = menuMapper.countByExample(example);
-		log.info("总记录数:"+count);
+		log.info("当前是第"+params.getPage()+"页,每页显示"+params.getLimit()+"条;总记录数:"+count);
 		//装箱发货
 		Map<String, Object> map = new HashMap<String, Object>();
 		PageInfo<Menu> pageInfo = new PageInfo<Menu>(foods);
