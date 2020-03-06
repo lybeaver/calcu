@@ -11,8 +11,6 @@ import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -26,12 +24,14 @@ import com.nextosd.restaurant.beans.User;
 import com.nextosd.restaurant.beans.UserExample;
 import com.nextosd.restaurant.beans.other.BaseBean;
 import com.nextosd.restaurant.beans.other.LoginBean;
-import com.nextosd.restaurant.mapper.UserMapperBack;
 import com.nextosd.restaurant.mapper.common.UserMapper;
 import com.nextosd.restaurant.service.UserService;
 import com.nextosd.restaurant.utils.Md5Util;
 import com.nextosd.restaurant.utils.VerifyUtil;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @RestController
 @RequestMapping("/user")
 public class UserController {
@@ -40,19 +40,19 @@ public class UserController {
 	private UserMapper userMapper;
 	
 	@Autowired
-	private UserMapperBack userMapperBack;
-	
-	@Autowired
 	private UserService userService;
 	
-	private static final Logger logger = LoggerFactory.getLogger(UserController.class);
-	
-	//获取验证码
+	/**
+	 * 获取验证码
+	 * @param response
+	 * @param session
+	 * @throws Exception
+	 */
 	@GetMapping("/verify-code")
 	public void getCode(HttpServletResponse response,HttpSession session) throws Exception{
 	    Map<String, Object> map = VerifyUtil.createImage();
 	    String sb = (String) map.get("code");
-	    logger.info("获取验证码："+sb);
+	    log.info("获取验证码："+sb);
 	    session.setAttribute("checkCode", sb);
 	    //将图片输出给浏览器
 	    BufferedImage image = (BufferedImage) map.get("image");
@@ -62,36 +62,35 @@ public class UserController {
 	}
 
 	/**
-	  * 	登录
-	  * @Title: UserController.java  
+	  * 登录
+	  * @Title UserController.java  
 	  * @param 
 	  * @return  
-	  * @date 2020年2月24日
+	  * @date 2020/2/24
 	 */
 	@PostMapping(value = "/login")
 	public int login(LoginBean lgBean,HttpSession session) throws Exception {
-		int result = 0;
+		int result = 1;
 		String check = (String)session.getAttribute("checkCode");
-		logger.info("用户名:"+lgBean.getUserName());
+		log.info("用户:"+lgBean.getUserName()+"登陆中....");
 		if (!lgBean.getCheckNum().equalsIgnoreCase(check)) {
-			logger.info("验证码错误");
-			result = 2 ;
-			return result;
+			log.info("验证码错误");
+			result = 2;
 		}
-		User exUser = userMapperBack.selectUserByUserName(lgBean.getUserName());
+		User exUser = userService.selectUserByUserName(lgBean.getUserName());
 		if (exUser == null) {
-			logger.info("用户名不存在");
-			return result;
+			log.info("用户名不存在");
+			result = 0;
 		}
 		String md5EmcodeString = Md5Util.md5Encode(lgBean.getPassword());
-		if (exUser.getPassword().equals(md5EmcodeString)) {
-			logger.info("登录成功");
-			result = 1;
-			return result;
+		if (!exUser.getPassword().equals(md5EmcodeString)) {
+			log.info("密码错误");
+			result = 0;
 		}
-		logger.info("密码错误");
+		log.info("登录成功");
 		return result;
 	}
+	
 	/**
 	  *	注册用户
 	  * @Title: UserController.java  
@@ -101,11 +100,11 @@ public class UserController {
 	 */
 	@PostMapping(value = "/insertUser")
 	public int insertUser(User user) throws Exception {
-		logger.info("开始注册");
+		log.info("开始注册....");
 		String pd = user.getPassword();
-		logger.info(user.getUserName());
+		log.info(user.getUserName());
 		String md5EncodeString = Md5Util.md5Encode(pd);
-		logger.info("md5加密后"+md5EncodeString);
+		log.info("md5加密后密码:"+md5EncodeString);
 		user.setPassword(md5EncodeString);
 		Date now = new Date();
 		user.setLogTime(now);
@@ -113,6 +112,7 @@ public class UserController {
 		int result = userMapper.insertSelective(user);
 		return result;
 	}
+	
 	/**
 	  *	校验用户是否存不存在
 	  * @Title: UserController.java  
@@ -122,8 +122,8 @@ public class UserController {
 	 */
 	@GetMapping(value = "/checkUser")
 	public int checkMessage(String userName) {
-		User user = userMapperBack.selectUserByUserName(userName);
 		int result = 0;
+		User user = userService.selectUserByUserName(userName);
 		if (user == null) {
 			//如果用户可用，返回1
 			result = 1;
@@ -131,6 +131,7 @@ public class UserController {
 		//如果用户存在，返回0
 		return result;
 	}
+	
 	/**
 	  *	个人资料
 	  * @Title: UserController.java  
@@ -140,10 +141,11 @@ public class UserController {
 	 */
 	@GetMapping(value = "/personalData")
 	public User personalData(String userName) {
-		logger.info("个人资料跳转中.........");
-		User user = userMapperBack.selectUserByUserName(userName);
+		log.info("个人资料跳转中.........");
+		User user = userService.selectUserByUserName(userName);
 		return user;
 	}
+	
 	/**
 	  *  密码转换
 	  * @Title: UserController.java  
@@ -154,7 +156,7 @@ public class UserController {
 	@PostMapping("/switch")
 	public String switchPassword(String password) throws Exception {
 		String md5EncodeString = Md5Util.md5Encode(password);
-		logger.info(".....密码转换:"+md5EncodeString);
+		log.info(".....密码转换:"+md5EncodeString);
 		return md5EncodeString;
 	}
 	
@@ -167,7 +169,7 @@ public class UserController {
 	 */
 	@PostMapping(value = "/updateUser")
 	public int updateUser(User user) {
-		logger.info("修改密码跳转.......");
+		log.info("修改密码跳转.......");
 		user.setLogTime(new Date());
 		int result = userMapper.updateByPrimaryKeySelective(user);
 		System.out.println(".............."+result);
@@ -182,7 +184,7 @@ public class UserController {
 	@GetMapping(value = "/page")
 	public Map<String, Object> selectByPage(@ModelAttribute BaseBean params){
 		PageHelper.startPage(params.getPage(), params.getLimit());
-		logger.info("当前是第"+params.getPage()+"页,每页显示"+params.getLimit()+"条。");
+		log.info("当前是第"+params.getPage()+"页,每页显示"+params.getLimit()+"条。");
 		//计算每页的起始记录条数
 		int pageCount = (params.getPage()-1)*params.getLimit();
 		params.setPage(pageCount);
@@ -193,11 +195,35 @@ public class UserController {
 		UserExample example = new UserExample();
 		//计算总记录数
 		long count = userMapper.countByExample(example);
-		logger.info("总记录数:"+count);
+		log.info("总记录数:"+count);
 		map.put("data",pageInfo.getList());
 		map.put("count",count);
 		map.put("msg",null);
 		map.put("code",0);
 		return map;
 	}
+	
+	/**
+	 * 根据用户名查询用户id
+	 * @param userName
+	 * @return 
+	 */
+	@GetMapping(value = "/getUserId")
+	public int getUserId(String userName) {
+		User user = userService.selectUserByUserName(userName);
+		int userId = user.getUserId();
+		return userId;
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 }

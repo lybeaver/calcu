@@ -57,7 +57,10 @@ public class UserServiceImp implements UserService {
 		return user;
 	}
 
-	@Override
+	/**
+	 * 分页查询用户信息
+	 * @return
+	 */
 	public List<User> selectLimitUsers(BaseBean baseBean) {
 		List<User> users=userMapper.selectLimitUsers(baseBean);
 		return users;

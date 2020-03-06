@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.nextosd.restaurant.mapper.ShoppingCarMapperBack">
 
-	<resultMap type="com.nextosd.restaurant.beans.ShoppingCar" id="ShoppingCar">
+	<resultMap type="com.nextosd.restaurant.beans.ShoppingCar" id="SHOPPINGCAR">
 		<id column="car_id" property="carId"/>
 		<result column="car_user_id" property="carUserId"/>
 		<result column="car_user_name" property="carUserName"/>
@@ -36,11 +36,60 @@
 	
 	<select id="getShoppingCarCount" resultType="Integer">
 		SELECT
-			count(car_id)
+			sum(car_food_num)
 		FROM
 			tbl_shopping_car
 	</select>
+	
+	<select id="getShoppingCarMsg" resultMap="SHOPPINGCAR">
+		select
+			car_id,
+			car_user_id,
+			car_user_name,
+			car_food_id,
+			car_food_name,
+			car_food_num,
+			car_one_price,
+			car_all_price
+		from
+			tbl_shopping_car
+	</select>
+	
+	<select id="selectMsgByFoodId" resultMap="SHOPPINGCAR">
+		select
+			car_id,
+			car_user_id,
+			car_user_name,
+			car_food_id,
+			car_food_name,
+			car_food_num,
+			car_one_price,
+			car_all_price
+		from
+			tbl_shopping_car
+		where
+			car_food_id = #{carFoodId}
+		and
+			car_user_id = #{carUserId}
+	</select>
 
+	<update id="updShoppingCarMsg" parameterType="com.nextosd.restaurant.beans.ShoppingCar">
+		UPDATE 
+			tbl_shopping_car
+		SET 
+			car_food_num = #{carFoodNum},
+			car_all_price = #{carAllPrice}
+		WHERE
+			car_id = #{carId}
+	</update>
+	
+	<delete id="deleteShoppingMsg">
+		DELETE FROM
+			tbl_shopping_car
+		WHERE
+			car_id = #{carId}
+	</delete>
+	
 
 
 

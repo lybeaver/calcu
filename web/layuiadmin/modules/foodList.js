@@ -6,6 +6,22 @@ layui.define(function (exports) {
             form = layui.form;
         form.render();
 
+        var userId = 0;
+
+        //获取父窗口用户名(等待cookie功能的开发)
+        var userName = $('#userName', parent.document).text();
+        //根据用户名查询用户id
+        $.ajax({
+            type: "get",
+            url: setter.address + "user/getUserId",
+            data: {
+                'userName': userName
+            },
+            success: function(data){
+                userId = data;
+            }
+        })
+
         //初始化并读取表格信息
         initTable(table, setter);
 
@@ -42,7 +58,7 @@ layui.define(function (exports) {
             }
             //加入购物车按钮操作
             if (obj.event === 'add') {
-                addShoppingCar(setter, data);
+                addShoppingCar(setter, data, userId);
             }
             
         });
@@ -71,7 +87,7 @@ function initTable(table, setter){
             , { field: 'addShopping', title: '加入购物车', width: 150, align: 'center', toolbar: '#addTool' }
             , { field: 'foodId', title: 'ID', hide: true }
         ]], done: function (res, curr, count) {
-            console.log('表格信息查询成功!');
+            console.log('菜单信息查询成功!');
         }
     })
 }
@@ -170,12 +186,12 @@ function updMenuMsg(obj, setter){
 }
 
 //加入购物车功能
-function addShoppingCar(setter, data){
+function addShoppingCar(setter, data, userId){
     $.ajax({
         type: "POST",
         url: setter.address + "shoppingCar/insertShoppingCar",
         data: {
-            'carUserId': 1,
+            'carUserId': userId,
             'carFoodId': data.foodId,
             'carFoodName': data.foodName,
             'carOnePrice': data.foodPrice
@@ -183,7 +199,7 @@ function addShoppingCar(setter, data){
         success: function(data){
             if(data == 1){
                 layer.msg('已加入购物车', {icon:1,time:1000});
-                //服务端获取购物车数据条数
+                //服务端获取购物车物品件数
                 $.ajax({
                     type: "GET",
                     url: setter.address + "shoppingCar/getShoppingCarCount",

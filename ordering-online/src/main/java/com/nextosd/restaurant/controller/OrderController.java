@@ -19,11 +19,6 @@ public class OrderController {
 	@Autowired
 	private OrderService orderService;
 	
-	
-	public void insIntoShoppingCar() {
-		
-	}
-	
 	/**
 	 * 查询未完成订单id
 	 * @return

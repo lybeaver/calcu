@@ -1,12 +1,11 @@
 package com.nextosd.restaurant.service.imp;
+
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,11 +15,12 @@ import com.nextosd.restaurant.annotation.Table;
 import com.nextosd.restaurant.mapper.CommMapper1;
 import com.nextosd.restaurant.service.CommMapperService;
 
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Transactional
 @Service("baseMysqlCRUDMapper")
 public class CommMapperServiceImp implements CommMapperService {
-	private static final Logger log = LoggerFactory.getLogger(CommMapperServiceImp.class);
 
     private static final String KEYFIELDMAP = "keyFieldMap";
 

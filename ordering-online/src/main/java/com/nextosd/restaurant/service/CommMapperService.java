@@ -1,6 +1,7 @@
 package com.nextosd.restaurant.service;
 
 import java.util.List;
+
 public interface CommMapperService<T> {
 
     /** * 保存，如果主键有值则进行更新操作 * @param t */

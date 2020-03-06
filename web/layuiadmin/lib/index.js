@@ -46,6 +46,9 @@ layui.extend({
             , '</div>'
           ].join(''));
           tabsPage.index = tabs.length;
+          if(text.indexOf('购物车') >= 0){
+            text = '购物车';
+          }
           element.tabAdd(FILTER_TAB_TBAS, {
             title: '<span>' + text + '</span>'
             , id: url

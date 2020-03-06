@@ -119,6 +119,7 @@ public class OrderServiceImp implements OrderService {
 	
 	/**
 	 * 查询未完成订单
+	 * @return
 	 */
 	public Order selectUndoneOrder() {
 		Order order = orderMapper.selectUndoneOrder();
