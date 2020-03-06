@@ -40,6 +40,13 @@ public interface ShoppingCarMapperBack {
 	 */
 	int updShoppingCarMsg(ShoppingCar shoppingCar);
 	
+	/**
+	 * 删除一条购物车记录
+	 * @param carId
+	 * @return
+	 */
+	int deleteShoppingMsg(int carId);
+	
 	
 	
 

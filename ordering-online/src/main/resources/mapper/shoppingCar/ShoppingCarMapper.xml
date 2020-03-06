@@ -43,6 +43,7 @@
 	
 	<select id="getShoppingCarMsg" resultMap="SHOPPINGCAR">
 		select
+			car_id,
 			car_user_id,
 			car_user_name,
 			car_food_id,
@@ -81,6 +82,14 @@
 		WHERE
 			car_id = #{carId}
 	</update>
+	
+	<delete id="deleteShoppingMsg">
+		DELETE FROM
+			tbl_shopping_car
+		WHERE
+			car_id = #{carId}
+	</delete>
+	
 
 
 

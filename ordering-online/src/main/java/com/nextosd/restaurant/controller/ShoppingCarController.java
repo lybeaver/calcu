@@ -78,13 +78,37 @@ public class ShoppingCarController {
 	 */
 	@GetMapping(value = "/getCarMsg")
 	public Map<String, Object> getShoppingCarMsg() {
-		List<ShoppingCar> list = shoppingCarService.getShoppingCarMsg();
 		log.info("查询购物车所有记录中....");
+		List<ShoppingCar> list = shoppingCarService.getShoppingCarMsg();
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("data", list);
 		map.put("msg", null);
 		map.put("code", 0);
 		return map;
+	}
+	
+	/**
+	 * 执行修改记录的数量操作
+	 * @param shoppingCar
+	 * @return
+	 */
+	@PostMapping(value = "/updFoodNum")
+	public int updFoodNum(ShoppingCar shoppingCar) {
+		log.info("修改购物车记录数量中....");
+		int result = shoppingCarService.updShoppingCarMsg(shoppingCar);
+		return result;
+	}
+	
+	/**
+	 * 购物车删除一条记录
+	 * @param carId
+	 * @return
+	 */
+	@PostMapping(value = "/delShoppingMsg")
+	public int delShoppingMsg(int carId) {
+		log.info("删除购物车记录,id:" + carId);
+		int result = shoppingCarService.deleteShoppingMsg(carId);
+		return result;
 	}
 
 }

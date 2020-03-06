@@ -22,7 +22,8 @@
                 <table id="shoppingTable" class="layui-table" lay-filter="car"></table>
             </div>
         </div>
-        <div class="layui-footer layui-form" style="margin-right: 200px; margin-bottom: 10px; margin-left: -170px;">
+        <div class="layui-footer layui-form"
+            style="margin-right: 200px; margin-bottom: 10px; margin-left: -170px; width: 900px;">
             <!-- 底部固定区域 -->
             <div style="float: left;">
                 <input type="checkbox" name="" title="全选" lay-skin="primary">
@@ -53,8 +54,22 @@
         layui.config({
             base: '../../layuiadmin/' //静态资源所在路径
         }).extend({
-            index: 'lib/index', //主入口模块
-        }).use(['index', 'shoppingCar', 'form']);
+            index: 'lib/index' //主入口模块
+        }).use(['index', 'shoppingCar', 'slider'], function () {
+            var $ = layui.$,
+                slider = layui.slider,
+                admin = layui.admin,
+                element = layui.element,
+                layer = layui.layer,
+                router = layui.router();
+            //自定义颜色
+            slider.render({
+                elem: '#test-slider-dome17',
+                value: [0, 100],
+                range: true,
+                theme: '#5FB878' //主题色
+            });
+        });
     </script>
 
 </body>

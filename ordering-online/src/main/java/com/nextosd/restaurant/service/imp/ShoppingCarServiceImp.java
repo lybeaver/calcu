@@ -60,6 +60,16 @@ public class ShoppingCarServiceImp implements ShoppingCarService{
 		int result = shoppingCarMapperBack.updShoppingCarMsg(shoppingCar);
 		return result;
 	}
+
+	/**
+	 * 删除一条购物车记录
+	 * @param carId
+	 * @return
+	 */
+	public int deleteShoppingMsg(int carId) {
+		int result = shoppingCarMapperBack.deleteShoppingMsg(carId);
+		return result;
+	}
 	
 	
 	

@@ -35,5 +35,12 @@ public interface ShoppingCarService {
 	 * 根据foodId和userId修改信息
 	 */
 	int updShoppingCarMsg(ShoppingCar shoppingCar);
+	
+	/**
+	 * 删除一条购物车记录
+	 * @param carId
+	 * @return
+	 */
+	int deleteShoppingMsg(int carId);
 
 }
