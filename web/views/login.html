@@ -86,7 +86,7 @@
           data: data.field,
           success: function (data) {
             if (data == 1) {
-              $.cookie('userName',userName);
+              $.cookie('userName', userName, { path: '/views'});
               $(location).prop('href', 'index.html');
             }else if (data == 2 ){
               alert('验证码错误');
