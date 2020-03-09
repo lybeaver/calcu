@@ -71,25 +71,26 @@
             cookie: 'lib/cookie' //cookie 模块
         }).use('cookie');
         
-        layui.use(['layedit', 'laydate', 'jquery', 'util'], function () {
+        layui.use(['layedit', 'laydate', 'jquery', 'util','cookie'], function () {
             var layer = layui.layer,
                 layedit = layui.layedit,
                 laydate = layui.laydate,
                 $ = layui.jquery,
-                util = layui.util;
+                util = layui.util,
+                cookie = layui.cookie;
 
             //直接加载
             $(function () {
-                // if ($.cookie('userName') != null && $.cookie('userName') != 'null') {
-                //         //从cookie中读取用户名
-                //         $('#userName').text($.cookie('userName'));
-                //}
+                if ($.cookie('userName') != null && $.cookie('userName') != 'null') {
+                        //从cookie中读取用户名
+                        $('#userName').text($.cookie('userName'));
+                }
                 selectByName();
 
             })
 
             function selectByName() {
-                var userName = 'admin';
+                var userName = $.cookie('userName');
                 var datetime;
                 $.ajax({
                     // xhrFields: {
