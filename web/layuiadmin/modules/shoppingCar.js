@@ -61,7 +61,7 @@ layui.define(function (exports) {
         //监听工具条
         table.on('tool(car)', function(obj){
             var data = obj.data;
-            console.log('删除的记录id:'+data.carId);
+            console.log('删除记录id:'+data.carId);
             //删除按钮操作
             if(obj.event === 'del') {
                 $.ajax({
@@ -72,7 +72,10 @@ layui.define(function (exports) {
                     },
                     success: function (result) {
                         if(result == 1){
-                            layer.msg('删除成功!', {icon:1, time:1000});
+                            layer.msg('删除成功!', {icon:1, time:1000}, function(){
+                                obj.del();
+                                layer.close();
+                            });
                         }else{
                             layer.msg('删除失败!', {icon:5, anim: 6});
                         }
@@ -84,5 +87,60 @@ layui.define(function (exports) {
             }
         })
 
+        //监听复选框状态
+        var allNums = 0;
+        var allPrices = 0;
+        table.on('checkbox(car)', function(obj){
+            var checkStatus = table.checkStatus('carReload'),
+                data = checkStatus.data;
+            
+            if(checkStatus.isAll){
+                $('#aaa').show();
+            }else{
+                $('#aaa').hide();
+            }
+            //后台判断总数和总价
+            layer.alert(JSON.stringify(data));
+            $.ajax({
+                type: "POST",
+                url: setter.address + "shoppingCar/getAllNumAndPrice",
+                data: JSON.stringify(data),
+                contentType: "application/json; charset=utf-8",
+                success: function (data) {
+                    console.log('成功,'+data);
+                    // allNums = allNums + map.allNums;
+                    // allPrices = allPrices + map.allPrices;
+                },
+                error: function (e) {
+                    alert('失败'+e.readyState);
+                }
+            })
+            
+        })
+
+        //全选按钮事件
+        var $ = layui.$,
+        active = {
+            isAll: function () { //验证是否全选
+                var checkStatus = table.checkStatus('carReload');
+                if(checkStatus.isAll){
+                    $('#aaa').show();
+                }else{
+                    $('.layui-unselect').click();
+                    $('#aaa').show();
+                }
+            }
+        }
+        $('.demoTable .layui-btn').on('click', function () {
+            var type = $(this).data('type');
+            active[type] ? active[type].call(this) : '';
+        });
+
+        //获取选中的数据总数量和总价格
+
     })
+
+    //对外暴露的接口
+    exports('shoppingCar', {});
 })
+

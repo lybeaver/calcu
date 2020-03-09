@@ -9,10 +9,8 @@ layui.define(function (exports) {
             id: 'userReload',
             elem: '#userTable',
             height: 472,
-            url: setter.address + 'user/page' //数据接口
-                ,
-            page: true //开启分页
-                ,
+            url: setter.address + 'user/page', //数据接口
+            page: true, //开启分页
             limits: [3, 5, 7],
             cols: [
                 [ //表头

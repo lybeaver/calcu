@@ -12,9 +12,9 @@
     <link rel="stylesheet" href="../../layuiadmin/style/shoppingCar.css" media="all">
 </head>
 
-<body class="layui-layout-body">
+<body>
     <div class="layui-layout layui-layout-admin">
-        <div class="layui-card" style="margin: 15px; height: 1000px">
+        <div class="layui-card" style="margin: 15px;">
             <div class="layui-card-header">
                 <strong>购物车</strong>
             </div>
@@ -25,32 +25,33 @@
         <div class="layui-footer layui-form"
             style="margin-right: 200px; margin-bottom: 10px; margin-left: -170px; width: 900px;">
             <!-- 底部固定区域 -->
-            <div style="float: left;">
-                <input type="checkbox" name="" title="全选" lay-skin="primary">
+            <div style="float: left; border: 1px;" class="demoTable">
+                <input type="button" class="layui-btn" value="全选" lay-skin="primary" data-type="isAll">
             </div>
-            <div style="float: left; margin-left: 50%;">
+            <div style="display: none; float: left; width: 50px; margin-left: 5px;" id="aaa">
+                <span class="layui-icon" style="color: green; font-size: 32px;"> &#xe605; </span>
+            </div>
+            <div style="float: right; margin-right: 15%;">
                 <span>共</span>
-                <span>0</span>
+                <span id="allNums">0</span>
                 <span>件商品</span>
             </div>
-            <div style="float: left; margin-left: 5%;">
+            <div style="float: right; margin-right: 5%;">
                 <span>合计:</span>
-                <span>0</span>
+                <span id="allPrices">0</span>
                 <span>元</span>
             </div>
-            <button class="button" id="addShopping">
+            <button class="layui-btn" id="addShopping">
                 提 &nbsp; 交
             </button>
         </div>
-        <div class="bottom-panel">
-            <span>总数:</span><span style="color: red;margin-right: 15px" id="RechargeCount_TotalQty">---</span>
-            <span>合计金额:</span><span style="color:red;margin-right: 20px" id="RechargeCount_TotalMoney">---</span>
-        </div>
     </div>
+
+    
 
     <script src="../../layuiadmin/layui/layui.js"></script>
     <script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script>
-    <script type="text/html" id="toolBar">
+    <script type="text/html" id="toolBar" class="tools">
         <a class="layui-icon tools" lay-event="del">&#xe640;</a>
     </script>
 

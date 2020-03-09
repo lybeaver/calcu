@@ -83,6 +83,8 @@ public class MenuController {
 	@GetMapping(value = "/page")
 	public Map<String, Object> selectByPage(@ModelAttribute BaseBean params){
 		PageHelper.startPage(params.getPage(), params.getLimit());
+		int nowPage = params.getPage();
+		int nowLimit = params.getLimit();
 		//计算每页的起始记录条数
 		int pageCount = (params.getPage()-1)*params.getLimit();
 		params.setPage(pageCount);
@@ -91,7 +93,7 @@ public class MenuController {
 		//计算总记录数
 		MenuExample example = new MenuExample();
 		long count = menuMapper.countByExample(example);
-		log.info("当前是第"+params.getPage()+"页,每页显示"+params.getLimit()+"条;总记录数:"+count);
+		log.info("当前是第"+nowPage+"页,每页显示"+nowLimit+"条记录,总记录数:"+count);
 		//装箱发货
 		Map<String, Object> map = new HashMap<String, Object>();
 		PageInfo<Menu> pageInfo = new PageInfo<Menu>(foods);
