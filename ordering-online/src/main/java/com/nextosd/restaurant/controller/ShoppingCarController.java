@@ -110,5 +110,22 @@ public class ShoppingCarController {
 		int result = shoppingCarService.deleteShoppingMsg(carId);
 		return result;
 	}
+	
+	
+	@PostMapping(value = "/getAllNumAndPrice")
+	public int getAllNumAndPrice(ShoppingCar shoppingCar) {
+		System.out.println("数量:"+shoppingCar.getCarFoodNum()+",总价:"+shoppingCar.getCarAllPrice());
+		System.out.println("获取数据:"+shoppingCar);
+		return 0;
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
 
 }
