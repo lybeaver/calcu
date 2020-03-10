@@ -103,5 +103,18 @@ public class MenuController {
 		map.put("code",0);
 		return map;
 	}
+	
+	/**
+	 * 菜品信息模糊查询
+	 * @param foodName
+	 * @return
+	 */
+	@GetMapping(value = "/getMenuLikeNameMsg")
+	public List<Menu> getMenuLikeNameMsg(String foodName) {
+		System.out.println("获取到的菜名为:"+foodName);
+		List<Menu> list = menuService.selectFoodsLikeFoodName(foodName);
+		System.out.println("查询到的信息:"+list);
+		return list;
+	}
 }
 

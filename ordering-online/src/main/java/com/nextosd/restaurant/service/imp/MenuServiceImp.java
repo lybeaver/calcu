@@ -40,7 +40,8 @@ public class MenuServiceImp implements MenuService {
 	 * @return 	Menu	菜品信息
 	 */
 	public List<Menu> selectFoodsLikeFoodName(String foodName) {
-		List<Menu> foods = menuMapper.selectFoodsLikeFoodName(foodName);
+		String name = "%" + foodName + "%";
+		List<Menu> foods = menuMapper.selectFoodsLikeFoodName(name);
 		return foods;
 	}
 	
