@@ -3,9 +3,14 @@ layui.define(function (exports) {
         var setter = layui.setter,
             laypage = layui.page,
             table = layui.table;
-
+        
         //初始化并读取表格信息
         initTable(table, setter);
+
+        //获取父窗口用户名(等待cookie功能的开发)
+        var cokName = $("#cokName").text();
+        var userId = 0;
+        console.log(cokName);
 
         //执行一个laypage实例
         // laypage.render({
@@ -20,19 +25,20 @@ layui.define(function (exports) {
             if (obj.event === 'del') {
                 delUserMsg(setter, data, obj);
             }
+            var usertype ;
             //修改按钮操作
             if (obj.event === 'edit') {
                 num = num + 1;
                 if (num == 1) {
                     $('#userId').attr("value", data.userId);
                     $('#userName').attr("value", data.userName);
-                    $('#userType').attr("value", data.userType);
+                    $('#userType option[value ='+data.userType+']').attr("selected", 'selected');
                 } else {
                     $('#userId').attr("value", data.userId);
                     $('#userName').attr("value", data.userName);
-                    $('#userType').attr("value", data.userType);
+                    $('#userType option[value ='+data.userType+']').attr("selected", 'selected');
                 }
-                updUserMsg(obj, setter);
+                updUserMsg(obj, setter,cokName);
             }
 
         });
@@ -96,9 +102,10 @@ function initTable(table, setter) {
 };
 
 //更新按钮弹窗功能
-function updUserMsg(obj, setter) {
+function updUserMsg(obj, setter,cokName) {
     layer.open({
-        title: '修改信息',
+        height:'280px',
+        title: '修改用户权限',
         content: $('#uu'),
         type: 1,
         btn: ['提交', '取消'],
@@ -110,11 +117,12 @@ function updUserMsg(obj, setter) {
             var userType = $('#userType').val();
             $.ajax({
                 type: "POST",
-                url: setter.address + "menu/updMenuMsg",
+                url: setter.address + "user/updUserMsg",
                 data: {
                     'userId': userId,
                     'userName': userName,
                     'userType': userType,
+                    'cokName':cokName,
                 },
                 success: function (data) {
                     if (data == 1) {
@@ -130,6 +138,10 @@ function updUserMsg(obj, setter) {
                                 userType: userType,
                             });
                         });
+                    }else{
+                        layer.closeAll('page'); //关闭所有页面层
+                        alert("您的权限不够无法修改！")
+                        //console.log("您的权限不够！！！");
                     }
                 },
                 error: function (e) {
@@ -145,6 +157,9 @@ function updUserMsg(obj, setter) {
         shade: [0.3, '#000'],
         shadeClose: true,
         resize: false,
-        area: ['400px', '342px']
+        area: ['400px', '342px'],
+        end:function(){
+            location.reload();//弹出层结束后，刷新主页面
+        }
     })
 }
