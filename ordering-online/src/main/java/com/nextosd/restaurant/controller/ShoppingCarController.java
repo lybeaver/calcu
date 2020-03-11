@@ -7,6 +7,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -111,12 +112,24 @@ public class ShoppingCarController {
 		return result;
 	}
 	
-	
+	/**
+	 * 计算选中的数据数量和总价
+	 * @param list
+	 * @return
+	 */
 	@PostMapping(value = "/getAllNumAndPrice")
-	public int getAllNumAndPrice(ShoppingCar shoppingCar) {
-		System.out.println("数量:"+shoppingCar.getCarFoodNum()+",总价:"+shoppingCar.getCarAllPrice());
-		System.out.println("获取数据:"+shoppingCar);
-		return 0;
+	public Map<String, Integer> getAllNumAndPrice(@RequestBody List<ShoppingCar> list) {
+		int carFoodNum = 0;
+		int carAllPrice = 0;
+		for (ShoppingCar shoppingCar : list) {
+			//System.out.println(shoppingCar);
+			carFoodNum = shoppingCar.getCarFoodNum() + carFoodNum;
+			carAllPrice = shoppingCar.getCarAllPrice() + carAllPrice;
+		}
+		Map<String, Integer> map = new HashMap<>();
+		map.put("carFoodNum", carFoodNum);
+		map.put("carAllPrice", carAllPrice);
+		return map;
 	}
 	
 	

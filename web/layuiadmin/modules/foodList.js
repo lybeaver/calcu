@@ -62,6 +62,37 @@ layui.define(function (exports) {
             }
             
         });
+
+        //搜索按钮点击事件
+        $('#select').on('click', function(){
+            var foodName = $('#demoReload').val();
+            //layer.msg(foodName);
+            $.ajax({
+                type: 'get',
+                url: setter.address + 'menu/getMenuLikeNameMsg',
+                data: {
+                    'foodName': foodName
+                },
+                dataType: 'json',
+                success: function(data){
+                    console.log(data);
+                }, error: function(e) {
+                    layer.msg('错误'+e.readyState);
+                }
+            })
+        })
+
+
+
+
+
+
+
+
+
+
+
+
     });
     exports('foodList', {})
 });
@@ -99,16 +130,19 @@ function getAllFoodTypes(setter, form){
         dataType: 'json',
         type: 'get',
         success: function (data) {
-        var list = data; //返回的数据
-        var server = document.getElementById("selectType"); //server为select定义的id
-        for (var p in list) {
-            var option = document.createElement("option"); // 创建添加option属性
-            option.setAttribute("value", p); // 给option的value添加值
-            option.innerText = list[p]; // 打印option对应的纯文本
-            server.appendChild(option); // 给select添加option子标签
-            form.render("select"); // 刷新select，显示出数据
+            var list = data; //返回的数据
+            var server = document.getElementById("selectType"); //server为select定义的id
+            for (var p in list) {
+                var option = document.createElement("option"); // 创建添加option属性
+                option.setAttribute("value", p); // 给option的value添加值
+                option.innerText = list[p]; // 打印option对应的纯文本
+                server.appendChild(option); // 给select添加option子标签
+                form.render("select"); // 刷新select，显示出数据
+            }
+        }, error: function(e) {
+            layer.msg('错误'+e.readyState);
         }
-        }
+
     })
 }
 
@@ -118,12 +152,14 @@ function getShoppingCarCount(setter){
         type: "GET",
         url: setter.address + "shoppingCar/getShoppingCarCount",
         success: function (data) {
-        console.log("数据库购物车记录条数:" + data);
-        if (data > 99) {
-            $('#carNum').text("99+");
-        } else {
-            $('#carNum').text(data);
-        }
+            console.log("数据库购物车记录条数:" + data);
+            if (data > 99) {
+                $('#carNum').text("99+");
+            } else {
+                $('#carNum').text(data);
+            }
+        }, error: function(e) {
+            layer.msg('错误'+e.readyState);
         }
     })
 }

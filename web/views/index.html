@@ -10,6 +10,7 @@
     content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
   <link rel="stylesheet" href="../layuiadmin/layui/css/layui.css" media="all">
   <link rel="stylesheet" href="../layuiadmin/style/admin.css" media="all">
+  <link rel="stylesheet" href="../layuiadmin/style/index.css" mddia="all">
 </head>
 
 <body class="layui-layout-body">
@@ -30,6 +31,14 @@
             </a>
           </li>
         </ul>
+
+        <!-- 显示系统当前时间 -->
+        <ul class="layui-nav layui-layout-left" style="margin-left: 30%;">
+          <li class="layui-nav-item" lay-unselect>
+            <input type="text" class="layui-input" id="showSysDate" disabled="disabled">
+          </li>
+        </ul>
+        
         <ul class="layui-nav layui-layout-right" lay-filter="layadmin-layout-right">
 
           <li class="layui-nav-item" lay-unselect>
@@ -62,7 +71,7 @@
               <dd><a lay-href="user/info.html">基本资料</a></dd>
               <dd><a lay-href="user/password.html">修改密码</a></dd>
               <hr>
-              <dd layadmin-event="logout" style="text-align: center;"><a>注销</a></dd>
+              <dd layadmin-event="logout" style="text-align: center;"><a class="layui-icon"> &#xe682; 注销</a></dd>
             </dl>
           </li>
 
@@ -219,11 +228,21 @@
 
       $(function () {
         if ($.cookie('userName') != null && $.cookie('userName') != 'null') {
-                //从cookie中读取用户名
-                $('#userName').text($.cookie('userName'));
-                console.log($.cookie('userName'));
+          //从cookie中读取用户名
+          $('#userName').text($.cookie('userName'));
+          console.log($.cookie('userName'));
         }
       })
+      //获取系统当前时间
+      setInterval(function(){
+        laydate.render({
+          elem: '#showSysDate'
+          ,type: 'datetime'
+          ,format: '北京时间:yyyy-MM-dd HH:mm:ss' //可任意组合
+          ,theme: 'molv'
+          ,value: new Date()
+        })
+      }, 100)
     });
   </script>
 </body>

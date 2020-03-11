@@ -88,8 +88,6 @@ layui.define(function (exports) {
         })
 
         //监听复选框状态
-        var allNums = 0;
-        var allPrices = 0;
         table.on('checkbox(car)', function(obj){
             var checkStatus = table.checkStatus('carReload'),
                 data = checkStatus.data;
@@ -100,16 +98,17 @@ layui.define(function (exports) {
                 $('#aaa').hide();
             }
             //后台判断总数和总价
-            layer.alert(JSON.stringify(data));
+            //layer.alert(JSON.stringify(data));
             $.ajax({
                 type: "POST",
                 url: setter.address + "shoppingCar/getAllNumAndPrice",
                 data: JSON.stringify(data),
-                contentType: "application/json; charset=utf-8",
-                success: function (data) {
-                    console.log('成功,'+data);
-                    // allNums = allNums + map.allNums;
-                    // allPrices = allPrices + map.allPrices;
+                dataType: "json",
+                contentType: "application/json",
+                success: function (map) {
+                    layer.msg('总数量为:'+map.carFoodNum+',总价格为:'+map.carAllPrice, {time: 1000});
+                    $('#allNums').text(map.carFoodNum);
+                    $('#allPrices').text(map.carAllPrice);
                 },
                 error: function (e) {
                     alert('失败'+e.readyState);
@@ -124,10 +123,9 @@ layui.define(function (exports) {
             isAll: function () { //验证是否全选
                 var checkStatus = table.checkStatus('carReload');
                 if(checkStatus.isAll){
-                    $('#aaa').show();
+                    layer.msg('已经全选啦!', {anim: 6, time: 600})
                 }else{
                     $('.layui-unselect').click();
-                    $('#aaa').show();
                 }
             }
         }
