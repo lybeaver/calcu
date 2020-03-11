@@ -11,6 +11,7 @@ import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -166,7 +167,7 @@ public class UserController {
 	  * @param 
 	  * @return  
 	  * @date 2020年3月4日
-	 */
+	  */
 	@PostMapping(value = "/updateUser")
 	public int updateUser(User user) {
 		log.info("修改密码跳转.......");
@@ -178,7 +179,7 @@ public class UserController {
 	
 	
 	/**
-	 * 分页查询
+	    * 分页查询
 	 * @return
 	 */
 	@GetMapping(value = "/page")
@@ -215,7 +216,25 @@ public class UserController {
 		return userId;
 	}
 	
-	
+	/**
+	  * 修改用户权限
+	  * @Title: UserController.java  
+	  * @param 
+	  * @return  
+	  * @date 2020年3月10日
+	  */
+	@PostMapping(value = "/updUserMsg")
+	public  int updUserMsg(User user,@Param("cokName")String cokName) {
+		log.info("修改用户权限.........."+cokName);
+		User cuser = userService.selectUserByUserName(cokName);
+		User ouer = userService.selectUserByUserName(user.getUserName());
+		int result = 0;
+		if (cuser.getUserType()< ouer.getUserType()) {
+			 user.setLogTime(new Date());
+			 result = userMapper.updateByPrimaryKeySelective(user);
+		}
+		return result;
+	}
 	
 	
 	

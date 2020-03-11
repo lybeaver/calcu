@@ -17,6 +17,8 @@
 
   <div class="layui-fluid">
     <div class="layui-row layui-col-space15">
+      <input type="hidden" name="cokName" id="cokName" required lay-verify="required" autocomplete="off"
+          class="layui-input" >
       <strong>用户中心</strong>
     </div>
     <div class="layui-card-body">
@@ -46,12 +48,14 @@
     <div class="layui-form-item">
       <label class="layui-form-label">类 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 型</label>
       <div class="layui-input-inline">
-      <select id='userType'>
-        <!-- <option value = '0'>管理</option> -->
-        <option value = ''>请选择</option>
-        <option value = '1'>商家</option>
-        <option value = '2'>用户</option>
-      </select>
+        <!-- <input type="text" name="userType" id="userType" required lay-verify="required" autocomplete="off"
+          class="layui-input"> -->
+            <select name="userType" lay-verify="required" lay-search="" id="userType">
+              <option value="">直接选择或搜索选择</option>
+              <option value="0">管理员</option>
+              <option value="1">商家</option>
+              <option value="2">用户</option>
+            </select>
       </div>
     </div>
   </div>
@@ -69,7 +73,6 @@
         index: 'lib/index', //主入口模块
         cookie: '../lib/cookie'
       }).use(['index','cookie','userList'], function () {
-
           var layer = layui.layer,
               layedit = layui.layedit,
               laydate = layui.laydate,
@@ -79,7 +82,7 @@
         $(function () {
           if ($.cookie('userName') != null && $.cookie('userName') != 'null') {
             //从cookie中读取用户名
-            $('#userName').text($.cookie('userName'));
+            $('#cokName').text($.cookie('userName'));
           }
         })
       });
