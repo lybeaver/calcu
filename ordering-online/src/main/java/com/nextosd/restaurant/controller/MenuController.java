@@ -110,11 +110,15 @@ public class MenuController {
 	 * @return
 	 */
 	@GetMapping(value = "/getMenuLikeNameMsg")
-	public List<Menu> getMenuLikeNameMsg(String foodName) {
-		System.out.println("获取到的菜名为:"+foodName);
+	public Map<String, Object> getMenuLikeNameMsg(String foodName) {
+		log.info("开始查询包含" + foodName + "的记录....");
 		List<Menu> list = menuService.selectFoodsLikeFoodName(foodName);
-		System.out.println("查询到的信息:"+list);
-		return list;
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("data",list);
+		map.put("count",list.size());
+		map.put("msg",null);
+		map.put("code",0);
+		return map;
 	}
 }
 

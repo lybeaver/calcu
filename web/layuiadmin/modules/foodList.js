@@ -63,36 +63,20 @@ layui.define(function (exports) {
             
         });
 
-        //搜索按钮点击事件
+        //搜索按钮点击事件(模糊查询)
         $('#select').on('click', function(){
-            var foodName = $('#demoReload').val();
-            //layer.msg(foodName);
-            $.ajax({
-                type: 'get',
-                url: setter.address + 'menu/getMenuLikeNameMsg',
-                data: {
-                    'foodName': foodName
-                },
-                dataType: 'json',
-                success: function(data){
-                    console.log(data);
-                }, error: function(e) {
-                    layer.msg('错误'+e.readyState);
+            var foodName = $('#foodReload').val();
+            table.reload('foodReload', {
+                page: {
+                    curr: 1 //重新从第 1 页开始
                 }
+                ,where: {
+                    foodName: foodName
+                },
+                method: 'get',
+                url: 'http://localhost:8080/menu/getMenuLikeNameMsg'
             })
         })
-
-
-
-
-
-
-
-
-
-
-
-
     });
     exports('foodList', {})
 });
@@ -164,7 +148,7 @@ function getShoppingCarCount(setter){
     })
 }
 
-//更新按钮弹窗功能
+//修改按钮弹窗功能
 function updMenuMsg(obj, setter){
     layer.open({
         title: '修改信息'
