@@ -115,4 +115,23 @@ public class MenuServiceImp implements MenuService {
 		return types;
 	}
 
+	/**
+	 * 查询最贵的菜品价格
+	 * @return
+	 */
+	public int selectMaxPrice() {
+		int price = menuMapper.selectMaxPrice();
+		return price;
+	}
+
+	/**
+	 * 根据条件查询菜品信息
+	 * @param menu
+	 * @return list
+	 */
+	public List<Menu> selectMenuByTypes(Menu menu) {
+		List<Menu> list = menuMapper.selectMenuByTypes(menu);
+		return list;
+	}
+
 }

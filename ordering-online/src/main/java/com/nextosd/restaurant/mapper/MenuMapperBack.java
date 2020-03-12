@@ -77,5 +77,18 @@ public interface MenuMapperBack {
 	 * @return
 	 */
 	List<String> selectAllFoodTypes();
+	
+	/**
+	 * 查询最贵的菜品价格
+	 * @return
+	 */
+	int selectMaxPrice();
+	
+	/**
+	 * 根据条件查询菜品信息
+	 * @param menu
+	 * @return
+	 */
+	List<Menu> selectMenuByTypes(Menu menu);
 
 }

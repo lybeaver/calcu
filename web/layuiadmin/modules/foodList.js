@@ -1,16 +1,16 @@
 layui.define(function (exports) {
     var num = 0;    //修改操作的次数
-    layui.use(['setter', 'table', 'form'], function () {
+    layui.use(['setter', 'table', 'form', 'slider'], function () {
         var setter = layui.setter,
             table = layui.table,
-            form = layui.form;
+            form = layui.form,
+            slider = layui.slider;
         form.render();
-
-        var userId = 0;
 
         //获取父窗口用户名(等待cookie功能的开发)
         var userName = $('#userName', parent.document).text();
         //根据用户名查询用户id
+        var userId = 0;
         $.ajax({
             type: "get",
             url: setter.address + "user/getUserId",
@@ -56,6 +56,7 @@ layui.define(function (exports) {
                 }
                 updMenuMsg(obj, setter);
             }
+
             //加入购物车按钮操作
             if (obj.event === 'add') {
                 addShoppingCar(setter, data, userId);
@@ -77,9 +78,62 @@ layui.define(function (exports) {
                 url: 'http://localhost:8080/menu/getMenuLikeNameMsg'
             })
         })
+
+        //初始化滑块属性
+        var minPrice = 0;
+        var maxPrice = 99;
+        slider.render({
+            elem: '#slider', 
+            type: 'default',            //滑块类型，可选值有：default（水平滑块）、vertical（垂直滑块）
+            min: 0,                     //滑动条最小值，正整数，默认为 0
+            max: 99,                    //滑动条最大值,默认值为100
+            range: true,                //是否开启滑块的范围拖拽，若设为 true，则滑块将出现两个可拖拽的环
+            value: ['0','99'],
+                step: 1,                //步长，一步是多少
+                showstep: false,        //是否显示间断点,默认为false
+                tips: true,             //是否有文字提示,默认为true
+                input: true,            //是否显示input值,当range为false的时候才能用。
+                //height: 400,           //针对于type：vertical 垂直滑块 
+                disabled: false,        //是否将滑块禁用拖拽,默认为false
+                theme: '#1E9FFF',       //主题颜色，以便用在不同的主题风格下
+            setTips: function(value) {  //自定义提示文本
+                return value;
+            },
+            change: function(value){
+                if(value[0] < value[1]){
+                    minPrice = value[0];
+                    maxPrice = value[1]
+                }else{
+                    minPrice = value[1];
+                    maxPrice = value[0]
+                }
+            }
+        })
+        //按条件查询
+        $('#selectByType').on('click', function(){
+            var type = $('#selectType').val();      //获取到选中的类型
+            //layer.alert(minPrice+','+maxPrice+','+type);
+            if(type === ''){
+                layer.msg('类型未选择!', {anim: 6, time: 1000});
+            }else{
+                table.reload('foodReload', {
+                    page: {
+                        curr: 1 //重新从第 1 页开始
+                    }
+                    ,where: {
+                        foodType: type,
+                        foodPrice: minPrice,  //用foodPrice模拟接取最小价格
+                        foodNum: maxPrice     //用foodNum模拟接取最大价格
+                    },
+                    method: 'get',
+                    url: setter.address + 'menu/getMsgByTypes'
+                })
+            }
+        });
+
+        exports('foodList', {})
     });
-    exports('foodList', {})
-});
+})
 
 //初始化并读取表格信息
 function initTable(table, setter){
@@ -118,7 +172,7 @@ function getAllFoodTypes(setter, form){
             var server = document.getElementById("selectType"); //server为select定义的id
             for (var p in list) {
                 var option = document.createElement("option"); // 创建添加option属性
-                option.setAttribute("value", p); // 给option的value添加值
+                option.setAttribute("value", list[p]); // 给option的value添加值
                 option.innerText = list[p]; // 打印option对应的纯文本
                 server.appendChild(option); // 给select添加option子标签
                 form.render("select"); // 刷新select，显示出数据
@@ -126,7 +180,6 @@ function getAllFoodTypes(setter, form){
         }, error: function(e) {
             layer.msg('错误'+e.readyState);
         }
-
     })
 }
 
@@ -267,6 +320,5 @@ function delMenuMsg(setter, data, obj){
                 alert('失败'+e.readyState);
             }
         })
-    });
+    })
 }
-

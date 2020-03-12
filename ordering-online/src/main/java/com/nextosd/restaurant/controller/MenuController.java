@@ -37,10 +37,11 @@ public class MenuController {
 	
 	/**
 	 * 查询所有菜品类型
+	 * @return
 	 */
 	@GetMapping(value = "/getTypes")
 	public List<String> getAllFoodTypes() {
-		log.getClass();
+		log.info("查询所有类型中....");
 		List<String> types = menuService.selectAllFoodTypes();
 		return types;
 	}
@@ -71,7 +72,7 @@ public class MenuController {
 	 */
 	@PostMapping(value = "/delFoodById")
 	public int deleteById(@RequestBody Menu params) {
-		log.info("删除菜品，主键为:"+params.getFoodId());
+		log.info("删除菜品，主键为:["+params.getFoodId()+"]");
 		int result = menuMapper.deleteByPrimaryKey(params.getFoodId());
 		return result;
 	}
@@ -93,7 +94,7 @@ public class MenuController {
 		//计算总记录数
 		MenuExample example = new MenuExample();
 		long count = menuMapper.countByExample(example);
-		log.info("当前是第"+nowPage+"页,每页显示"+nowLimit+"条记录,总记录数:"+count);
+		log.info("当前是第["+nowPage+"]页,每页显示["+nowLimit+"]条记录,总记录数:["+count+"]");
 		//装箱发货
 		Map<String, Object> map = new HashMap<String, Object>();
 		PageInfo<Menu> pageInfo = new PageInfo<Menu>(foods);
@@ -111,8 +112,39 @@ public class MenuController {
 	 */
 	@GetMapping(value = "/getMenuLikeNameMsg")
 	public Map<String, Object> getMenuLikeNameMsg(String foodName) {
-		log.info("开始查询包含" + foodName + "的记录....");
+		log.info("开始查询包含[" + foodName + "]的记录....");
 		List<Menu> list = menuService.selectFoodsLikeFoodName(foodName);
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("data",list);
+		map.put("count",list.size());
+		map.put("msg",null);
+		map.put("code",0);
+		return map;
+	}
+	
+	/**
+	 * 查询最贵的菜品价格
+	 * @return
+	 */
+	@GetMapping(value = "/getMaxFoodPrice")			//该方法未被使用
+	public int getMaxFoodPrice() {
+		int price = menuService.selectMaxPrice();
+		log.info("当期菜单中最贵的菜价格为:[" + price + "]");
+		return price;
+	}
+	
+	/**
+	 * 根据条件查询菜品信息
+	 * @param menu
+	 * @return
+	 */
+	@GetMapping(value = "/getMsgByTypes")
+	public Map<String, Object> getMsgByTypes(Menu menu) {
+		String foodType = menu.getFoodType();
+		int minPrice = menu.getFoodPrice();
+		int maxPrice = menu.getFoodNum();
+		log.info("条件查询中,类型:["+foodType+"],最小价格:["+minPrice+"],最大价格:["+maxPrice+"]");
+		List<Menu> list = menuService.selectMenuByTypes(menu);
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("data",list);
 		map.put("count",list.size());
