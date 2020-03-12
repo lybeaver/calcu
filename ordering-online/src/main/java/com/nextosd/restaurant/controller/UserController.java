@@ -213,6 +213,7 @@ public class UserController {
 	public int getUserId(String userName) {
 		User user = userService.selectUserByUserName(userName);
 		int userId = user.getUserId();
+		log.info("获取到用户id为:"+userId);
 		return userId;
 	}
 	

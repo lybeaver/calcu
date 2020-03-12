@@ -127,6 +127,32 @@
 		FROM
 			tbl_menu;
 	</select>
+	
+	<select id="selectMaxPrice" resultType="Integer">
+		select
+			max(food_price)
+		from
+			tbl_menu
+	</select>
+	
+	<select id="selectMenuByTypes" parameterType="com.nextosd.restaurant.beans.Menu" resultMap="MENU">
+		select 
+			food_id,
+			food_name,
+			food_type,
+			food_price,
+			food_num
+		from 
+			tbl_menu 
+		where 
+			food_type = #{foodType}
+		and
+			food_price
+		between
+			#{foodPrice}
+		and
+			#{foodNum}
+	</select>
 
 	
 </mapper>
