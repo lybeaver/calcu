@@ -8,9 +8,8 @@ layui.define(function (exports) {
         initTable(table, setter);
 
         //获取父窗口用户名(等待cookie功能的开发)
-        var cokName = $("#cokName").text();
+        var cokName =  $('#userName', parent.document).text();
         var userId = 0;
-        console.log(cokName);
 
         //执行一个laypage实例
         // laypage.render({
@@ -23,9 +22,9 @@ layui.define(function (exports) {
             var data = obj.data;
             //删除按钮操作
             if (obj.event === 'del') {
-                delUserMsg(setter, data, obj);
+                console.log(data.userId);
+                delUserMsg(setter, data, obj,cokName);
             }
-            var usertype ;
             //修改按钮操作
             if (obj.event === 'edit') {
                 num = num + 1;
@@ -115,6 +114,8 @@ function updUserMsg(obj, setter,cokName) {
             var userId = $('#userId').val();
             var userName = $('#userName').val();
             var userType = $('#userType').val();
+            //一种方法
+            //第二种为使用两个ajax 先判断是否有权限 ，在修改
             $.ajax({
                 type: "POST",
                 url: setter.address + "user/updUserMsg",
@@ -140,7 +141,7 @@ function updUserMsg(obj, setter,cokName) {
                         });
                     }else{
                         layer.closeAll('page'); //关闭所有页面层
-                        alert("您的权限不够无法修改！")
+                        alert("您的权限不够,无法修改！")
                         //console.log("您的权限不够！！！");
                     }
                 },
@@ -162,4 +163,36 @@ function updUserMsg(obj, setter,cokName) {
             location.reload();//弹出层结束后，刷新主页面
         }
     })
+}
+
+function delUserMsg(setter, data, obj,cokName){
+    layer.confirm('是否删除该用户?', function (index) {
+        var userid  = data.userId;
+        $.ajax({
+            type: "POST",
+            url: setter.address + "user/delUerById",
+            data: {    
+                    'userId' :userid,
+                    'cokName':cokName  
+                    },
+            success: function(data){
+                if(data == 1){
+                    layer.closeAll('page');//关闭所有页面层
+                    /* 触发弹层并刷新 */
+                    layer.msg('删除成功!', {icon:1,time:1000},function(){
+                        obj.del();
+                        layer.close(index);
+                    });
+                }else{
+                    layer.closeAll('page');//关闭所有页面层
+                    alert("您没有能力删除该用户。")
+                }
+            },
+            error: function (e) {
+                alert('失败'+e.readyState);
+            }
+        })
+        
+    });
+    
 }

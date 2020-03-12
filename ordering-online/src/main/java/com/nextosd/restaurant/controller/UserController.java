@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.github.pagehelper.PageHelper;
@@ -224,21 +225,49 @@ public class UserController {
 	  * @date 2020年3月10日
 	  */
 	@PostMapping(value = "/updUserMsg")
-	public  int updUserMsg(User user,@Param("cokName")String cokName) {
-		log.info("修改用户权限.........."+cokName);
+	public  int updUserMsg(User user,@RequestParam("cokName")String cokName) {
+		log.info("修改用户权限..........");
 		User cuser = userService.selectUserByUserName(cokName);
-		User ouer = userService.selectUserByUserName(user.getUserName());
+		User ouser = userService.selectUserByUserName(user.getUserName());
 		int result = 0;
-		if (cuser.getUserType()< ouer.getUserType()) {
+		if (cuser.getUserType()< ouser.getUserType()) {
 			 user.setLogTime(new Date());
 			 result = userMapper.updateByPrimaryKeySelective(user);
 		}
 		return result;
 	}
+	/**
+	  * 	删除用户
+	  * @Title: UserController.java  
+	  * @param 
+	  * @return  
+	  * @date 2020年3月11日
+	 */
 	
+	@PostMapping(value = "/delUerById")
+	public int delUerById(User user,@RequestParam("cokName")String cokName) {
+		log.info("删除用户.......");
+		User cuser = userService.selectUserByUserName(cokName);
+		User ouser = userMapper.selectByPrimaryKey(user.getUserId());
+		int result = 0;
+		if (cuser.getUserType()< ouser.getUserType()) {
+			 result = userMapper.deleteByPrimaryKey(user.getUserId());
+		}
+		return result;
+	}
 	
-	
-	
+	/**
+	  * 	退出登录
+	  * @Title: UserController.java  
+	  * @param 
+	  * @return  
+	  * @date 2020年3月12日
+	 */
+	@GetMapping(value = "/logout")
+	public int logout() {
+		
+		return 0;
+	}
 	
 	
 	
